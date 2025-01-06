@@ -1,10 +1,20 @@
-# Commitkonventioner
+# Kursmaterial
 
-Detta repository använder **Conventional Commits** för att skapa en konsekvent och tydlig historik över ändringar. Nedan beskrivs de commit-typer som används:
+Allt kursmaterial är MIT-licensierat och kan användas av vem som helst.
 
-## Commit-typer
+- Felrapporter tas tacksamt emot i Issues.
+- Diskussioner relaterat till materialet och dess ämnen kan skapas under Discussions.
+- Om någon gör en förbättring så tas en Pull Request tacksamt emot. Den som skapar Pull Requesten antas gå med på att fortsätta ha MIT-licensen för dennes förändringar.
 
-### feat: (ny funktionalitet eller beskrivning)
+## Commitkonventioner
+
+Detta repository använder en tolkning av **Conventional Commits** som gör att förändringar kan delas upp i olika typer då själva featureserna för repot är dokumentation. Om vi strikt följde Conventional Commits så skulle allt bli `docs:` och inte vara till hjälp.
+
+Nedan beskrivs de commit-typer som används:
+
+### Commit-typer
+
+#### feat: (ny funktionalitet eller beskrivning)
 
 Används när något nytt beskrivs eller läggs till, exempelvis:
 
@@ -17,7 +27,7 @@ Används när något nytt beskrivs eller läggs till, exempelvis:
 feat(i): add example of using regex in grep
 ```
 
-### fix: (korrigering av fel i innehåll eller kodexempel)
+#### fix: (korrigering av fel i innehåll eller kodexempel)
 
 Används för att rätta till fel, t.ex.:
 
@@ -30,7 +40,7 @@ Används för att rätta till fel, t.ex.:
 fix(i): correct syntax error in Bash script
 ```
 
-### style: (formaterings- och layoutjusteringar)
+#### style: (formaterings- och layoutjusteringar)
 
 Används för ändringar som endast påverkar kodstil eller formatering utan att ändra innehållets innebörd, såsom:
 
@@ -43,7 +53,7 @@ Används för ändringar som endast påverkar kodstil eller formatering utan att
 style(i): remove extra blank line in markdown list
 ```
 
-### chore: (uppdateringar av utvecklingsmiljön eller beroenden)
+#### chore: (uppdateringar av utvecklingsmiljön eller beroenden)
 
 Används för ändringar i repositoryts struktur eller konfiguration som inte påverkar innehållet, t.ex.:
 
@@ -56,7 +66,7 @@ Används för ändringar i repositoryts struktur eller konfiguration som inte p�
 chore(i): add commitlint configuration
 ```
 
-### docs: (mindre justeringar i dokumentation utan nya funktioner eller korrigeringar)
+#### docs: (mindre justeringar i dokumentation utan nya funktioner eller korrigeringar)
 
 Används när rubriker byts ut eller omformuleras, eller vid andra justeringar som inte tillför nytt innehåll eller rättar till fel.
 
