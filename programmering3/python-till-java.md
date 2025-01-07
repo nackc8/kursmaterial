@@ -871,6 +871,19 @@ print(d.make_sound())  # Utmatning: Voff
 
 #### Java
 
+```mermaid
+classDiagram
+    Animal <|-- Dog
+    class Animal{
+        +makeSound()
+    }
+
+    class Dog{
+        +makeSound()
+    }
+```
+
+
 ```java
 class Animal {
     String makeSound() {
