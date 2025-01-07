@@ -929,6 +929,75 @@ if (x != 0) { // Måste uttryckligen jämföra värdet
 }
 ```
 
+## Felhantering med exceptions
+
+### Python
+
+I Python hanteras fel med hjälp av exceptions. Ett exception inträffar när ett program stöter på ett oväntat problem, till exempel en division med noll eller ett försök att öppna en fil som inte finns. Python har inbyggda exceptions som `ValueError`, `TypeError` och `ZeroDivisionError`.
+
+```python
+try:
+    x = 10 / 0
+except ZeroDivisionError as e:
+    print(f"Error: {e}")
+finally:
+    print("Cleaning up resources")
+```
+
+- **try**: Kod som kan orsaka ett fel.
+- **except**: Hanterar felet om det inträffar.
+- **finally**: Körs alltid, oavsett om ett fel inträffar eller inte.
+
+Man kan också skapa egna exceptions:
+
+```python
+class CustomError(Exception):
+    pass
+
+try:
+    raise CustomError("Ett specialfel inträffade!")
+except CustomError as e:
+    print(e)
+```
+
+### Java
+
+Java hanterar också fel med hjälp av exceptions, men syntaxen är annorlunda och mer strukturerad. Java har två sorters exceptions:
+
+1. **Checked exceptions** används för förväntade fel som kan hanteras direkt av anroparen, till exempel filhanteringsfel eller nätverksproblem.
+2. **Unchecked exceptions** används för programmeringsfel som bör åtgärdas i kodbasen, såsom `NullPointerException` eller `IndexOutOfBoundsException`. Endast exceptions som är en underklasser till `RuntimeException` är unchecked exceptions.
+
+```java
+try {
+    int x = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println("Error: " + e.getMessage());
+} finally {
+    System.out.println("Cleaning up resources");
+}
+```
+
+Java stöder också egna exceptions:
+
+```java
+class CustomError extends Exception {
+    public CustomError(String message) {
+        super(message);
+    }
+}
+
+try {
+    throw new CustomError("Ett specialfel inträffade!");
+} catch (CustomError e) {
+    System.out.println(e.getMessage());
+}
+```
+
+### Skillnader
+
+- **Checked vs Unchecked Exceptions**: Java skiljer mellan checked och unchecked exceptions, medan Python bara har en typ.
+- **Syntax**: Java kräver att checked exceptions hanteras eller deklareras i metodens signatur med `throws`, medan Python inte har detta krav.
+
 ## Strukturera program
 
 ### Översikt
