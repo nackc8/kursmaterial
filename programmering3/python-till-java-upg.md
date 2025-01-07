@@ -178,7 +178,27 @@ Highest temperature: 39.2
 Second highest temperature: 38.5
 ```
 
-### Övning 6: Bubble sort med do-while-loop
+### Övning 6: Dubblat värde med undantagshantering
+
+Skapa ett program som:
+
+1. Läser in ett heltal (`int`) från användaren med hjälp av **`Scanner`**.
+2. Dubblar värdet och skriver ut resultatet.
+3. Hanterar ogiltig inmatning, såsom bokstäver, genom att fånga ett **unchecked exception** (`NumberFormatException`).
+4. Fortsätter fråga användaren tills en giltig inmatning ges.
+
+Testa programmet med både giltig och ogiltig inmatning.
+
+**Exempel 1:**
+
+```plaintext
+Ange ett heltal: abc
+Ogiltig inmatning. Försök igen.
+Ange ett heltal: 10
+Det dubbla värdet är: 20
+```
+
+### Övning 7: Bubble sort med do-while-loop
 
 Skapa ett program som:
 
@@ -217,7 +237,7 @@ Unsorted array: [5, 3, 8, 6, 2, 7, 4, 1, 9, 0]
 Sorted array: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
-### Övning 7: Frågesport
+### Övning 8: Frågesport
 
 Samla ihop grupper och ha en liten tävling. Välj ett av de fyra alternativen på varje fråga. Endast ett av de fyra alternativen är mest rätt, välj det.
 
@@ -357,7 +377,33 @@ public class TemperatureAnalysis {
 }
 ```
 
-### Övning 6: Bubble sort med do-while-loop
+### Övning 6: Dubblat värde med undantagshantering
+
+```java
+import java.util.Scanner;
+
+public class ExceptionExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int number = 0;
+        boolean validInput = false;
+
+        while (!validInput) {
+            System.out.print("Ange ett heltal: ");
+            try {
+                number = Integer.parseInt(scanner.nextLine());
+                validInput = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Ogiltig inmatning. Försök igen.");
+            }
+        }
+
+        System.out.println("Det dubbla värdet är: " + (number * 2));
+    }
+}
+```
+
+### Övning 7: Bubble sort med do-while-loop
 
 ```java
 public class BubbleSort {
@@ -391,7 +437,7 @@ public class BubbleSort {
 }
 ```
 
-### Övning 7: Frågesport
+### Övning 8: Frågesport
 
 Endast ett av de fyra alternativen är mest rätt och räknas som rätt svar. Tomma rutor markerar felaktiga svarsalternativ.
 
