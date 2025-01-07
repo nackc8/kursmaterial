@@ -278,7 +278,7 @@ System.out.println(matrix[1][2]); // Utmatning: 6
 int[] data = new int[5]; // Skapar en array med plats för 5 element
 ```
 
-### Skillnader mellan Python och Java
+#### Skillnader mellan Python och Java
 
 - Python-listor är dynamiska och kan innehålla element av olika typer.
 - Java-arrayer har fast storlek och kan endast innehålla element av samma typ.
