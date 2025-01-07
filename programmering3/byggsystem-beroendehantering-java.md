@@ -126,8 +126,6 @@ IntelliJ IDEA har inget eget byggsystem för beroendehantering, men kan hantera 
 
 ## Maven – En deklarativ bygghantering
 
-## Vad är Maven?
-
 Maven är ett XML-baserat byggsystem som fokuserar på standardisering och deklaration. Det används ofta för stora och komplexa projekt.
 
 ### Livscykel och faser i Maven
@@ -142,7 +140,7 @@ Mavens livscykel är en sekvens av steg som körs i en fördefinierad ordning f�
 6. **install**: Installerar paketet i den lokala Maven-cachen för att kunna användas som beroende i andra lokala projekt.
 7. **deploy**: Distribuerar paketet till ett fjärrbibliotek för delning och produktion.
 
-### Exempel på att köra en fas
+### Att köra faser
 
 För att köra en specifik fas, till exempel `package`, använd kommandot:
 
