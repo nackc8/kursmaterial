@@ -348,6 +348,32 @@ public class LargestNumber {
 }
 ```
 
+### Övning 4: Störst av två tal med ternär operator
+
+```java
+import java.util.Scanner;
+
+public class LargestNumberTernary {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Läs in två tal från användaren
+        System.out.print("Enter the first number: ");
+        int number1 = scanner.nextInt();
+        System.out.print("Enter the second number: ");
+        int number2 = scanner.nextInt();
+
+        // Använd ternär operator för att bestämma det största talet
+        int largest = (number1 > number2) ? number1 : number2;
+
+        // Skriv ut resultatet
+        System.out.println("The largest number is: " + largest);
+
+        scanner.close(); // Stäng scannern
+    }
+}
+```
+
 ### Övning 5: Hitta temperaturer
 
 ```java
