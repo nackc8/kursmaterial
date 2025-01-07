@@ -284,6 +284,225 @@ int[] data = new int[5]; // Skapar en array med plats för 5 element
 - Java-arrayer har fast storlek och kan endast innehålla element av samma typ.
 - Python har ingen direkt motsvarighet till arrayer, men listor används ofta på samma sätt.
 
+### Klasser
+
+Klasser används i både Python och Java för att skapa objekt och definiera deras egenskaper (attribut) och beteenden (metoder). De möjliggör objektorienterad programmering och underlättar återanvändning av kod.
+
+#### Skapa en klass
+
+##### Python
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def greet(self, greeting="Hej"):
+        return f"{greeting}, jag heter {self.name} och är {self.age} år gammal."
+
+p = Person("Anna", 30)
+print(p.greet())
+print(p.greet("Hallå"))
+```
+
+##### Java
+
+```java
+class Person {
+    String name;
+    int age;
+
+    Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    String greet() {
+        return greet("Hej");
+    }
+
+    String greet(String greeting) {
+        return greeting + ", jag heter " + name + " och är " + age + " år gammal.";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person p = new Person("Anna", 30);
+        System.out.println(p.greet());
+        System.out.println(p.greet("Hallå"));
+    }
+}
+```
+
+##### Skillnad
+
+- Python har valfria parametrar (default-argument), medan Java inte har detta. Java simulerar detta med överlagrade metoder, som visas i exemplen ovan.
+- Python använder `self` för att referera till instansen, medan Java använder `this`.
+- Java kräver att varje klass har en specifik typdeklaration för variabler, medan Python är dynamiskt typat.
+- Java behöver en huvudmetod (`main`) för att köra programmet, medan Python kan exekvera kod direkt.
+
+#### Inkapsling
+
+Inkapsling används för att skydda data och kontrollera åtkomst till attribut och metoder i en klass.
+
+##### Python
+
+```python
+class BankAccount:
+    def __init__(self, balance):
+        self._balance = balance   # Skyddat attribut (konvention)
+        self.__private_balance = balance  # Privat attribut (namnmangling)
+
+    def deposit(self, amount):
+        if amount > 0:
+            self.__private_balance += amount
+
+    def get_balance(self):
+        return self.__private_balance
+
+account = BankAccount(1000)
+account.deposit(500)
+print(account.get_balance())
+```
+
+##### Java
+
+```java
+class BankAccount {
+    private double balance; // Privat attribut
+
+    BankAccount(double balance) {
+        this.balance = balance;
+    }
+
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+        }
+    }
+
+    double getBalance() {
+        return balance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount(1000);
+        account.deposit(500);
+        System.out.println(account.getBalance());
+    }
+}
+```
+
+##### Skillnad
+
+- Python använder ett enkelt understreck `_` som konvention för skyddade attribut och dubbla understreck `__` för pseudo-privata attribut genom **namnmangling**.
+- Java använder nyckelordet `private` för strikt kontroll över åtkomst.
+- Java tillåter direkt typkontroll och kompileringsfel om typerna inte stämmer, medan Python kontrollerar vid körning.
+
+#### Vad är namnmangling?
+
+Python stöder **namnmangling** för att förhindra oavsiktlig åtkomst till pseudo-privata attribut. När ett attribut börjar med dubbla understreck (`__`), ändrar Python internt namnet på attributet för att inkludera klassnamnet. Detta gör attributet svårare att komma åt utifrån klassen.
+
+```python
+class Example:
+    def __init__(self):
+        self.__hidden = "intern angelägenhet"
+        obj = Example()
+#print(obj.__hidden)  # Ger fel
+print(obj._Example__hidden)  # Fungerar med namnmangling
+```
+
+**Resultat:**
+
+```plaintext
+intern angelägenhet
+```
+
+**Observera:** Namnmangling är inte ett fullständigt skydd, utan en mekanism för att undvika konflikter med underklasser. Java har en striktare kontroll via `private`.
+
+#### Arv
+
+Arv används för att skapa en ny klass (underklass) baserad på en befintlig klass (överklass), vilket gör det möjligt att återanvända kod.
+
+##### Python
+
+```python
+class Animal:
+    def make_sound(self):
+        return "Ljud"
+
+class Dog(Animal):
+    def make_sound(self):
+        return "Voff"
+
+d = Dog()
+print(d.make_sound())  # Utmatning: Voff
+```
+
+##### Java
+
+```mermaid
+classDiagram
+    Animal <|-- Dog
+    class Animal{
+        +makeSound()
+    }
+
+    class Dog{
+        +makeSound()
+    }
+```
+
+
+```java
+class Animal {
+    String makeSound() {
+        return "Ljud";
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    String makeSound() {
+        return "Voff";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        System.out.println(d.makeSound()); // Utmatning: Voff
+    }
+}
+```
+
+#### Polymorfism (kort exempel)
+
+##### Python
+
+```python
+animals = [Animal(), Dog()]
+for animal in animals:
+    print(animal.make_sound())
+```
+
+##### Java
+
+```java
+Animal[] animals = {new Animal(), new Dog()};
+for (Animal animal : animals) {
+    System.out.println(animal.makeSound());
+}
+```
+
+- Python stöder multipelt arv, medan Java endast tillåter enkel arv.
+- Java kräver nyckelordet `extends` för arv och `@Override` för att åsidosätta metoder.
+- Python är mer dynamiskt och kontrollerar vid körning, medan Java gör statiska kontroller vid kompilering.
+
 ## Villkorssatser och kodblock
 
 ### `if`-satser
@@ -709,225 +928,6 @@ if (x != 0) { // Måste uttryckligen jämföra värdet
     System.out.println("x är inte 0");
 }
 ```
-
-## Klasser
-
-Klasser används i både Python och Java för att skapa objekt och definiera deras egenskaper (attribut) och beteenden (metoder). De möjliggör objektorienterad programmering och underlättar återanvändning av kod.
-
-### Skapa en klass
-
-#### Python
-
-```python
-class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-
-    def greet(self, greeting="Hej"):
-        return f"{greeting}, jag heter {self.name} och är {self.age} år gammal."
-
-p = Person("Anna", 30)
-print(p.greet())
-print(p.greet("Hallå"))
-```
-
-#### Java
-
-```java
-class Person {
-    String name;
-    int age;
-
-    Person(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    String greet() {
-        return greet("Hej");
-    }
-
-    String greet(String greeting) {
-        return greeting + ", jag heter " + name + " och är " + age + " år gammal.";
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Person p = new Person("Anna", 30);
-        System.out.println(p.greet());
-        System.out.println(p.greet("Hallå"));
-    }
-}
-```
-
-#### Skillnad
-
-- Python har valfria parametrar (default-argument), medan Java inte har detta. Java simulerar detta med överlagrade metoder, som visas i exemplen ovan.
-- Python använder `self` för att referera till instansen, medan Java använder `this`.
-- Java kräver att varje klass har en specifik typdeklaration för variabler, medan Python är dynamiskt typat.
-- Java behöver en huvudmetod (`main`) för att köra programmet, medan Python kan exekvera kod direkt.
-
-### Inkapsling
-
-Inkapsling används för att skydda data och kontrollera åtkomst till attribut och metoder i en klass.
-
-#### Python
-
-```python
-class BankAccount:
-    def __init__(self, balance):
-        self._balance = balance   # Skyddat attribut (konvention)
-        self.__private_balance = balance  # Privat attribut (namnmangling)
-
-    def deposit(self, amount):
-        if amount > 0:
-            self.__private_balance += amount
-
-    def get_balance(self):
-        return self.__private_balance
-
-account = BankAccount(1000)
-account.deposit(500)
-print(account.get_balance())
-```
-
-#### Java
-
-```java
-class BankAccount {
-    private double balance; // Privat attribut
-
-    BankAccount(double balance) {
-        this.balance = balance;
-    }
-
-    void deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
-        }
-    }
-
-    double getBalance() {
-        return balance;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        BankAccount account = new BankAccount(1000);
-        account.deposit(500);
-        System.out.println(account.getBalance());
-    }
-}
-```
-
-#### Skillnad
-
-- Python använder ett enkelt understreck `_` som konvention för skyddade attribut och dubbla understreck `__` för pseudo-privata attribut genom **namnmangling**.
-- Java använder nyckelordet `private` för strikt kontroll över åtkomst.
-- Java tillåter direkt typkontroll och kompileringsfel om typerna inte stämmer, medan Python kontrollerar vid körning.
-
-### Vad är namnmangling?
-
-Python stöder **namnmangling** för att förhindra oavsiktlig åtkomst till pseudo-privata attribut. När ett attribut börjar med dubbla understreck (`__`), ändrar Python internt namnet på attributet för att inkludera klassnamnet. Detta gör attributet svårare att komma åt utifrån klassen.
-
-```python
-class Example:
-    def __init__(self):
-        self.__hidden = "intern angelägenhet"
-        obj = Example()
-#print(obj.__hidden)  # Ger fel
-print(obj._Example__hidden)  # Fungerar med namnmangling
-```
-
-**Resultat:**
-
-```plaintext
-intern angelägenhet
-```
-
-**Observera:** Namnmangling är inte ett fullständigt skydd, utan en mekanism för att undvika konflikter med underklasser. Java har en striktare kontroll via `private`.
-
-### Arv
-
-Arv används för att skapa en ny klass (underklass) baserad på en befintlig klass (överklass), vilket gör det möjligt att återanvända kod.
-
-#### Python
-
-```python
-class Animal:
-    def make_sound(self):
-        return "Ljud"
-
-class Dog(Animal):
-    def make_sound(self):
-        return "Voff"
-
-d = Dog()
-print(d.make_sound())  # Utmatning: Voff
-```
-
-#### Java
-
-```mermaid
-classDiagram
-    Animal <|-- Dog
-    class Animal{
-        +makeSound()
-    }
-
-    class Dog{
-        +makeSound()
-    }
-```
-
-
-```java
-class Animal {
-    String makeSound() {
-        return "Ljud";
-    }
-}
-
-class Dog extends Animal {
-    @Override
-    String makeSound() {
-        return "Voff";
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Dog d = new Dog();
-        System.out.println(d.makeSound()); // Utmatning: Voff
-    }
-}
-```
-
-### Polymorfism (kort exempel)
-
-#### Python
-
-```python
-animals = [Animal(), Dog()]
-for animal in animals:
-    print(animal.make_sound())
-```
-
-#### Java
-
-```java
-Animal[] animals = {new Animal(), new Dog()};
-for (Animal animal : animals) {
-    System.out.println(animal.makeSound());
-}
-```
-
-- Python stöder multipelt arv, medan Java endast tillåter enkel arv.
-- Java kräver nyckelordet `extends` för arv och `@Override` för att åsidosätta metoder.
-- Python är mer dynamiskt och kontrollerar vid körning, medan Java gör statiska kontroller vid kompilering.
 
 ## Strukturera program
 
