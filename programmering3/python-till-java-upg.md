@@ -299,7 +299,7 @@ public class FloatingPointCalculations {
 }
 ```
 
-### Övning 3: Störst av två tal
+### Övning 3: Störst av två tal med `if`-sats
 
 ```java
 import java.util.Scanner;
