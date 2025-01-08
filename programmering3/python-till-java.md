@@ -454,14 +454,28 @@ Arv används för att skapa en ny klass (underklass) baserad på en befintlig kl
 ```python
 class Animal:
     def make_sound(self):
-        return "Ljud"
+        return "Some sound."
 
 class Dog(Animal):
     def make_sound(self):
-        return "Voff"
+        return "Voff!"
+
+class Cat(Animal):
+    def make_sound(self):
+        return "Meow!"
+
+class Fox(Animal):
+    def make_sound(self):
+        return "Jacha-chacha-chacha-chow!"
+
 
 d = Dog()
-print(d.make_sound())  # Utmatning: Voff
+c = Cat()
+d = Fox()
+
+print(d.make_sound())  # Utmatning: Voff!
+print(d.make_sound())  # Utmatning: Meow!
+print(d.make_sound())  # Utmatning: Jacha-chacha-chacha-chow!
 ```
 
 ##### Java
@@ -469,6 +483,8 @@ print(d.make_sound())  # Utmatning: Voff
 ```mermaid
 classDiagram
     Animal <|-- Dog
+    Animal <|-- Cat
+    Animal <|-- Fox
     class Animal{
         +makeSound()
     }
@@ -476,27 +492,54 @@ classDiagram
     class Dog{
         +makeSound()
     }
-```
 
+    class Cat{
+        +makeSound()
+    }
+
+    class Fox{
+        +makeSound()
+    }
+
+```
 
 ```java
 class Animal {
     String makeSound() {
-        return "Ljud";
+        return "Some sound.";
     }
 }
 
 class Dog extends Animal {
     @Override
     String makeSound() {
-        return "Voff";
+        return "Voff!";
     }
 }
+
+class Cat extends Animal {
+    @Override
+    String makeSound() {
+        return "Meow!";
+    }
+}
+
+class Fox extends Animal {
+    @Override
+    String makeSound() {
+        return "Jacha-chacha-chacha-chow!";
+    }
+}
+
 
 public class Main {
     public static void main(String[] args) {
         Dog d = new Dog();
-        System.out.println(d.makeSound()); // Utmatning: Voff
+        Cat c= new Cat();
+        Fox f = new Fox();
+        System.out.println(d.makeSound()); // Utmatning: Voff!
+        System.out.println(d.makeSound()); // Utmatning: Meow!
+        System.out.println(d.makeSound()); // Utmatning: Jacha-chacha-chacha-chow!
     }
 }
 ```
@@ -506,7 +549,11 @@ public class Main {
 ##### Python
 
 ```python
-animals = [Animal(), Dog()]
+animals = [Animal(), Dog(). Cat(), Fox()]
+# Utmatning: Some sound.
+# Utmatning: Voff!
+# Utmatning: Meow!
+# Utmatning: Jacha-chacha-chacha-chow!
 for animal in animals:
     print(animal.make_sound())
 ```
@@ -514,7 +561,11 @@ for animal in animals:
 ##### Java
 
 ```java
-Animal[] animals = {new Animal(), new Dog()};
+Animal[] animals = {new Animal(), new Dog(), , new Cat(), , new Fox()};
+// Utmatning: Some sound.
+// Utmatning: Voff!
+// Utmatning: Meow!
+// Utmatning: Jacha-chacha-chacha-chow!
 for (Animal animal : animals) {
     System.out.println(animal.makeSound());
 }
