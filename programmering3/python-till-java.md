@@ -183,6 +183,27 @@ double z = 3.14;     // 64-bit
 ##### Python
 
 ```python
+char = 'A'           # Enskilt tecken
+string = "Hello"    # Strängar
+```
+
+##### Java
+
+```java
+char c = 'A';              // Enskilt tecken
+String s = "Hello";       // Strängar
+```
+
+##### Skillnad
+
+- Python saknar en separat char-typ och använder str för både enstaka tecken och strängar.
+- Java har en dedikerad typ char för tecken och använder String för strängar.
+
+#### Booleska värden
+
+##### Python
+
+```python
 flag = True    # eller False
 ```
 
@@ -195,8 +216,8 @@ Boolean valid = false;   // Wrapperklass
 
 ##### Skillnad
 
-- Python har bara `bool`, som egentligen är en underklass till `int`.
-- Java skiljer mellan en primitiv `boolean` och en wrapperklass `Boolean`.
+- Python har bara bool, som egentligen är en underklass till int.
+- Java skiljer mellan en primitiv boolean och en wrapperklass Boolean.
 
 #### `null`-värden
 
