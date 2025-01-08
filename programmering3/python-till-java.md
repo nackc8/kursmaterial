@@ -471,11 +471,11 @@ class Fox(Animal):
 
 d = Dog()
 c = Cat()
-d = Fox()
+f = Fox()
 
 print(d.make_sound())  # Utmatning: Voff!
-print(d.make_sound())  # Utmatning: Meow!
-print(d.make_sound())  # Utmatning: Jacha-chacha-chacha-chow!
+print(c.make_sound())  # Utmatning: Meow!
+print(f.make_sound())  # Utmatning: Jacha-chacha-chacha-chow!
 ```
 
 ##### Java
@@ -538,8 +538,8 @@ public class Main {
         Cat c= new Cat();
         Fox f = new Fox();
         System.out.println(d.makeSound()); // Utmatning: Voff!
-        System.out.println(d.makeSound()); // Utmatning: Meow!
-        System.out.println(d.makeSound()); // Utmatning: Jacha-chacha-chacha-chow!
+        System.out.println(c.makeSound()); // Utmatning: Meow!
+        System.out.println(f.makeSound()); // Utmatning: Jacha-chacha-chacha-chow!
     }
 }
 ```
