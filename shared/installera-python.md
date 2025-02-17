@@ -27,9 +27,12 @@ Instruktionerna förutsätter och rekommenderar att ditt operativsystem är inst
     - Säkerställ att Python kan startas med kommandot `py` eller `python` genom att köra följande kommandon och se att de svarar med att skriva ut vilken version du installerat.
         - `py --version`
         - `python --version`
+    - Säkerställ att modulen `pip` finns tillgänglig genom att skriva ut dess version via `python -m pip --version`.
     - Säkerställ att inställningen du gjorde ovan, som gör att Windows inte erbjuder sig att installera Python från Windows Store, fungerar. Kör kommandot `python3` och verifiera att du får ett felmeddelande som svar. I Windows startar man alltså Python genom `py` eller `python` och inte `python3`. Det skiljer sig mellan operativsystemen.
+
 ### Ubuntu/Debian Linux
 
 1. De flesta Linux-distributioner har Python förinstallerat.
-2. Säkerställ att Python är installerat och kan startas med kommandot `python3` genom att köra följande kommando och få en versionssträng som svar.
-        - `python3 --version`
+2. Kontrollera installationen
+   - Säkerställ att Python är installerat och kan startas med kommandot `python3` genom att köra följande kommando och få en versionssträng som svar via `python3 --version`
+   - Säkerställ att modulen `pip` finns tillgänglig genom att skriva ut dess version via `python -m pip --version`.
