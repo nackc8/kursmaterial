@@ -2,11 +2,11 @@
 
 Instruktionerna förutsätter och rekommenderar att ditt operativsystem är inställt på engelska.
 
-[GitHub Classroom](https://classroom.github.com/) är ett verktyg som utbildare använder för att skapa och hantera studentuppgifter.
+[GitHub Classroom][1] är ett verktyg som utbildare använder för att skapa och hantera studentuppgifter.
 
-Följ först instruktionerna i "Sätt upp Git och använd GitHub" om du inte redan har gjort det.
+Följ först instruktionerna i [Sätt upp Git och använd GitHub][2] om du inte redan har gjort det.
 
-### Termer
+## Termer
 
 Dessa termer är viktiga och används i guiden:
 
@@ -32,11 +32,9 @@ Dessa termer är viktiga och används i guiden:
 
 ## Feedback och rättning
 
-All feedback ges i "Feedback". Om uppgiften inte godkänns står det i kommentarer där vad som behöver åtgärdas.
-
 - **Manuell rättning**: Vid manuell rättning ändrar utbildaren statusen i "Feedback" till "Accepted" om uppgiften godkänns, eller till "Change Request" om ändringar behövs. Skriv en kommentar i "Feedback"-PR och tagga utbildaren med `@kc8se` för att meddela att uppgiften är klar.
 
-- **Automatiska tester**: Uppgifter som innehåller katalogen `.basetests` har automatiska tester. Sådana uppgifter är godkända om testerna passerar och ingen status sätts då i "Feedback". 
+- **Automatiska tester**: Uppgifter som innehåller katalogen `.basetests` har automatiska tester. Sådana uppgifter är godkända om testerna passerar och ingen status sätts då i "Feedback".
 
 - **Manuell rättning och tester**: Om uppgiften både har automatiska tester och kräver manuell rättning så anges det **tydligt** i uppgiftsbeskrivningen. För sådana uppgifter väntar utbildaren med rättning tills testerna passerar.
 
@@ -48,7 +46,7 @@ Om du får en kallelse till muntlig redovisning är uppgiften inte klar förrän
 
 ### Detaljerad feedback
 
-Detaljerad feedback ges gärna på begäran. Om du vill ha mer insikt i din lösning kan du skriva en kommentar i "Feedback" och tagga utbildaren med `@kc8se`.
+Detaljerad feedback ges gärna på begäran! Om du vill ha mer insikt i din lösning kan du skriva en kommentar liknande `Ge mig detaljerad feedback` i "Feedback" och tagga utbildaren med `@kc8se`.
 
 Då går utbildaren igenom uppgiften och ger kommentarer om:
 
@@ -79,6 +77,7 @@ För den som vill ha mer detaljerad feedback finns möjlighet att be om detta en
 Alla uppgifter med automatiska tester har katalogen `.basetests` i repots rot.
 
 Det är enkelt att köra testerna på din egen dator. Om du står i repots rot med ett kommandoskal kan testerna köras genom:
+
 - Windows: `.basetests\run`
 - Linux/MacOS: `.basetests/run`
 
@@ -104,8 +103,14 @@ Om du behöver hjälp med en uppgift, skriv i "Feedback" och tagga utbildaren me
 - Din tolkning av uppgiften
 - Vad du behöver hjälp med
 - Vad du har prövat och resultaten (beskriv gärna eventuella felmeddelanden eller oväntade resultat)
+
 ### Gör backup på dina repos
 
 Under kursens gång kan ditt repo tas bort från GitHub på grund av ett tekniskt eller administrativt fel. Det är ditt ansvar att behålla en backup på alla repos som ännu inte har bedömts.
 
-Efter kursens slut kommer ditt repo att tas bort från GitHub. Det kan ske direkt eller långt senare.
+Tänk på att studentdatorerna inte är en lämplig plats för din backup eftersom de installeras om med jämna mellanrum.
+
+Efter kursens slut kommer ditt repo att tas bort från GitHub. Det kan ske redan dagen efter men även långt efter att kursens avslutats.
+
+[1]: https://classroom.github.com/
+[2]: https://github.com/nackc8/kursmaterial/blob/main/shared/satt-upp-git-och-anvand-github.md
