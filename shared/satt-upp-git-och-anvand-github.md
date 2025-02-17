@@ -6,7 +6,7 @@ Instruktionerna förutsätter och rekommenderar att ditt operativsystem är inst
 
 ### Windows
 
-1. Besök [git-scm.com](https://git-scm.com/).
+1. Besök [git-scm.com][1].
     - Gå vidare till `Downloads`, följt av `Windows`, och ladda ner installationsfilen `Standalone Installer` eller `64-bit Git for Windows Setup`.
 2. Starta installationen.
     - Standardinställningarna kan användas utan ändringar. Om det verkar praktiskt kan du välja `Use the Nano editor by default` när möjligheten ges.
@@ -15,8 +15,7 @@ Instruktionerna förutsätter och rekommenderar att ditt operativsystem är inst
 
 ### Ubuntu / Debian Linux
 
-1. Starta ett valfritt kommandoskal som t.ex. `Bash` och installera Git med:
-   `sudo apt update && sudo apt install git`
+1. Starta ett valfritt kommandoskal som t.ex. `Bash` och installera Git med: `sudo apt update && sudo apt install git`
 2. Säkerställ att `git --version` svarar med att skriva ut vilken version du installerat.
 
 ## Alla operativsystem
@@ -39,19 +38,19 @@ git config --global pull.rebase true
 git config --global push.default current
 ```
 
-[SSH-nycklar](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh) möjliggör en säker anslutning till GitHub och gör det enklare att hantera kod utan att behöva ange lösenord varje gång. Följ länkarna nedan för att skapa ett GitHub-konto och konfigurera SSH så att du kan ansluta med Git.
+[SSH-nycklar][2] möjliggör en säker anslutning till GitHub och gör det enklare att hantera kod utan att behöva ange lösenord varje gång. Följ länkarna nedan för att skapa ett GitHub-konto och konfigurera SSH så att du kan ansluta med Git.
 
-1. [Skapa ett konto på GitHub](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github)
-2. [Generera en ny SSH-nyckel och lägg till den i ssh-agent](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
-3. [Lägg till en ny SSH-nyckel till ditt GitHub-konto](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
-4. [Testa din SSH-anslutning](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection)
+1. [Skapa ett konto på GitHub][3]
+2. [Generera en ny SSH-nyckel och lägg till den i ssh-agent][4]
+3. [Lägg till en ny SSH-nyckel till ditt GitHub-konto][5]
+4. [Testa din SSH-anslutning][6]
 
 ## Lär dig använda Git
 
 Git är mycket populärt, så det finns en mängd bra resurser för att lära sig använda det, både i form av artiklar och videor.
 
-- **För dig som föredrar en kort introduktion**:  [Learning Git Basics](https://github.com/git-guides#learning-git-basics).
-- **För dig som vill fördjupa dig**: [Pro Git - Book](https://git-scm.com/book/en/v2) är en utförlig guide som tar upp både grunder och avancerade koncept.
+- **För dig som föredrar en kort introduktion**:  [Learning Git Basics][7].
+- **För dig som vill fördjupa dig**: [Pro Git - Book][8] är en utförlig guide som tar upp både grunder och avancerade koncept.
 - **För dig som vill lära dig via videor**: Sök efter "Git tutorial for beginners" på YouTube för videor som förklarar grunderna steg för steg.
 
 ### Vanliga Git-kommandon
@@ -74,7 +73,7 @@ Det är oftast okej att göra ändringar på din egen branch som inte har mergat
 
 #### Användning av git revert för att ångra ändringar
 
-Om du vill ångra en tidigare commit kan du använda `git revert`. Detta skapar en ny commit som motsvarar en omvändning av den angivna commiten, utan att ändra historiken. 
+Om du vill ångra en tidigare commit kan du använda `git revert`. Detta skapar en ny commit som motsvarar en omvändning av den angivna commiten, utan att ändra historiken.
 
 ```bash
 git revert <commit-hash>
@@ -97,6 +96,7 @@ Det finns tillfällen då du kanske vill justera den senaste committen, antingen
 Om du vill lägga till ändringar till den senaste committen eller ändra commit-meddelandet kan du använda `git commit --amend`. Detta kommando öppnar en redigerare där du kan ändra meddelandet, och eventuella ändringar som har stagats (`git add`) inkluderas i den senaste committen.
 
 **Exempel:**
+
 ```bash
 # Lägg till filer att inkludera i den senaste committen
 git add <filnamn>
@@ -126,7 +126,8 @@ git reset
 ```
 
 Detta flyttar filerna från staging-området tillbaka till ditt arbetsområde, så att de inte längre är stagade men behåller ändringarna.
-#### Ändra historiken med en  interaktiv rebase
+
+#### Ändra historiken med en interaktiv rebase
 
 Interaktiv rebase (`git rebase -i`) är ett kraftfullt verktyg för att ändra commit-historiken. **Observera att detta ändrar Git-historiken**. Se till att läsa sektionens huvudrubrik igen innan du använder det. Med interaktiv rebase kan du:
 
@@ -135,6 +136,7 @@ Interaktiv rebase (`git rebase -i`) är ett kraftfullt verktyg för att ändra c
 - **Ändra innehållet i en commit** genom att dela upp, redigera eller lägga till nya ändringar.
 
 **Exempel på interaktiv rebase:**
+
 ```bash
 git rebase -i HEAD~3
 ```
@@ -143,12 +145,22 @@ Detta öppnar en redigerare där du kan välja hur de senaste tre commitarna ska
 
 ##### Verktyg för interaktiv rebase
 
-Även om du kan arbeta med interaktiv rebase direkt i terminalen, kan det vara värt att titta på  [Git Interactive Rebase Tool](https://github.com/MitMaro/git-interactive-rebase-tool). Detta verktyg har ett mer användarvänligt gränssnitt och underlättar hanteringen av rebases. Det går utmärkt att arbeta med interaktiva rebases utan detta verktyg, men det är ett mycket bra verktyg som förtjänar att nämnas.
+Även om du kan arbeta med interaktiv rebase direkt i terminalen, kan det vara värt att titta på  [Git Interactive Rebase Tool][9]. Detta verktyg har ett mer användarvänligt gränssnitt och underlättar hanteringen av rebases. Det går utmärkt att arbeta med interaktiva rebases utan detta verktyg, men det är ett mycket bra verktyg som förtjänar att nämnas.
 
 ### Länkar
 
 - Git
-    - [Pro Git - Book](https://git-scm.com/book/en/v2)
+  - [Pro Git - Book][8]
 - GitHub
-    - [Get started](https://docs.github.com/en/get-started)
+  - [Get started][10]
 
+[1]: https://git-scm.com/
+[2]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh
+[3]: https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github
+[4]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+[5]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
+[6]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection
+[7]: https://github.com/git-guides#learning-git-basics
+[8]: https://git-scm.com/book/en/v2
+[9]: https://github.com/MitMaro/git-interactive-rebase-tool
+[10]: https://docs.github.com/en/get-started
