@@ -106,7 +106,7 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
         "git.openRepositoryInParentFolders": "never",
         "json.format.enable": false,
         "powershell.promptToUpdatePowerShell": false,
-        "python.envFile": ""
+        "python.envFile": "" }
         ```
 
     6. Nu är din utvecklingsmiljö redo att användas! Det är ditt eget ansvar att bekanta dig med hur den fungerar. Om du råkat stänga `Welcome`-fliken kan du öppna den igen med `Help` / `Welcome`.
