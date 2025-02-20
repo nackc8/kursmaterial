@@ -23,9 +23,11 @@ print(id(z))    # Check the unique id of z
 - **int**: Heltal (t.ex. `42`, `-5`). Python `int` har obegränsad precision, begränsad endast av tillgängligt minne.
 - **float**: Decimaltal (t.ex. `3.14`, `-0.1`). Python `float` följer IEEE 754-standarden för dubbelprecision flyttalsrepresentation och lagras med en teckenbit, en exponent och en mantissa. Värdet beräknas enligt formeln:
 
-  \[ (-1)^s \times m \times 2^e \]
+  ```math
+  (-1)^s \times m \times 2^e
+  ```
 
-  där \( s \) är teckenbiten, \( m \) är mantissan (fraktionen) och \( e \) är exponenten.
+  där $(s)$ är teckenbiten, $m$ är mantissan (fraktionen) och $e$ är exponenten.
 
 ### Booleska typer
 
