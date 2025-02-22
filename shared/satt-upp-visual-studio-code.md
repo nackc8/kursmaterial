@@ -84,7 +84,10 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
         },
         "[powershell]": { "editor.defaultFormatter": "ms-vscode.powershell" },
         "[python]": { "editor.defaultFormatter": "charliermarsh.ruff" },
-        "[shellscript]": { "editor.defaultFormatter": "foxundermoon.shell-format" },
+        "[shellscript]": {
+            "editor.defaultFormatter": "foxundermoon.shell-format",
+            "editor.insertSpaces": false
+        },
         "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
         "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
         "[yaml]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
