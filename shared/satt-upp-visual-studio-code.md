@@ -83,7 +83,12 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
             "editor.defaultFormatter": "yzhang.markdown-all-in-one"
         },
         "[powershell]": { "editor.defaultFormatter": "ms-vscode.powershell" },
-        "[python]": { "editor.defaultFormatter": "charliermarsh.ruff" },
+        "[python]": {
+            "editor.codeActionsOnSave": {
+            "source.organizeImports.ruff": "always"
+            },
+            "editor.defaultFormatter": "charliermarsh.ruff"
+        },
         "[shellscript]": {
             "editor.defaultFormatter": "foxundermoon.shell-format",
             "editor.insertSpaces": false
