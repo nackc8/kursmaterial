@@ -182,19 +182,19 @@ Hallå, Oskar!
 
 **Uppgift:**
 
-1. Skapa en funktion som tar flera positionella argument, t.ex. `def my_sum(a, b, c): ...`.
+1. Skapa en funktion som tar tre positionella argument, t.ex. `def concat(a, b, c): ...`.
 2. Anropa den med värden i olika ordning och observera vad som händer om du blandar ihop ordningen.
 
 **Exempel på körning:**
 
 ```plaintext
-Ange tre tal: 10 20 30
-Summan blev: 60
+Ange tre strängar: "Hej" "kära" "Python-älskare"
+Ihopslagningen blev: "Hej kära Python-älskare"
 ```
 
 **Tips:**
 
-- Positionella argument är bundna till ordningen du skickar in dem i anropet. `my_sum(10, 20, 30)` är **inte** nödvändigtvis detsamma som `my_sum(30, 20, 10)`.
+- Positionella argument är bundna till ordningen du skickar in dem i anropet. `concat("Hej", "kära", "Python-älskare")` är **inte** nödvändigtvis detsamma som `concat("Python-älskare", "kära", "Hej")`.
 
 ### Övning 7: Nyckelordsargument
 
