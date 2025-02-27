@@ -1,5 +1,5 @@
 
-# Kort introduktion till Python: Övningsuppgifter
+# Listor, loopar och funktioner:: Övningsuppgifter
 
 I dessa övningar kommer du att öva på att hantera listor, funktioner, typkonvertering och rekursiva anrop i Python.
 
