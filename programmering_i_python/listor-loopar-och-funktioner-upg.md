@@ -71,8 +71,8 @@ Vänj dig vid debugverktyget. Sätt breakpoints, stega igenom koden och kontroll
 **Exempel på körning:**
 
 ```plaintext
-Ange en text att scrolla: Hello World
-(H-E-L-L-O- -W-O-R-L-D “glider” över skärmen)
+Ange en text att scrolla: HELLO WORLD
+(HELLO WORLD “glider” över skärmen)
 ```
 
 **Tips:**
