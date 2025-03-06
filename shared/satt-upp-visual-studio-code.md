@@ -47,20 +47,16 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
     3. Välj `Terminal` / `New Terminal` för att starta ett kommandoskal. Kopiera och klistra in följande kommandorader och tryck på Enter/Return. Raderna installerar tillägg till Visual Studio Code. Varje rad ska skriva ut att tillägget installerades korrekt, och när alla rader körts ska du stå vid en tom kommandoprompt.
 
         ```bash
-        code --install-extension alexcvzz.vscode-sqlite
         code --install-extension almenon.arepl
         code --install-extension charliermarsh.ruff
-        code --install-extension cmoog.sqlnotebook
         code --install-extension esbenp.prettier-vscode
         code --install-extension foxundermoon.shell-format
-        code --install-extension GitHub.vscode-github-actions
         code --install-extension humao.rest-client
         code --install-extension ms-azuretools.vscode-docker
         code --install-extension ms-python.python
         code --install-extension ms-vscode.powershell
         code --install-extension ms-vscode-remote.remote-ssh
         code --install-extension ms-vsliveshare.vsliveshare
-        code --install-extension redhat.ansible
         code --install-extension ritwickdey.LiveServer
         code --install-extension shd101wyy.markdown-preview-enhanced
         code --install-extension timonwong.shellcheck
@@ -70,51 +66,7 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
     5. Välj `View` / `Command Palette...` och välj `Preferences: Open User Settings (JSON)` för att se och ändra utvecklingsmiljöns inställningar. Om du vet att du har gjort egna inställningar som du vill behålla behöver du pussla ihop dem. Annars kan du ta bort allt som står där nu så att det blir tomt och sedan kopiera allt nedan. Då har du en bra grundkonfiguration som du senare kan justera efter tycke och smak.
 
         ```json
-        { "[ansible]": { "editor.defaultFormatter": "redhat.ansible" },
-        "[dockerfile]": { "editor.defaultFormatter": "ms-azuretools.vscode-docker" },
-        "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-        "[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-        "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-        "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-        "[jsonl]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-        "[markdown]": {
-            "editor.wordWrap": "bounded",
-            "editor.wordWrapColumn": 80, "editor.tabSize": 4,
-            "editor.defaultFormatter": "yzhang.markdown-all-in-one"
-        },
-        "[powershell]": { "editor.defaultFormatter": "ms-vscode.powershell" },
-        "[python]": {
-            "editor.codeActionsOnSave": {
-            "source.organizeImports.ruff": "always"
-            },
-            "editor.defaultFormatter": "charliermarsh.ruff"
-        },
-        "[shellscript]": {
-            "editor.defaultFormatter": "foxundermoon.shell-format",
-            "editor.insertSpaces": false
-        },
-        "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-        "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-        "[yaml]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-        "editor.acceptSuggestionOnEnter": "off",
-        "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
-        "editor.cursorStyle": "block",
-        "editor.defaultFormatter": "foxundermoon.shell-format",
-        "editor.formatOnSave": true,
-        "editor.minimap.enabled": false,
-        "explorer.confirmDelete": false,
-        "explorer.confirmDragAndDrop": false,
-        "explorer.excludeGitIgnore": true,
-        "files.autoSave": "onFocusChange",
-        "files.insertFinalNewline": true,
-        "files.trimTrailingWhitespace": true,
-        "git.autofetch": true,
-        "git.confirmSync": false,
-        "git.enableSmartCommit": true,
-        "git.openRepositoryInParentFolders": "never",
-        "json.format.enable": false,
-        "powershell.promptToUpdatePowerShell": false,
-        "python.envFile": "" }
+        {"[dockercompose]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[dockerfile]":{"editor.defaultFormatter":"ms-azuretools.vscode-docker"},"[javascript]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[javascriptreact]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[json]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[jsonc]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[jsonl]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[markdown]":{"editor.wordWrap":"bounded","editor.wordWrapColumn":80,"editor.tabSize":4,"editor.defaultFormatter":"yzhang.markdown-all-in-one"},"[powershell]":{"editor.defaultFormatter":"ms-vscode.powershell"},"[python]":{"editor.codeActionsOnSave":{"source.organizeImports.ruff":"always"},"editor.defaultFormatter":"charliermarsh.ruff"},"[shellscript]":{"editor.defaultFormatter":"foxundermoon.shell-format","editor.insertSpaces":false},"[typescript]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[typescriptreact]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[yaml]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"editor.acceptSuggestionOnEnter":"off","editor.bracketPairColorization.independentColorPoolPerBracketType":true,"editor.cursorStyle":"block","editor.defaultFormatter":"foxundermoon.shell-format","editor.formatOnSave":true,"editor.inlineSuggest.enabled":false,"editor.minimap.enabled":false,"explorer.confirmDelete":false,"explorer.confirmDragAndDrop":false,"explorer.excludeGitIgnore":true,"files.autoSave":"onFocusChange","files.insertFinalNewline":true,"files.trimTrailingWhitespace":true,"git.autofetch":true,"git.confirmSync":false,"git.enableSmartCommit":true,"git.openRepositoryInParentFolders":"never","github.copilot.enable":{"*":false},"json.format.enable":false}
         ```
 
     6. Nu är din utvecklingsmiljö redo att användas! Det är ditt eget ansvar att bekanta dig med hur den fungerar. Om du råkat stänga `Welcome`-fliken kan du öppna den igen med `Help` / `Welcome`.
