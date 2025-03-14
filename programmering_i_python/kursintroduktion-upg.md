@@ -10,7 +10,7 @@ Exempel på hur ditt program kan begära inmatning från användaren:
 name = input("Enter your name: ")
 age = int(input("Enter your age: "))
 
-# Use the variables name and age here...
+# Använd variablerna name och age här...
 ```
 
 ### Att göra i varje övning
@@ -45,15 +45,13 @@ print("Hej", name)
 
 ### Övning 1: Typkonvertering
 
-**Uppgift:**
-
 1. Läs in ett heltal (int) från användaren med hjälp av `input`.
 2. Behåll det inmatade som en sträng i en variabel, men skapa två nya variabler där du konverterar värdet till:
     - `int`
     - `float`
 3. Skriv ut de konverterade värdena.
 
-**Exempel på körning:**
+#### Exempel
 
 ```plaintext
 Enter an integer: 42
@@ -64,15 +62,15 @@ As string: "42"
 
 ### Övning 2: Beräkningar med flyttal
 
-**Uppgift:**
-
 1. Läs in två decimaltal (float) med `input`.
 2. Utför följande operationer och visa resultaten:
     - Addition
     - Multiplikation
     - Division
 
-**Exempel på körning:** (Exakt utskrift kan skilja något beroende på hur Python formaterar flyttal)
+#### Exempel
+
+Exakt utskrift kan skilja något beroende på hur Python formaterar flyttal.
 
 ```plaintext
 Enter the first number: 3.456
@@ -84,11 +82,11 @@ Division: 2.80
 
 ### Övning 3: Störst av två tal med `if`-sats
 
-**Uppgift:**
-
 1. Läs in två heltal från användaren med hjälp av `input`.
-2. Använd en if-sats (gärna `if`-`elif`-`else`) för att bestämma vilket av de två talen som är störst, eller om de är lika stora.
+2. Använd en `if`-sats (gärna `if`-`elif`-`else`) för att bestämma vilket av de två talen som är störst, eller om de är lika stora.
 3. Skriv ut resultatet.
+
+#### Exempel
 
 **Exempel 1:**
 
@@ -108,23 +106,23 @@ The numbers are equal.
 
 ### Övning 4: Hitta temperaturer
 
-**Uppgift:**
-
 1. Skapa en **lista** med decimaltal (float) som representerar temperaturen hos en person vid olika tidpunkter. Listans temperaturer är “hårdkodade”, d.v.s. skrivna direkt i källkoden.
 2. Använd en **`for`-loop** för att gå igenom listan och hitta:
    - Den **högsta temperaturen**.
    - Den **näst högsta temperaturen**.
 3. Skriv ut båda temperaturerna.
 
-**Exempel på temperaturdata:**
+#### Exempel
+
+Följande temperaturdata:
 
 - 37.0
-- 38.5
 - 37.8
 - 39.2
+- 38.5
 - 36.9
 
-**Exempel på körning:**
+Ska ge utskriften:
 
 ```plaintext
 Highest temperature: 39.2
@@ -133,14 +131,12 @@ Second highest temperature: 38.5
 
 ### Övning 5: Summa av inmatade heltal
 
-**Uppgift:**
-
 1. Skriv ett program som ber användaren mata in **fem** heltal.
 2. Spara dessa heltal i en lista.
 3. Räkna ihop summan av de fem heltalen.
 4. Skriv ut summan.
 
-**Exempel på körning:**
+#### Exempel
 
 ```plaintext
 Enter an integer (1/5): 10
@@ -153,14 +149,14 @@ The sum of the numbers is: 30
 
 ### Övning 6: Summering med `range()`
 
-**Uppgift:**
-
 1. Skriv ett program som summerar alla heltal från och med 1 till och med 10 med hjälp av en `for`-loop och `range()`.
 2. Skriv ut summan.
 
-**Tips:** `range(1, 11)` ger talen 1, 2, 3, …, 10.
+#### Tips
 
-**Exempel på körning:**
+range(1, 11)` ger talen 1, 2, 3, …, 10.
+
+#### Exempel
 
 ```plaintext
 The sum of 1 through 10 is: 55
@@ -168,13 +164,11 @@ The sum of 1 through 10 is: 55
 
 ### Övning 7: Nedräkning med `while`
 
-**Uppgift:**
-
 1. Be användaren mata in ett startvärde (heltal).
 2. Använd en `while`-loop för att räkna nedåt från detta startvärde tills du når 0.
 3. Skriv ut varje värde under nedräkningen.
 
-**Exempel på körning:**
+#### Exempel
 
 ```plaintext
 Enter a start value: 5
@@ -188,14 +182,12 @@ Enter a start value: 5
 
 ### Övning 8: Filtrera udda tal med `continue`
 
-**Uppgift:**
-
 1. Be användaren mata in ett heltal `n`.
 2. Använd en `for`-loop från 1 till `n` (inklusivt).
 3. Om talet är **jämnt**, hoppa över utskriften av talet med hjälp av `continue`.
 4. Om talet är **udda**, skriv ut det.
 
-**Exempel på körning:** (Här skrivs endast de udda talen ut.)
+#### Exempel
 
 ```plaintext
 Enter a number: 10
@@ -206,30 +198,49 @@ Enter a number: 10
 9
 ```
 
-**Tips:** `num % 2` ger talet `1` om variabeln `num` är udda.
+#### Tips
 
-### Övning 9: Kopiering av listor (referens vs. värde)
+`num % 2` ger talet `1` om variabeln `num` är udda.
 
-**Uppgift:**
+### Övning 9: Muterbara och icke-muterbara objekt
 
-1. Skapa en lista med några värden, t.ex. `[1, 2, 3]`.
-2. Tilldela denna lista till en ny variabel, t.ex. `copy_list = original_list`.
-3. Lägg till ett nytt värde i den **första** listan.
-4. Skriv ut båda listorna och notera vad som händer med innehållet.
+I Python används alltid referenser vid tilldelning av variabler. Det som avgör om en ändring påverkar den ursprungliga variabeln eller ej beror på om objektet är **muterbart** (kan ändras) eller **icke-muterbart** (kan inte ändras).
 
-**Exempel på körning:**
+Utforska detta genom att:
 
-```plaintext
-Original list: [1, 2, 3, 4]
-Copy list: [1, 2, 3, 4]
-(They both changed when you appended a value to the original list.)
+1. Skapa en lista `original_list` med några värden, t.ex. `[1, 2, 3]`.
+2. Tilldela denna lista till en ny variabel `copy_list = original_list`.
+3. Lägg till ett nytt värde i `original_list`.
+4. Skriv ut båda listorna och notera vad som händer.
+
+**Fråga**: Varför ändras båda listorna?
+
+5. Gör nu en **äkta kopia** av listan med `copy_list = original_list.copy()`.
+6. Lägg till ett nytt värde i `original_list` igen och skriv ut båda listorna.
+
+**Fråga**: Vad är skillnaden den här gången?
+
+#### Exempel
+
+```python
+# Icke-muterbar datatyp (sträng)
+original_string = "Hej"
+copy_string = original_string
+original_string += " världen"
+
+print("Original string:", original_string)  # "Hej världen"
+print("Copy string:", copy_string)          # "Hej" (förändrades ej!)
+
+# Muterbar datatyp (lista)
+original_list = [1, 2, 3]
+copy_list = original_list
+original_list.append(4)
+
+print("Original list:", original_list)  # [1, 2, 3, 4]
+print("Copy list:", copy_list)          # [1, 2, 3, 4] (förändrades också!)
 ```
 
-**Tips:** `lst.append(3)` lägger till talet `3` sist i listan `lst`.
-
 ### Övning 10: Skapa en lista med tal över medelvärdet
-
-**Uppgift:**
 
 1. Skapa en lista `in_lst` med ett antal tal (heltal eller decimaltal) som du väljer själv.
 2. Räkna ut medelvärdet (average) av talen i listan.
@@ -238,7 +249,7 @@ Copy list: [1, 2, 3, 4]
 3. Skapa en ny lista `out_lst` som bara innehåller de tal i `in_lst` som är **större** än medelvärdet.
 4. Skriv ut den nya listan `out_lst`.
 
-**Exempel på körning (beror på data):**
+#### Exempel
 
 ```plaintext
 in_lst = [5, 10, 3, 15, 2]
@@ -248,17 +259,6 @@ out_lst = [10, 15]
 
 ### Övning 11: Gissa talet (slumpmässigt tal)
 
-**Tips om slumpmässiga tal**
-För att kunna välja ett slumpmässigt heltal i Python kan du använda standardbiblioteket `random`. Exempel:
-
-```python
-import random
-
-secret_number = random.randint(1, 100)  # Slumptal mellan 1 och 100
-```
-
-**Uppgift:**
-
 1. Använd `import random` och generera ett slumpmässigt tal mellan 1 och 100. Detta är det hemliga talet.
 2. Be sedan användaren gissa talet.
 3. Om gissningen är för låg, skriv ut ett meddelande om att det hemliga talet är högre.
@@ -267,9 +267,19 @@ secret_number = random.randint(1, 100)  # Slumptal mellan 1 och 100
 
 Du kan välja att låta användaren gissa flera gånger i rad med en loop tills rätt gissning sker.
 
-### Övning 12: Förenklat Black Jack (21)
+#### Tips
 
-**Uppgift (mycket förenklad variant):**
+För att kunna välja ett slumpmässigt heltal i Python kan du använda standardbiblioteket `random`. Exempel:
+
+```python
+import random
+
+secret_number = random.randint(1, 100)  # Slumptal mellan 1 och 100
+```
+
+### Övning 12: Black Jack
+
+Förenklat Black Jack (21):
 
 1. Importera `random`.
 2. Låt datorn “dra” två slumpmässiga kortvärden (t.ex. 1–11). Spara summan i en variabel, t.ex. `dealer_sum`.
@@ -288,7 +298,7 @@ Detta är en väldigt förenklad variant av Black Jack. Du kan bygga ut med mer 
 
 I tidigare övningar har du skrivit all kod i en och samma fil. Nu ska du ta ett av de tidigare programmen (t.ex. gissa talet eller nåt annat du skrivit) och dela upp det i flera **funktioner** och **flera filer**.
 
-**Förslag:**
+#### Förslag
 
 1. Skapa en ny fil, t.ex. `game_logic.py`, där du lägger en eller flera funktioner, t.ex.:
 
@@ -342,7 +352,7 @@ Exempel för temperaturprogrammet (om du vill strukturera just det):
   2. Anropa funktionerna i `temp_logic.py`.
   3. Skriva ut resultatet.
 
-## Tips om att köra flera filer
+#### Tips
 
 Om du har två filer, t.ex. `main.py` och `game_logic.py`, kan du köra programmet genom att anropa:
 
@@ -350,7 +360,7 @@ Om du har två filer, t.ex. `main.py` och `game_logic.py`, kan du köra programm
 python main.py
 ```
 
-Ibland kan du behöva se till att båda filerna ligger i samma mapp, eller använda `import` med mer avancerade sökvägar, men för den här övningen räcker det oftast att de ligger i samma katalog.
+Ibland kan du behöva se till att båda filerna ligger i samma katalog, eller använda `import` med mer avancerade sökvägar, men för den här övningen räcker det oftast att de ligger i samma katalog.
 
 [1]: https://docs.python.org/3.11/library/functions.html
 [2]: https://docs.python.org/3.11/library/stdtypes.html
