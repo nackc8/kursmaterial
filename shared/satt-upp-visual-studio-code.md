@@ -8,7 +8,7 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
 
 ## Windows
 
-1. Besök [code.visualstudio.com](https://code.visualstudio.com/).
+1. Besök [code.visualstudio.com][1].
     1. Ladda hem den senaste installationsfilen genom att välja `Download for Windows`.
 2. Starta installationen.
     1. Standardinställningarna kan användas utan ändringar. Om du tycker att det verkar smidigt kan du, när möjligheten ges, välja:
@@ -29,7 +29,7 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
 
 ## Ubuntu
 
-1. Besök [code.visualstudio.com](https://code.visualstudio.com/).
+1. Besök [code.visualstudio.com][1].
 2. Ladda ner den senaste installationsfilen för Debian-baserade system genom att välja .deb (Debian, Ubuntu...).
 3. Starta installationen med kommandot:
 
@@ -75,6 +75,11 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
 
 Efter att ha gått igenom `Help` / `Welcome`:
 
-1. Utforska [marknadsplatsen för Visual Studio Code](https://marketplace.visualstudio.com/VSCode)-tillägg! Det finns garanterat fler tillägg som kan vara nyttiga, kul eller som anpassar utvecklingsmiljön efter dina preferenser.
-2. Installera ett typsnitt med fast bredd från [Google Fonts](https://fonts.google.com/?preview.size=16&classification=Monospace&sort=popularity) som du tycker om och ställ in utvecklingsmiljön att använda det för programkod. Några populära typsnitt för programmering är exempelvis `Source Code Pro`, `IBM Plex Mono` och `JetBrains Mono`.
-3. Om du använder mer än en dator så kan det vara smidigt att [synkronisera inställningarna](https://code.visualstudio.com/docs/editor/settings-sync).
+1. Utforska [marknadsplatsen för Visual Studio Code][2]-tillägg! Det finns garanterat fler tillägg som kan vara nyttiga, kul eller som anpassar utvecklingsmiljön efter dina preferenser.
+2. Installera ett typsnitt med fast bredd från [Google Fonts][3] som du tycker om och ställ in utvecklingsmiljön att använda det för programkod. Några populära typsnitt för programmering är exempelvis `Source Code Pro`, `IBM Plex Mono` och `JetBrains Mono`.
+3. Om du använder mer än en dator så kan det vara smidigt att [synkronisera inställningarna][4].
+
+[1]: https://code.visualstudio.com/
+[2]: https://marketplace.visualstudio.com/VSCode
+[3]: https://fonts.google.com/?preview.size=16&classification=Monospace&sort=popularity
+[4]: https://code.visualstudio.com/docs/editor/settings-sync

@@ -70,7 +70,7 @@ Skapa ett program som:
     - `String`
 3. Skriver ut de konverterade värdena.
 
-**Exempel:**
+#### Exempel
 
 ```plaintext
 Enter an integer: 42
@@ -89,7 +89,7 @@ Skapa ett program som:
     - Multiplikation
     - Division
 
-**Exempel:**
+#### Exempel
 
 ```plaintext
 Enter the first number: 3.456
@@ -106,6 +106,8 @@ Skapa ett program som:
 1. Läser in två heltal (`int`) från användaren med hjälp av `Scanner`.
 2. Använder en if-sats för att bestämma vilket av de två talen som är störst, eller om de är lika stora.
 3. Skriver ut resultatet.
+
+#### Exampel
 
 **Exempel 1:**
 
@@ -137,6 +139,8 @@ Skapa ett program som:
 
 **Observera:** Programmet ska **inte** kontrollera om talen är lika stora. Det ska alltid skriva ut ett av talen som störst.
 
+#### Exempel
+
 **Exempel 1:**
 
 ```plaintext
@@ -163,15 +167,21 @@ Skapa ett program som:
    - Den **näst högsta temperaturen**.
 3. Skriver ut båda temperaturerna.
 
-**Exempel på temperaturdata:**
+**Notera:**
+
+Precisionen hos `float` är tillräcklig för denna typ av problem. Temperaturmätningar är inte så exakta att de kräver högre precision, och människans kroppstemperatur varierar dessutom inom ett mycket begränsat område. Därför är `float` ett bra val för denna uppgift.
+
+#### Exampel
+
+Följande temperaturdata:
 
 - 37,0
-- 38,5
 - 37,8
 - 39,2
+- 38,5
 - 36,9
 
-**Exempel:**
+Ska ge utskriften:
 
 ```plaintext
 Highest temperature: 39.2
@@ -189,7 +199,7 @@ Skapa ett program som:
 
 Testa programmet med både giltig och ogiltig inmatning.
 
-**Exempel 1:**
+#### Exempel
 
 ```plaintext
 Ange ett heltal: abc
@@ -230,7 +240,7 @@ skriv ut alla talen i den osorterade arrayen numbers
 skriv ut alla talen i den sorterade arrayen numbers
 ```
 
-**Exempel på utmatning:**
+#### Exampel
 
 ```plaintext
 Unsorted array: [5, 3, 8, 6, 2, 7, 4, 1, 9, 0]
@@ -489,10 +499,6 @@ Endast ett av de fyra alternativen är mest rätt och räknas som rätt svar. To
 | 18        | `private`                      |           |           | X         |           |
 | 19        | `protected`                    |           | X         |           |           |
 | 20        | Paket-synlighet                |           |           |           | X         |
-
-**Notera:**
-
-Precisionen hos `float` är tillräcklig för denna typ av problem. Temperaturmätningar är inte så exakta att de kräver högre precision, och människans kroppstemperatur varierar dessutom inom ett mycket begränsat område. Därför är `float` ett bra val för denna uppgift.
 
 [1]: https://docs.oracle.com/en/java/javase/23/docs/api/overview-summary.html
 [2]: https://www.jetbrains.com/help/idea/debugging-your-first-java-application.html

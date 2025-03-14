@@ -65,11 +65,7 @@ Här är några av de mest använda Git-kommandona som kan hjälpa dig att komma
 
 ## Valfri fördjupning
 
-### Hantera och ångra ändringar i Git-historiken
-
-Du kan bara ändra Git-historiken i ett repository om ingen annan har hämtat den med `git pull`. Eftersom Git är distribuerat orsakar det stora problem om du ändrar historiken som andra redan bygger på.
-
-Det är oftast okej att göra ändringar på din egen branch som inte har mergats. Men efter en merge bör du aldrig göra det. Använd då istället `git revert` och läs mer om hur det fungerar.
+### Hantera och ångra ändringar
 
 #### Användning av git revert för att ångra ändringar
 
@@ -87,6 +83,12 @@ git revert abc123
 
 Detta gör att den ursprungliga commiten ångras men finns kvar i historiken, vilket är viktigt för att bibehålla en konsekvent och spårbar historik.
 
+#### Ändra Git-historiken
+
+Du kan bara ändra Git-historiken i ett repository om ingen annan har hämtat den med `git pull`. Eftersom Git är distribuerat orsakar det stora problem om du ändrar historiken som andra redan bygger på.
+
+Det är oftast okej att göra ändringar på din egen branch som inte har mergats. Men efter en merge bör du aldrig göra det. Använd då istället `git revert` som nämndes ovan och läs mer om hur det fungerar.
+
 #### Ändra den senaste committen
 
 Det finns tillfällen då du kanske vill justera den senaste committen, antingen för att korrigera ett meddelande eller för att lägga till fler ändringar. Här är två sätt att göra detta. **Observera att dessa kommandon ändrar Git-historiken**. Se till att läsa sektionens huvudrubrik igen innan du använder dem.
@@ -95,7 +97,7 @@ Det finns tillfällen då du kanske vill justera den senaste committen, antingen
 
 Om du vill lägga till ändringar till den senaste committen eller ändra commit-meddelandet kan du använda `git commit --amend`. Detta kommando öppnar en redigerare där du kan ändra meddelandet, och eventuella ändringar som har stagats (`git add`) inkluderas i den senaste committen.
 
-**Exempel:**
+###### Exempel
 
 ```bash
 # Lägg till filer att inkludera i den senaste committen
@@ -111,7 +113,7 @@ Det här kommandot skapar en ny commit som ersätter den senaste, vilket innebä
 
 Om du vill ångra den senaste committen men behålla filändringarna i staging-området kan du använda `git reset --soft`. Detta är användbart om du vill dela upp eller ändra innehållet i den senaste committen.
 
-**Exempel:**
+###### Exempel
 
 ```bash
 git reset --soft HEAD~1
@@ -127,7 +129,7 @@ git reset
 
 Detta flyttar filerna från staging-området tillbaka till ditt arbetsområde, så att de inte längre är stagade men behåller ändringarna.
 
-#### Ändra historiken med en interaktiv rebase
+##### Ändra historiken med en interaktiv rebase
 
 Interaktiv rebase (`git rebase -i`) är ett kraftfullt verktyg för att ändra commit-historiken. **Observera att detta ändrar Git-historiken**. Se till att läsa sektionens huvudrubrik igen innan du använder det. Med interaktiv rebase kan du:
 
@@ -135,7 +137,7 @@ Interaktiv rebase (`git rebase -i`) är ett kraftfullt verktyg för att ändra c
 - **Slå ihop commits** för att städa upp historiken och göra den mer sammanhängande.
 - **Ändra innehållet i en commit** genom att dela upp, redigera eller lägga till nya ändringar.
 
-**Exempel på interaktiv rebase:**
+###### Exempel
 
 ```bash
 git rebase -i HEAD~3
@@ -143,7 +145,7 @@ git rebase -i HEAD~3
 
 Detta öppnar en redigerare där du kan välja hur de senaste tre commitarna ska hanteras. Du kan till exempel ändra `pick` till `edit` för att redigera en commit, eller till `squash` för att slå ihop den med föregående commit.
 
-##### Verktyg för interaktiv rebase
+###### Verktyg för interaktiv rebase
 
 Även om du kan arbeta med interaktiv rebase direkt i terminalen, kan det vara värt att titta på  [Git Interactive Rebase Tool][9]. Detta verktyg har ett mer användarvänligt gränssnitt och underlättar hanteringen av rebases. Det går utmärkt att arbeta med interaktiva rebases utan detta verktyg, men det är ett mycket bra verktyg som förtjänar att nämnas.
 

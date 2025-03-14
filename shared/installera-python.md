@@ -4,7 +4,7 @@ Instruktionerna förutsätter och rekommenderar att ditt operativsystem är inst
 
 ## MacOS
 
-1. Besök [python.org](https://www.python.org/)
+1. Besök [python.org][1]
     - Ladda hem den senaste installationsfilen som du hittar i `Downloads`. För kursens räkning krävs version 3.11.x som lägst.
 2. Starta installationen.
 
@@ -17,7 +17,7 @@ Instruktionerna förutsätter och rekommenderar att ditt operativsystem är inst
 
 ## Windows
 
-1. Besök [python.org](https://www.python.org/)
+1. Besök [python.org][1]
     - Ladda hem den senaste installationsfilen som du hittar i `Downloads`. För kursens räkning krävs version 3.11.x som lägst.
 2. Starta installationen
     - Välj
@@ -42,3 +42,5 @@ Instruktionerna förutsätter och rekommenderar att ditt operativsystem är inst
         - `python --version`
     - Säkerställ att modulen `pip` finns tillgänglig genom att skriva ut dess version via `python -m pip --version`.
     - Säkerställ att inställningen du gjorde ovan, som gör att Windows inte erbjuder sig att installera Python från Windows Store, fungerar. Kör kommandot `python3` och verifiera att du får ett felmeddelande som svar. I Windows startar man alltså Python genom `py` eller `python` och inte `python3`. Det skiljer sig mellan operativsystemen.
+
+[1]: https://www.python.org/

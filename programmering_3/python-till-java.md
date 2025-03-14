@@ -695,7 +695,7 @@ Java minskar risken för oavsiktliga fel genom att strikt begränsa scope för v
 
 Python kan iterera över alla objekt som är "itererbara". Ett objekt anses vara itererbart om det implementerar metoden `__iter__()` eller `__getitem__()`. Detta inkluderar listor, tupler, strängar, sets och dictionaries.
 
-**Exempel:**
+#### Exempel
 
 ```python
 # Lista
