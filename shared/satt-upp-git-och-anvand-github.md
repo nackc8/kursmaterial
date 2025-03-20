@@ -63,6 +63,169 @@ Här är några av de mest använda Git-kommandona som kan hjälpa dig att komma
 - `git push`: Skickar dina commits till den fjärranslutna repositoryt, t.ex. GitHub.
 - `git pull`: Hämtar och integrerar ändringar från fjärranslutna repositoryt till din lokala kopia.
 
+### Git i grupparbeten
+
+I projektet utgår du alltid från huvud-branchen `main`. Du skapar en ny branch för dina ändringar och gör dina commits där. När du är klar öppnar du en "Pull Request" på GitHub. När ändringarna är granskade och godkända mergar du tillbaka dem till `main`.
+
+1. **Skapa en ny branch**
+
+   ```bash
+   git checkout -b minbranch
+   ```
+
+2. **Gör din förändring i koden**
+
+3. **Lägg till och commit:a ändringarna**
+
+   _Spara ändringarna med ett beskrivande commit-meddelande som skrivs som en uppmaning och följer [Conventional Commits][11]._
+
+   ```bash
+   git commit -m "feat: add pinky ghost"
+   ```
+
+4. **Skicka upp din branch till GitHub**
+
+   ```bash
+   git push
+   ```
+
+5. **Skapa en Pull Request (PR)**
+
+   - Gå till GitHub och skapa en PR från din branch till `main`.
+
+   - Be resten av gruppen om en "Approval" - minst en godkännande krävs.
+
+6. **Granska och ge feedback**
+
+   - Övriga gruppmedlemmar tittar på "Files changed" i PR:n.
+   - De kan lämna kommentarer och godkänna PR:n.
+
+7. **Mergea PR:n när den är godkänd**
+
+   - Den som skapade PR:n klickar på "Merge" på GitHub. Det är så man gör på riktigt för att kunna följa sin egen förändring och vara beredd om något trots allt går fel.
+
+8. **Städa efter merge**
+
+   - Ta bort din branch på GitHub (GitHub har en knapp för detta).
+   - Byt tillbaka till `main`, hämta senaste versionen och radera din branch lokalt:
+
+```bash
+   git checkout main
+   git pull
+   git branch -d minbranch
+```
+
+9. **Repetera**
+
+   - Gör en ny branch för nästa förändring och följ samma process igen.
+
+#### Git-konflikter
+
+En Git-konflikt uppstår när två personer ändrar samma rad i en fil och Git inte vet vilken version som ska gälla. Det händer ofta vid git pull eller merge när ändringarna krockar och måste lösas manuellt.
+
+Exempel:
+
+- Person A ändrar en rad i index.html, commitar och pushar.
+- Person B har samtidigt ändrat samma rad.
+- Person B gör git pull och får en konflikt eftersom Git inte kan välja vilken version som ska behållas.
+
+##### Hur ser konfliktmarkeringarna ut?
+
+När en konflikt uppstår lägger Git in så kallade konfliktmarkeringar direkt i koden. Filen kan till exempel se ut så här:
+
+  ```txt
+  <<<<<<< HEAD
+  <h1>Hej från Person B</h1>
+  =======
+  <h1>Hej från Person A</h1>
+  >>>>>>> main
+  ```
+
+- `<<<<<<< HEAD` visar innehållet från din lokala version (den som du just nu jobbar på i din branch).
+- `=======` är avgränsaren mellan de två konflikterande versionerna.
+- `>>>>>>> main` (eller namnet på den andra branchen) visar ändringen som finns i den andra versionen (i det här fallet `main`).
+
+Du behöver manuellt gå in och bestämma vad som ska stå kvar i filen, och därefter ta bort dessa konfliktmarkeringar innan du kan fortsätta med din merge eller pull.
+
+##### Steg för steg: Så här hanterar du en konflikt lokalt
+
+1. **Uppdatera din lokala kopia**
+
+   Använd kommandot `git pull` för att hämta och försöka merga de senaste ändringarna från exempelvis `origin/main` in i din nuvarande branch.
+
+   ```bash
+   git pull
+   ```
+
+   Om konflikter hittas kommer Git att meddela vilka filer som är drabbade.
+
+2. **Leta reda på konfliktmarkeringarna**
+
+   Öppna de filer som Git pekar ut och leta efter markeringarna `<<<<<<<`, `=======` och `>>>>>>>`.
+
+3. **Redigera filen**
+
+   Bestäm vilken kod som ska behållas. Du kan välja din egen version, den andra personens version eller en kombination. Ta därefter bort konfliktmarkeringarna så att filen blir “ren”.
+
+4. **Lägg till (stage) filen**
+   När du är nöjd med din lösning och filen är fri från konfliktmarkeringar, lägger du till filen för commit:
+
+   ```bash
+   git add <filnamn>
+   ```
+
+   eller alla uppdaterade filer på en gång:
+
+   ```bash
+   git add .
+   ```
+
+5. **Skapa en commit**
+
+   Gör en commit som beskriver att du har löst konflikten. Det går bra att behålla det autogenererade commit-meddelandet:
+
+   ```bash
+   git commit
+   ```
+
+6. **Pusha ändringarna**
+   Skicka sedan upp dina ändringar till GitHub:
+
+   ```bash
+   git push
+   ```
+
+Efter detta bör din merge vara slutförd, förutsatt att inga fler konflikter uppstår.
+
+##### Att lösa konflikter på GitHub
+
+Ibland vill man lösa konflikter direkt på GitHubs webbgränssnitt - till exempel i ett pull request. När GitHub upptäcker en konflikt i en pull request visas ofta en knapp med texten “Resolve conflicts” eller liknande.
+
+1. **Öppna pull requesten**
+
+   Gå till fliken “Pull Requests” i ditt GitHub-repo och öppna den aktuella pull requesten.
+
+2. **Klicka på “Resolve conflicts”**
+
+   GitHub visar då filen eller filerna med konfliktmarkeringar, ungefär som du skulle sett dem lokalt.
+
+3. **Redigera filen direkt i webbläsaren**
+
+   Precis som lokalt väljer du vilken version av koden du vill behålla, eller om du vill kombinera båda. Ta bort konfliktmarkeringarna och se till att filens innehåll är korrekt.
+
+4. **Markera konflikten som löst**
+
+   När du är klar klickar du på knappen för att markera konflikten som löst och bekräftar sedan förändringarna.
+
+5. **Genomför (merga) pull requesten**
+   Nu kan du avsluta pull requesten med en merge, förutsatt att alla andra eventuella kontroller eller godkännanden är uppfyllda.
+
+Om du har många eller svåra konflikter är det ofta enklare att lösa dem lokalt på din dator. Då har du din vanliga editor och verktyg som gör det lättare att se och fixa konfliktmarkeringarna.
+
+#### Varför måste konflikter lösas?
+
+Git klarar oftast att slå ihop ändringar automatiskt, så länge ni inte ändrat samma rad. Men om två ändringar krockar på samma ställe kan Git inte välja åt er. Då måste ni själva bestämma vad som ska behållas eller hur ändringarna ska kombineras.
+
 ## Valfri fördjupning
 
 ### Hantera och ångra ändringar
@@ -166,3 +329,4 @@ Detta öppnar en redigerare där du kan välja hur de senaste tre commitarna ska
 [8]: https://git-scm.com/book/en/v2
 [9]: https://github.com/MitMaro/git-interactive-rebase-tool
 [10]: https://docs.github.com/en/get-started
+[11]: https://www.conventionalcommits.org/
