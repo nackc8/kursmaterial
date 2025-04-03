@@ -46,7 +46,7 @@ Om du får en kallelse till muntlig redovisning är uppgiften inte klar förrän
 
 ### Detaljerad feedback
 
-Detaljerad feedback ges gärna på begäran! Om du vill ha mer insikt i din lösning kan du skriva en kommentar liknande `Ge mig detaljerad feedback` i "Feedback" och tagga utbildaren med `@kc8se`.
+Detaljerad feedback ges gärna på begäran! Om du vill ha mer insikt i din lösning kan du skriva en kommentar liknande "Ge mig detaljerad feedback" i "Feedback" och tagga utbildaren med `@kc8se`.
 
 Då går utbildaren igenom uppgiften och ger kommentarer om:
 
@@ -55,12 +55,14 @@ Då går utbildaren igenom uppgiften och ger kommentarer om:
 - Alternativa lösningar (som inte nödvändigtvis är bättre)
 - Saker att tänka på framöver
 
+Ett alternativt sätt att få mer feedback är att skriva kommentarer till kodrader i "Feedback" och ställa frågor som t.ex. "Ser du ett bättre sätt att lösa detta?" eller "Vilka för- och nackdelar har det här sättet?".
+
 ### Kortfattad feedback
 
-Utbildarens första kommentarer är mycket korta och fokuserar på vad som behöver åtgärdas.  Till exempel används:
+Utbildarens första kommentarer är mycket korta och fokuserar på vad som behöver åtgärdas. Till exempel används:
 
 - Oftast ordet "Godkänt" vid godkännande av en manuellt rättad uppgift utan någon mer text eller feedback.
-- Stödord som "stderr" för att markera att utskriften bör gå till "stderr" istället för "stdout" i en Bash-uppgift där det stått att felmeddelanden ska skrivas till stderr men inlämningen skriver meddelandet till "stdout".
+- Stödord som "stderr" för att markera att utskriften bör gå till "stderr" istället för "stdout" i en Bash-uppgift där det stått att felmeddelanden ska skrivas till stderr, men inlämningen skriver meddelandet till "stdout".
 
 Nackdelar med denna korthet är att:
 
@@ -70,7 +72,7 @@ Nackdelar med denna korthet är att:
 
 Fördelarna med detta upplägg är att det sparar mycket tid och gör feedbacken tydligare för dem som endast vill veta vad som behöver åtgärdas.
 
-För den som vill ha mer detaljerad feedback finns möjlighet att be om detta enligt avsnittet "Detaljerad feedback" – något som utbildaren mer än gärna ger till de som vill ha det!
+För den som vill ha mer detaljerad feedback finns det absolut möjlighet att få det enligt avsnittet "Detaljerad feedback". Utbildaren tycker att sådant engagemang är kul att se och ger mer gärna mer feedback till de som vill ha det!
 
 ### Automatiska tester
 
@@ -110,7 +112,7 @@ Under kursens gång kan ditt repo tas bort från GitHub på grund av ett teknisk
 
 Tänk på att studentdatorerna inte är en lämplig plats för din backup eftersom de installeras om med jämna mellanrum.
 
-Efter kursens slut kommer ditt repo att tas bort från GitHub. Det kan ske redan dagen efter men även långt efter att kursens avslutats.
+Efter kursens slut kommer ditt repo att tas bort från GitHub. Det kan ske redan dagen efter kursens sista lektion, men även ske långt efter att kursens avslutats.
 
 [1]: https://classroom.github.com/
 [2]: https://github.com/nackc8/kursmaterial/blob/main/shared/satt-upp-git-och-anvand-github.md
