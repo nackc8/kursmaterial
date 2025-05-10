@@ -30,6 +30,16 @@ Dessa termer är viktiga och används i guiden:
 
 5. **Slutföra uppgiften**: Skriv en kommentar i "Feedback"-PR och tagga utbildaren med `@kc8se` för att meddela att uppgiften är klar.
 
+## När en uppgift uppdateras
+
+Det är ganska vanligt att en uppgift uppdateras för att förtydligas eller rätta till ett fel.
+
+När detta sker skapas en "Pull Request" med ett namn i stil med "GitHub Classroom: Sync Assignment" i varje students uppgiftsrepo på GitHub. Klicka på PR:en och välj sedan "Merge Pull Request", följt av "Confirm Merge".
+
+När det är gjort behöver du köra git pull i ditt lokala uppgiftsrepo för att hämta uppdateringen.
+
+Håll utkik efter uppdateringar – det är varje students ansvar att genomföra dessa steg. När en uppdatering har publicerats är det den versionen som gäller och ska följas.
+
 ## Feedback och rättning
 
 - **Manuell rättning**: Vid manuell rättning ändrar utbildaren statusen i "Feedback" till "Accepted" om uppgiften godkänns, eller till "Change Request" om ändringar behövs. Skriv en kommentar i "Feedback"-PR och tagga utbildaren med `@kc8se` för att meddela att uppgiften är klar.
