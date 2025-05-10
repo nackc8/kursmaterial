@@ -36,7 +36,7 @@ Det är ganska vanligt att en uppgift uppdateras för att förtydligas eller rä
 
 När detta sker skapas en "Pull Request" med ett namn i stil med "GitHub Classroom: Sync Assignment" i varje students uppgiftsrepo på GitHub. Klicka på PR:en och välj sedan "Merge Pull Request", följt av "Confirm Merge".
 
-När det är gjort behöver du köra git pull i ditt lokala uppgiftsrepo för att hämta uppdateringen.
+När det är gjort behöver du köra `git pull` i ditt lokala uppgiftsrepo för att hämta uppdateringen.
 
 Håll utkik efter uppdateringar – det är varje students ansvar att genomföra dessa steg. När en uppdatering har publicerats är det den versionen som gäller och ska följas.
 
