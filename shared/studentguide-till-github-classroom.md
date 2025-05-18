@@ -122,7 +122,7 @@ Om du behöver hjälp med en uppgift, skriv i "Feedback" och tagga utbildaren me
 - Vad du behöver hjälp med
 - Vad du har prövat och resultaten (beskriv gärna eventuella felmeddelanden eller oväntade resultat)
 
-### Gör backup på dina repos
+## Gör backup på dina repos
 
 Under kursens gång kan ditt repo tas bort från GitHub på grund av ett tekniskt eller administrativt fel. Det är ditt ansvar att behålla en backup på alla dina repos.
 
