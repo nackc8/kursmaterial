@@ -64,9 +64,7 @@ Skriv kommentarer via GitHubs gränssnitt i PR:en "Feedback" och ställ gärna f
 - "Vilka för- och nackdelar har det här tillvägagångssättet?"
 - "Den här loopen går inte igenom alla element – har du något tips?"
 
-Om du vill ha övergripande feedback på hela lösningen kan du skriva ett meddelande som inte är knutet till en rad och be om det.
-
-Då går utbildaren igenom uppgiften och kommenterar:
+Om du vill ha övergripande feedback på hela lösningen kan du skriva ett meddelande som inte är knutet till en rad och be om det. Då går utbildaren igenom uppgiften och kommenterar:
 
 - Vad som är särskilt bra
 - Möjliga förbättringar
