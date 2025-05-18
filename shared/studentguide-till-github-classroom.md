@@ -61,12 +61,17 @@ Feedback ges på ditt initiativ!
 Skriv kommentarer via GitHubs gränssnitt i PR:en "Feedback" och tagga utbildaren med `@kc8se` så att din feedback uppmärksammas.
 
 När din kommentar gäller en specifik kodrad är det bäst att välja fliken "Files changed" och därefter klicka på plusteckenikonen vid den aktuella raden. Några exempel på sådana kommentarer är:
+Skriv kommentarer via GitHubs gränssnitt i PR:en "Feedback" och tagga utbildaren med `@kc8se` så att din feedback uppmärksammas.
+
+När din kommentar gäller en specifik kodrad är det bäst att välja fliken "Files changed" och därefter klicka på plusteckenikonen vid den aktuella raden. Några exempel på sådana kommentarer är:
 
 - "Ser du ett bättre sätt att lösa detta?"
 - "Vilka för- och nackdelar har det här tillvägagångssättet?"
 - "Den här loopen går inte igenom alla element – har du något tips?"
 
-Om du vill ha övergripande feedback på hela lösningen, eller har en kommentar som inte gäller någon specifik rad i koden, kan du gå till fliken "Conversation" och klicka på "Add a comment". Skriv där att du önskar allmän feedback. Då går utbildaren igenom hela uppgiften och kommenterar:
+Har du en kommentar som inte rör en specifik kodrad? Gå till fliken "Conversation" och klicka på "Add a comment".
+
+Där kan du till exempel be om en helhetsgranskning av din lösning. Utbildaren kommer då att titta på hela uppgiften och ge feedback kring:
 
 - Vad som är särskilt bra
 - Möjliga förbättringar
