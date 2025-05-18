@@ -56,16 +56,24 @@ Om du får en kallelse till muntlig redovisning är uppgiften inte klar förrän
 
 ### Detaljerad feedback
 
-Detaljerad feedback ges gärna på begäran! Om du vill ha mer insikt i din lösning kan du skriva en kommentar liknande "Ge mig detaljerad feedback" i "Feedback" och tagga utbildaren med `@kc8se`.
+Feedback ges på ditt initiativ!
 
-Då går utbildaren igenom uppgiften och ger kommentarer om:
+Skriv kommentarer via GitHubs gränssnitt i PR:en "Feedback" och ställ gärna frågor som:
 
-- Särskilt bra inslag
+- "Ser du ett bättre sätt att lösa detta?"
+- "Vilka för- och nackdelar har det här tillvägagångssättet?"
+- "Den här loopen går inte igenom alla element – har du något tips?"
+
+Om du vill ha övergripande feedback på hela lösningen kan du skriva ett meddelande som inte är knutet till en rad och be om det.
+
+Då går utbildaren igenom uppgiften och kommenterar:
+
+- Vad som är särskilt bra
 - Möjliga förbättringar
 - Alternativa lösningar (som inte nödvändigtvis är bättre)
 - Saker att tänka på framöver
 
-Ett alternativt sätt att få mer feedback är att skriva kommentarer till kodrader i "Feedback" och ställa frågor som t.ex. "Ser du ett bättre sätt att lösa detta?" eller "Vilka för- och nackdelar har det här sättet?".
+Tagga alltid utbildaren med `@kc8se` när du kommenterat, så att din feedback uppmärksammas.
 
 ### Kortfattad feedback
 
@@ -82,7 +90,7 @@ Nackdelar med denna korthet är att:
 
 Fördelarna med detta upplägg är att det sparar mycket tid och gör feedbacken tydligare för dem som endast vill veta vad som behöver åtgärdas.
 
-För den som vill ha mer detaljerad feedback finns det absolut möjlighet att få det enligt avsnittet "Detaljerad feedback". Utbildaren tycker att sådant engagemang är kul att se och ger mer gärna mer feedback till de som vill ha det!
+För den som vill ha mer detaljerad feedback finns det absolut möjlighet att få det enligt avsnittet "Detaljerad feedback". Utbildaren tycker att sådant engagemang är kul att se och ger gärna mer feedback till de som vill ha det!
 
 ### Automatiska tester
 
@@ -118,7 +126,7 @@ Om du behöver hjälp med en uppgift, skriv i "Feedback" och tagga utbildaren me
 
 ### Gör backup på dina repos
 
-Under kursens gång kan ditt repo tas bort från GitHub på grund av ett tekniskt eller administrativt fel. Det är ditt ansvar att behålla en backup på alla repos som ännu inte har bedömts.
+Under kursens gång kan ditt repo tas bort från GitHub på grund av ett tekniskt eller administrativt fel. Det är ditt ansvar att behålla en backup på alla dina repos.
 
 Tänk på att studentdatorerna inte är en lämplig plats för din backup eftersom de installeras om med jämna mellanrum.
 
