@@ -58,20 +58,20 @@ Om du får en kallelse till muntlig redovisning är uppgiften inte klar förrän
 
 Feedback ges på ditt initiativ!
 
-Skriv kommentarer via GitHubs gränssnitt i PR:en "Feedback" och ställ gärna frågor som:
+Skriv kommentarer via GitHubs gränssnitt i PR:en "Feedback" och tagga utbildaren med `@kc8se` så att din feedback uppmärksammas.
+
+När din kommentar gäller en specifik kodrad är det bäst att välja fliken "Files changed" och därefter klicka på plusteckenikonen vid den aktuella raden. Några exempel på sådana kommentarer är:
 
 - "Ser du ett bättre sätt att lösa detta?"
 - "Vilka för- och nackdelar har det här tillvägagångssättet?"
 - "Den här loopen går inte igenom alla element – har du något tips?"
 
-Om du vill ha övergripande feedback på hela lösningen kan du skriva ett meddelande som inte är knutet till en rad och be om det. Då går utbildaren igenom uppgiften och kommenterar:
+Om du vill ha övergripande feedback på hela lösningen, eller har en kommentar som inte gäller någon specifik rad i koden, kan du gå till fliken "Conversation" och klicka på "Add a comment". Skriv där att du önskar allmän feedback. Då går utbildaren igenom hela uppgiften och kommenterar:
 
 - Vad som är särskilt bra
 - Möjliga förbättringar
 - Alternativa lösningar (som inte nödvändigtvis är bättre)
 - Saker att tänka på framöver
-
-Tagga alltid utbildaren med `@kc8se` när du kommenterat, så att din feedback uppmärksammas.
 
 ### Kortfattad feedback
 
