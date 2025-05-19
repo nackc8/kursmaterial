@@ -61,9 +61,6 @@ Feedback ges på ditt initiativ!
 Skriv kommentarer via GitHubs gränssnitt i PR:en "Feedback" och tagga utbildaren med `@kc8se` så att din feedback uppmärksammas.
 
 När din kommentar gäller en specifik kodrad är det bäst att välja fliken "Files changed" och därefter klicka på plusteckenikonen vid den aktuella raden. Några exempel på sådana kommentarer är:
-Skriv kommentarer via GitHubs gränssnitt i PR:en "Feedback" och tagga utbildaren med `@kc8se` så att din feedback uppmärksammas.
-
-När din kommentar gäller en specifik kodrad är det bäst att välja fliken "Files changed" och därefter klicka på plusteckenikonen vid den aktuella raden. Några exempel på sådana kommentarer är:
 
 - "Ser du ett bättre sätt att lösa detta?"
 - "Vilka för- och nackdelar har det här tillvägagångssättet?"
