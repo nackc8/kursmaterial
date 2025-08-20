@@ -26,9 +26,12 @@ Gör det möjligt att ansluta via protokollet SSH genom att sätta upp OpenSSH S
 ```bash
 sudo apt install openssh-server
 sudo ufw allow OpenSSH
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 ```
 
 Efter det så kan du ansluta till (standard för SSH) port `22`. Om du vill använda nyckelfiler för att ansluta, härda konfigurationen eller liknande så rekommenderas en webbsökning.
+
+Det sista kommandot `systemctl mask ...` slår av energisparlägena eftersom de kan göra så att datorn inte kan ta emot nätverksanslutningar.
 
 ### Instruktioner för datorerna som ska ansluta mot en annan
 
