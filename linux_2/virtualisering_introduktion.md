@@ -167,7 +167,7 @@ lscpu | grep 'Vendor ID'
     ```bash
     qemu-system-x86_64 -enable-kvm -m 2048 -cpu host \
         -drive file=disk.qcow2,format=qcow2 \
-        -cdrom ubuntu-22.04-live-server.iso -boot d \
+        -cdrom ubuntu-24.04.3-live-server-amd64.iso -boot d \
         -vnc :1
     ```
 
@@ -187,7 +187,7 @@ lscpu | grep 'Vendor ID'
     ```bash
     qemu-system-x86_64 -enable-kvm -m 2048 -cpu host \
         -drive file=ubuntu.qcow2,format=qcow2 \
-        -cdrom ubuntu-22.04-live-server.iso -boot d \
+        -cdrom ubuntu-24.04.3-live-server-amd64.iso -boot d \
         -vnc :1
     ```
 
@@ -196,6 +196,8 @@ lscpu | grep 'Vendor ID'
   - Välj _Guided – use entire disk_.
   - Välj enklaste alternativen.
   - Fortsätt tills installationen är klar.
+- När installationen är färdig. Gör Ctrl + C för att avbryta ditt `qemu-system-x86_64`-kommando. Det är inställt på att boota från cdrom:en hela tiden.
+- Starta om kommandot på samma vis fast utelämna både `-cdrom` och `-boot`.
 
 ## 5. QEMU/KVM och VirtualBox
 
