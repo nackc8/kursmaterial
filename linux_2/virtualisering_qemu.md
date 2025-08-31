@@ -61,7 +61,7 @@ qemu-system-x86_64 \
 - **-smp**: antal CPU-kärnor.
 - **-cdrom**: ISO-fil för installation.
 - **-boot d**: starta från CD.
-- **-vnc :0**: öppna VNC-server på display :0 (port 5900).
+- **-vnc :0**: öppna VNC-server på display :0 (port 5900+0).
 - **Installera en VNC-klient**:
   - Linux: t.ex. `sudo apt install tigervnc-viewer`
   - Windows: tips – **RealVNC Viewer** eller **TightVNC** fungerar bra.
@@ -154,6 +154,19 @@ qemu-system-x86_64 \
   - Exempel: `-device virtio-balloon-pci`.
   - Gästsystemet justerar sitt minne efter instruktioner från värden.
 
+## QEMU Guest Additions
+
+- Linux-gäster:
+  - Använd virtio-drivrutiner (nät, disk, balloon, GPU) som redan finns i kärnan.
+  - Extra funktioner som förbättrad grafik, musintegration och delade mappar kan läggas till via SPICE-agenter och 9p-filsystem.
+- Windows-gäster:
+  - QEMU har inga officiella "guest additions" som i VirtualBox.
+  - Istället används virtio-drivrutiner för Windows (kan laddas ner från Fedora/virtio-win).
+  - Ger bättre nätverk, disk, och ibland grafikprestanda.
+- Sammanfattning:
+  - Linux: fullt stöd direkt i kärnan, komplettera med SPICE-agent.
+  - Windows: installera virtio-drivrutiner, finns inget eget "guest additions"-paket.
+
 ## Interagera med QEMU under körning
 
 När en VM körs kan du öppna QEMUs monitor (kommandogränssnitt) för att påverka inställningar och köra kommandon utan att starta om.
@@ -170,11 +183,12 @@ När en VM körs kan du öppna QEMUs monitor (kommandogränssnitt) för att påv
     ```
 
 - Vanliga kommandon i QEMU-monitor:
+  - **info**: visar allt man kan få information om.
   - **info block**: visar information om diskar.
   - **info network**: visar nätverkskort.
   - **device_add/device_del**: lägg till eller ta bort virtuella enheter dynamiskt.
   - **change**: byt CD/DVD-avbild under körning.
-  - **savevm / loadvm**: spara eller ladda snapshots.
+  - **savevm / info snapshots / loadvm / delvm**: hantera snapshots.
   - **quit**: stäng av VM.
 
 **Frågor och svar**:
@@ -203,15 +217,30 @@ qemu-system-x86_64 \
 
 - **-qmp unix:/tmp/qmp-sock,server,nowait**: skapar en UNIX-socket där QEMU tar emot JSON-kommandon.
 - Anslut till socketen med `socat` eller `nc` och skicka JSON-meddelanden.
-- Exempel: skicka följande JSON till QMP-socketen för att visa VM:ens status:
+- Exempel: efter att du anslutit måste du först skicka {"execute": "qmp_capabilities"} för att aktivera funktionerna. Därefter kan du skicka t.ex. {"execute": "query-status"} för att visa VM:ens status:
 
 ```bash
-echo '{"execute": "query-status"}' | socat - UNIX-CONNECT:/tmp/qmp-sock
+printf '%s\n' \
+  '{"execute":"qmp_capabilities"}' \
+  '{"execute":"query-status"}' \
+| socat - UNIX-CONNECT:/tmp/qmp-sock
 ```
 
 QMP används oftast av verktyg och bibliotek, inte direkt av människor.
 
-## Ingen nätverksanslutning
+Exempel på output:
+
+```json
+{"QMP": {"version": {"qemu": {"micro": 18, "minor": 2, "major": 7}, "package": "Debian 1:7.2+dfsg-7+deb12u15"}, "capabilities": ["oob"]}}
+{"return": {}}
+{"return": {"status": "running", "singlestep": false, "running": true}}
+```
+
+- Första raden: QEMU skickar en hälsning med version och vilka funktioner som stöds.
+- Andra raden: svar på qmp_capabilities, visar att handskakningen lyckats.
+- Tredje raden: svar på query-status, visar att VM körs (status: running).
+
+## Utan nätverksanslutning
 
 Starta en VM utan nätverk:
 
@@ -233,7 +262,7 @@ qemu-system-x86_64 \
 ```
 
 ```plaintext
-[Virtuell maskin]   X   [Nätverk]
+[Virtuell maskin]-   X   -[Nätverk]
 ```
 
 ## Port forward till värden
@@ -249,7 +278,7 @@ qemu-system-x86_64 \
   -net nic
 ```
 
-- **-net user**: aktiverar användarläge för nätverk (NAT via värden).
+- **-net user**: aktiverar användarläge för nätverk (NAT via värden). Detta kallas även slirp av historiska skäl. Internet via TCP/UDP fungerar normalt, men ICMP (ping) stöds inte i detta läge.
 - **hostfwd=tcp::2222-:22**: vidarebefordrar port 2222 på värden till port 22 (SSH) i gästen.
 
 ```plaintext
@@ -263,6 +292,11 @@ Internet
 ```plaintext
 [Host:2222] ---> [VM:22]
 ```
+
+**Tips:**
+
+- Testa internet med TCP i gästen: `curl -I https://example.com` eller `sudo apt update`.
+- Vill du kunna pinga: använd TAP/bridge i stället för user-mode NAT.
 
 ## Tap och bridge
 
@@ -283,8 +317,14 @@ qemu-system-x86_64 \
   -device e1000,netdev=mynet0
 ```
 
-- **TAP**: virtuell nätverksinterface för VM.
-- **Bridge (br0)**: gör att VM kan få IP från samma nät som värden.
+- **TAP**: ett virtuellt nätverksinterface som beter sig som ett nätverkskort kopplat till VM. Värden kan läsa och skriva paket direkt på detta interface.
+- **Bridge (br0)**: en virtuell switch på värden som kopplar ihop flera nätverksinterface (t.ex. fysiskt kort + TAP). Detta gör att VM kan få IP från samma nät som värden.
+- **Nätverksläge**: detta är "bridged networking" där gästen blir en fullvärdig del av LAN, synlig för routern och andra maskiner.
+- **Begränsning**: fungerar i praktiken endast med Ethernet. De flesta WiFi-drivrutiner stöder inte att sätta gränssnittet i bridge-läge.
+- **Alternativ**: man kan skapa och hantera bryggor med `NetworkManager` istället för `ip` och `brctl`.
+  - Exempel: `nmcli connection add type bridge ifname br0` och sedan lägga till `eth0` och `tap0` som slavar.
+  - **Fördelar med ip/brctl**: enkla och tydliga kommandon, fungerar utan extra verktyg.
+  - **Fördelar med NetworkManager**: bryggan sparas som permanent konfiguration, enklare att hantera om man ofta växlar nätverk.
 
 ```plaintext
 Internet/LAN
@@ -321,7 +361,13 @@ qemu-system-x86_64 \
 ```
 
 - **virbr1**: en ny brygga isolerad från värdens LAN.
-- VMs som kopplas till samma brygga kan prata med varandra men inte med LAN eller internet (utan extra routing/NAT).
+- **Nätverksläge**: detta är ett helt isolerat nät, ungefär som ett eget internt switchat segment. VMs på samma brygga kan prata med varandra men inte med värdens LAN eller internet.
+- **Användning**: bra för labb och testmiljöer där man vill att flera VMs ska kommunicera privat.
+- **Begränsning**: gästerna når inte internet utan att värden agerar router/NAT.
+- **Alternativ**: kan även konfigureras via NetworkManager (`nmcli connection add type bridge ifname virbr1`).
+
+  - **Fördelar med ip/brctl**: direkt kontroll, enkelt att testa.
+  - **Fördelar med NetworkManager**: gör bryggan permanent och integrerad med systemets nätverkskonfiguration.
 
 ```plaintext
            [värd]
