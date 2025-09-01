@@ -268,14 +268,32 @@ Internet
 
 ## Tap och bridge
 
-Använd TAP-enhet och brygga mot värdens nätverk:
+**Bakgrund för nybörjare:**
+
+- **TUN** och **TAP** är virtuella nätverkskort som skapas i mjukvara. TUN jobbar med IP-paket (ungefär som en router gör), medan TAP jobbar med hela Ethernet-ramar (som en nätverkskabel eller switch gör).
+- **Bridge** fungerar som en mjukvaruswitch i Linux. Den kopplar ihop flera nätverkskort så att de hamnar i samma nät. Man kan se det som att flera kort sammanfogas till ett gemensamt logiskt kort.
+
+Genom att kombinera en TAP-enhet och en bridge kan en virtuell maskin kopplas in i samma nät som värden, få en egen IP-adress (via DHCP eller statiskt) och prata med andra datorer precis som om den var inkopplad i ett riktigt nätverk.
+
+### Exempel: skapa TAP och bridge
+
+I det här exemplet gör vi ändringar i nätverket som bara gäller i RAM. Det innebär att en omstart återställer datorn till sitt vanliga läge. De tre första raderna installerar en extern DHCP-klient och stänger av tjänsten NetworkManager, som annars hanterar nätverksinställningarna. Detta behövs för att br0 ska kunna få en IP-adress via DHCP och för att NetworkManager inte ska skriva över konfigurationen under testet.
+
+Byt `eth0` nedan mot ditt faktiska nätverkskort. Ett enkelt sätt att hitta rätt är att köra `ip address` och se vilket kort som har din dators nuvarande IP-adress.
 
 ```bash
-sudo ip tuntap add dev tap0 mode tap user $(whoami)
+
+sudo apt update
+sudo apt install dhcpcd5
+sudo systemctl stop NetworkManager
+sudo ip tuntap add dev tap0 mode tap user "$USER"
 sudo ip link set tap0 up
-sudo brctl addbr br0
-sudo brctl addif br0 tap0 eth0
+sudo ip link add br0 type bridge
+sudo ip link set eth0 master br0
+sudo ip link set tap0 master br0
 sudo ip link set br0 up
+sudo ip addr flush dev eth0 # Kasta IP-numret eth0 har
+sudo dhcpcd br0 # Hämta en IP till br0 via DHCP
 
 qemu-system-x86_64 \
   -enable-kvm \
@@ -285,33 +303,71 @@ qemu-system-x86_64 \
   -device e1000,netdev=mynet0
 ```
 
-- **TAP**: virtuell nätverksinterface för VM.
-- **Bridge (br0)**: gör att VM kan få IP från samma nät som värden.
+- **TAP**: virtuellt nätverkskort för VM.
+- **Bridge (br0)**: mjukvaruswitch som binder ihop TAP och värddatorns nätverksport.
 
 ```plaintext
 Internet/LAN
      |
    [Switch/Router]
         |
-      [värd: eth0]
-           \
-          [br0]
-           / \
-       [tap0] [eth0]
-         |
-      [ VM ]  (får IP från LAN/DHCP)
+      [br0] (mjukvarubrygga på värddatorn)
+       /   \
+    [tap0] [eth0]
+       |
+     [ VM ]  (får IP från LAN/DHCP)
 ```
 
 ```plaintext
-[VM] <--> [tap0] <--> [br0] <--> [LAN / Internet]
+[VM] <--> [tap0] <--> [br0] <--> [eth0] <--> [LAN / Internet]
 ```
+
+### Vad kan vara med i en bridge?
+
+- Fysiska nätverkskort (t.ex. `eth0`, `eth1`)
+- Virtuella TAP-enheter
+- Andra virtuella interface som `veth`-par (ett par virtuella nätverkskablar som kopplar ihop två nätverksnamnsrum (network namespaces, alltså isolerade nätverksmiljöer i Linux)) eller `macvtap` (en virtuell port som kopplas direkt mot ett fysiskt kort och kan användas av en VM). Dessa ligger utanför kursen.
+
+Alla dessa kan kopplas in som portar i en bridge, förutsatt att de är i samma nät.
+
+### MAC-adresser i en bridge
+
+- En bridge (`br0`) har ett en egen MAC-adress. Vanligtvis väljer den en av portarnas MAC när den skapas, men den kan också få en egen.
+- Denna MAC används för värddatorns IP-trafik.
+- Varje port (t.ex. `tap0`, `eth0`) behåller sin egen MAC, men fysiska portar använder inte sin IP längre när de är del av bryggan.
+
+### IP-adressering i en bridge
+
+- Alla portar i en bridge måste tillhöra samma nät (samma Layer-2-segment).
+- Fysiska kort som `eth0`/`eth1` blir bara portar och har ingen egen IP längre.
+- Själva bryggan (`br0`) är det interface som värddatorn använder och som får en IP via DHCP eller statiskt.
+- Varje TAP-enhet har en egen MAC-adress och kan därför få en egen IP-adress (via DHCP eller statiskt), precis som en fysisk dator i nätet.
+- Resultatet blir att `br0` har värddatorns IP, medan varje TAP motsvarar en separat maskin i nätet med egen IP.
+
+### Hur får `br0` en IP via DHCP?
+
+För att värddatorn ska få nätverksåtkomst måste `br0` själv begära en IP-adress från DHCP. Det görs med vanliga DHCP-klienter:
+
+```bash
+sudo dhclient br0
+```
+
+(Debian använder `dhclient`; andra system kan använda `dhcpcd`.)
+
+### Hur får en VM en IP via DHCP?
+
+En virtuell maskin som är kopplad via TAP till en bridge beter sig som en egen dator i nätet. När den startar och kör en DHCP-klient (oftast automatiskt via operativsystemet) skickar den en förfrågan med sin egen MAC-adress, och kan då få en unik IP från samma DHCP-server som värddatorn använder.
+
+### Tips om permanenta inställningar
+
+Observera att `ip link`-kommandon bara gäller tills nästa omstart. Om du vill göra ändringarna permanenta använder du systemets nätverksverktyg, till exempel NetworkManager, `systemd-networkd` eller konfiguration i `/etc/network/interfaces`.
 
 ## Isolerat nätverk (likt Docker)
 
-Skapa en virtuell brygga för flera VMs:
+Skapa en virtuell brygga och anslut dina VMs till den:
 
 ```bash
-sudo brctl addbr virbr1
+sudo ip link add virbr1 type bridge
 sudo ip link set virbr1 up
 
 qemu-system-x86_64 \
@@ -322,8 +378,8 @@ qemu-system-x86_64 \
   -device virtio-net-pci,netdev=mynet0
 ```
 
-- **virbr1**: en ny brygga isolerad från värdens LAN.
-- VMs som kopplas till samma brygga kan prata med varandra men inte med LAN eller internet (utan extra routing/NAT).
+- **virbr1**: en ny brygga som är helt isolerad från värdens LAN.
+- VMs som du ansluter till samma brygga kan prata med varandra, men de når inte LAN eller internet utan att du sätter upp routing eller NAT.
 
 ```plaintext
            [värd]
@@ -331,12 +387,35 @@ qemu-system-x86_64 \
           [virbr1]   (ingen route/NAT mot LAN)
            /    \
         [VM1]  [VM2]
-  10.10.0.2      10.10.0.3  (kan prata inom segmentet)
 ```
 
 ```plaintext
 [VM1] <--> [virbr1] <--> [VM2]
 ```
+
+### Statisk IP
+
+Ge varje VM en fast IP-adress i samma nät:
+
+- Tilldela `10.10.0.2/24` till VM1.
+- Tilldela `10.10.0.3/24` till VM2.
+
+Hoppa över gateway, eftersom nätet bara är internt.
+
+### DHCP via dnsmasq
+
+Starta en enkel DHCP-server på värden för att dela ut adresser automatiskt:
+
+```bash
+sudo ip addr add 10.10.0.1/24 dev virbr1
+sudo dnsmasq --interface=virbr1 --bind-interfaces \
+  --dhcp-range=10.10.0.2,10.10.0.254,255.255.255.0,12h
+```
+
+- Tilldela värden adressen `10.10.0.1` i det isolerade nätet.
+- Låt dnsmasq dela ut adresser mellan `10.10.0.2` och `10.10.0.254`.
+- När du startar en VM på `virbr1` får den automatiskt en adress via DHCP.
+
 
 ## Skapa snapshots
 
