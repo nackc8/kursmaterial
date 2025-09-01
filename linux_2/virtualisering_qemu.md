@@ -49,7 +49,7 @@ Exempel:
 ```bash
 qemu-system-x86_64 \
   -enable-kvm \
-  -m 2048 \
+  -m 5000 \
   -smp 2 \
   -drive file=ubuntu.qcow2,format=qcow2 \
   -cdrom ubuntu-24.04.3-live-server-amd64.iso \
@@ -61,7 +61,7 @@ qemu-system-x86_64 \
 - **-smp**: antal CPU-kärnor.
 - **-cdrom**: ISO-fil för installation.
 - **-boot d**: starta från CD.
-- **-vnc :0**: öppna VNC-server på display :0 (port 5900).
+- **-vnc :0**: öppna VNC-server på display :0 (port 5900). Värdet `:n` har förhållandet `n+5900` till porten.
 - **Installera en VNC-klient**:
   - Linux: t.ex. `sudo apt install tigervnc-viewer`
   - Windows: tips – **RealVNC Viewer** eller **TightVNC** fungerar bra.
@@ -74,7 +74,7 @@ qemu-system-x86_64 \
 ```bash
 qemu-system-x86_64 \
   -enable-kvm \
-  -m 2048 \
+  -m 5000 \
   -smp 2 \
   -drive file=ubuntu.qcow2,format=qcow2 \
   -cdrom ubuntu-24.04.3-live-server-amd64.iso \
@@ -99,7 +99,7 @@ Du kan ange vilken CPU-modell eller funktioner som exponeras för gästen.
 qemu-system-x86_64 \
   -enable-kvm \
   -cpu host \
-  -m 2048 \
+  -m 5000 \
   -smp 2 \
   -drive file=ubuntu.qcow2,format=qcow2
 ```
@@ -115,7 +115,7 @@ QEMU kan emulera olika maskintyper (chipset, BIOS/UEFI-stöd).
 qemu-system-x86_64 \
   -enable-kvm \
   -machine q35 \
-  -m 2048 \
+  -m 5000 \
   -drive file=ubuntu.qcow2,format=qcow2
 ```
 
@@ -163,7 +163,7 @@ När en VM körs kan du öppna QEMUs monitor (kommandogränssnitt) för att påv
     ```bash
     qemu-system-x86_64 \
       -enable-kvm \
-      -m 2048 \
+      -m 5000 \
       -smp 2 \
       -drive file=ubuntu.qcow2,format=qcow2 \
       -monitor stdio
@@ -174,7 +174,9 @@ När en VM körs kan du öppna QEMUs monitor (kommandogränssnitt) för att påv
   - **info network**: visar nätverkskort.
   - **device_add/device_del**: lägg till eller ta bort virtuella enheter dynamiskt.
   - **change**: byt CD/DVD-avbild under körning.
-  - **savevm / loadvm**: spara eller ladda snapshots.
+  - **eject ide1-cd0**: ta ut CD/DVD-avbilden under körning (eller `info block` för att se om den heter något annat än `ide1-cd0`).
+  - **boot_set c**: Boota från hårddisken (används ofta tillsammans med `eject` efter färdig installation).
+  - **savevm / info snapshots / loadvm / delvm**: hantera snapshots.
   - **quit**: stäng av VM.
 
 **Frågor och svar**:
@@ -195,7 +197,7 @@ För att använda QMP startar du QEMU med en socket för maskinprotokollet.
 ```bash
 qemu-system-x86_64 \
   -enable-kvm \
-  -m 2048 \
+  -m 5000 \
   -smp 2 \
   -drive file=ubuntu.qcow2,format=qcow2 \
   -qmp unix:/tmp/qmp-sock,server,nowait
@@ -218,7 +220,7 @@ Starta en VM utan nätverk:
 ```bash
 qemu-system-x86_64 \
   -enable-kvm \
-  -m 1024 \
+  -m 5000 \
   -drive file=ubuntu.qcow2,format=qcow2 \
   -net none
 ```
@@ -233,7 +235,7 @@ qemu-system-x86_64 \
 ```
 
 ```plaintext
-[Virtuell maskin]   X   [Nätverk]
+[Virtuell maskin]-   X   -[Nätverk]
 ```
 
 ## Port forward till värden
@@ -243,7 +245,7 @@ Skapa en VM med användarnätverk och vidarebefordra portar:
 ```bash
 qemu-system-x86_64 \
   -enable-kvm \
-  -m 1024 \
+  -m 5000 \
   -drive file=ubuntu.qcow2,format=qcow2 \
   -net user,hostfwd=tcp::2222-:22 \
   -net nic
@@ -256,7 +258,7 @@ qemu-system-x86_64 \
 Internet
    |
 [Värd]  <—— ssh tcp/2222 ——  (NAT & portfwd)
-   |                          \
+   |                                   \
  [ VM ] 22/tcp  <——————— forwarded ————/
 ```
 
@@ -277,7 +279,7 @@ sudo ip link set br0 up
 
 qemu-system-x86_64 \
   -enable-kvm \
-  -m 1024 \
+  -m 5000 \
   -drive file=ubuntu.qcow2,format=qcow2 \
   -netdev tap,id=mynet0,ifname=tap0,script=no,downscript=no \
   -device e1000,netdev=mynet0
@@ -296,8 +298,8 @@ Internet/LAN
           [br0]
            / \
        [tap0] [eth0]
-          |
-        [ VM ]  (får IP från LAN/DHCP)
+         |
+      [ VM ]  (får IP från LAN/DHCP)
 ```
 
 ```plaintext
@@ -314,7 +316,7 @@ sudo ip link set virbr1 up
 
 qemu-system-x86_64 \
   -enable-kvm \
-  -m 1024 \
+  -m 5000 \
   -drive file=ubuntu.qcow2,format=qcow2 \
   -netdev bridge,id=mynet0,br=virbr1 \
   -device virtio-net-pci,netdev=mynet0
@@ -329,7 +331,7 @@ qemu-system-x86_64 \
           [virbr1]   (ingen route/NAT mot LAN)
            /    \
         [VM1]  [VM2]
-       10.10.0.2 10.10.0.3  (kan prata inom segmentet)
+  10.10.0.2      10.10.0.3  (kan prata inom segmentet)
 ```
 
 ```plaintext
