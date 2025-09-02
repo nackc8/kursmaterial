@@ -416,7 +416,6 @@ sudo dnsmasq --interface=virbr1 --bind-interfaces \
 - Låt dnsmasq dela ut adresser mellan `10.10.0.2` och `10.10.0.254`.
 - När du startar en VM på `virbr1` får den automatiskt en adress via DHCP.
 
-
 ## Skapa snapshots
 
 Skapa snapshot medan VM är igång (inkluderar RAM och runtime-tillstånd = online snapshot):
