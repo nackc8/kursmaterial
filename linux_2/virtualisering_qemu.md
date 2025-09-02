@@ -457,12 +457,12 @@ qemu-img snapshot -c snap1 ubuntu.qcow2
   ```bash
   qemu-system-x86_64 \
     -enable-kvm \
-    -bios /usr/share/OVMF/OVMF_CODE.fd \
+    -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd \
     -drive if=pflash,format=raw,file=OVMF_VARS.fd \
     -drive file=ubuntu.qcow2,format=qcow2
   ```
 
-- **NVRAM-fil (OVMF\_VARS.fd)**: lagrar UEFI-inställningar.
+- **NVRAM-fil (OVMF\_VARS_4M.fd)**: lagrar UEFI-inställningar.
 
   - När du tar snapshots måste du även spara/kopiera denna fil om du vill behålla UEFI-inställningarna.
   - Snapshots via `qemu-img` påverkar inte automatiskt NVRAM-filen.
@@ -499,8 +499,8 @@ qemu-img snapshot -c snap1 ubuntu.qcow2
     -m 4096 \
     -cpu host \
     -smp 4 \
-    -bios /usr/share/OVMF/OVMF_CODE.fd \
-    -drive if=pflash,format=raw,file=OVMF_VARS.fd \
+    -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd \
+    -drive if=pflash,format=raw,file=OVMF_VARS_4M.fd \
     -drive file=win11.qcow2,format=qcow2 \
     -cdrom Win11_Enterprise_Eval.iso \
     -chardev socket,id=chrtpm,path=/tmp/mytpm/swtpm-sock \
