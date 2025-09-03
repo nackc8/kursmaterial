@@ -364,57 +364,89 @@ Observera att `ip link`-kommandon bara gäller tills nästa omstart. Om du vill 
 
 ## Isolerat nätverk (likt Docker)
 
-Skapa en virtuell brygga och anslut dina VMs till den:
+Skapa en virtuell brygga och anslut två virtuella nätverksinterface (`tap0` och `tap1`) till den. Både bryggan och nätverksinterfacen måste sättas till status `UP`. Det användarkonto som kör de virtuella maskinerna måste också ha rätt att använda nätverksinterfacen:
 
 ```bash
-sudo ip link add virbr1 type bridge
-sudo ip link set virbr1 up
+sudo ip link add ustwo_bridge type bridge
+sudo ip link set ustwo_bridge up
+
+sudo ip tuntap add dev tap0 mode tap user "$USER"
+sudo ip link set tap0 up
+sudo ip link set tap0 master ustwo_bridge
+
+sudo ip tuntap add dev tap1 mode tap user "$USER"
+sudo ip link set tap1 up
+sudo ip link set tap1 master ustwo_bridge
+```
+
+Därefter startar vi två virtuella maskiner, var och en med en egen hårddisk. Observera att hårddiskarna behöver skapas i förväg och installeras med ett operativsystem, vilket inte ingår i exemplet. Maskinerna kopplas till var sitt nätverksinterface med unika MAC-adresser och kan nås via både VNC och SPICE:
+
+```bash
+qemu-system-x86_64 \
+  -enable-kvm \
+  -m 2000 \
+  -smp 2 \
+  -drive file=ubuntu1.qcow2,format=qcow2 \
+  -vnc :0 \
+  -spice port=44400,disable-ticketing=on \
+  -netdev tap,id=mynet0,ifname=tap0,script=no,downscript=no \
+  -device virtio-net-pci,netdev=mynet0,mac=52:54:00:12:34:56 &
 
 qemu-system-x86_64 \
   -enable-kvm \
-  -m 5000 \
-  -drive file=ubuntu.qcow2,format=qcow2 \
-  -netdev bridge,id=mynet0,br=virbr1 \
-  -device virtio-net-pci,netdev=mynet0
+  -m 2000 \
+  -smp 2 \
+  -drive file=ubuntu2.qcow2,format=qcow2 \
+  -vnc :1 \
+  -spice port=44401,disable-ticketing=on \
+  -netdev tap,id=mynet0,ifname=tap1,script=no,downscript=no \
+  -device virtio-net-pci,netdev=mynet0,mac=52:54:00:12:34:57 &
 ```
 
-- **virbr1**: en ny brygga som är helt isolerad från värdens LAN.
-- VMs som du ansluter till samma brygga kan prata med varandra, men de når inte LAN eller internet utan att du sätter upp routing eller NAT.
+### Nätverksöversikt
+
+- **ustwo\_bridge**: En brygga som är helt isolerad från värddatorns LAN.
+- Virtuella maskiner anslutna till samma brygga kan kommunicera med varandra, men har ingen åtkomst till LAN eller internet utan att routing eller NAT konfigureras.
 
 ```plaintext
-           [värd]
-             |
-          [virbr1]   (ingen route/NAT mot LAN)
-           /    \
-        [VM1]  [VM2]
+           [värddator]
+               |
+        [ustwo_bridge]   (ingen route/NAT mot LAN)
+           /       \
+        [VM1]     [VM2]
 ```
 
 ```plaintext
-[VM1] <--> [virbr1] <--> [VM2]
+[VM1] <--> [ustwo_bridge] <--> [VM2]
 ```
 
-### Statisk IP
+### Statisk IP-adress
 
-Ge varje VM en fast IP-adress i samma nät:
+Tilldela varje virtuell maskin en statisk IP-adress inifrån respektive system:
 
-- Tilldela `10.10.0.2/24` till VM1.
-- Tilldela `10.10.0.3/24` till VM2.
+- ubuntu1: `sudo ip addr add 192.168.10.10/24 dev ustwo_bridge`
+- ubuntu2: `sudo ip addr add 192.168.10.20/24 dev ustwo_bridge`
 
-Hoppa över gateway, eftersom nätet bara är internt.
+Hoppa över att ange gateway, eftersom nätverket är helt internt. Testa sedan anslutningen med `ping` mellan maskinerna.
 
-### DHCP via dnsmasq
+### DHCP med `dnsmasq`
 
-Starta en enkel DHCP-server på värden för att dela ut adresser automatiskt:
+Alternativt kan du konfigurera en enkel DHCP-server på värddatorn med `dnsmasq`.
+
+1. Tilldela värden IP-adressen `10.10.0.1` i det isolerade nätverket:
 
 ```bash
-sudo ip addr add 10.10.0.1/24 dev virbr1
-sudo dnsmasq --interface=virbr1 --bind-interfaces \
+sudo ip addr add 10.10.0.1/24 dev ustwo_bridge
+```
+
+2. Starta sedan DHCP-servern:
+
+```bash
+sudo dnsmasq --interface=ustwo_bridge --bind-interfaces \
   --dhcp-range=10.10.0.2,10.10.0.254,255.255.255.0,12h
 ```
 
-- Tilldela värden adressen `10.10.0.1` i det isolerade nätet.
-- Låt dnsmasq dela ut adresser mellan `10.10.0.2` och `10.10.0.254`.
-- När du startar en VM på `virbr1` får den automatiskt en adress via DHCP.
+Virtuella maskiner som ansluts till `ustwo_bridge` får då automatiskt en IP-adress tilldelad via DHCP.
 
 ## Skapa snapshots
 
