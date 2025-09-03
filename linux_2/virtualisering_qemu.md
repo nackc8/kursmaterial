@@ -79,10 +79,10 @@ qemu-system-x86_64 \
   -drive file=ubuntu.qcow2,format=qcow2 \
   -cdrom ubuntu-24.04.3-live-server-amd64.iso \
   -boot d \
-  -spice port=5901,disable-ticketing=on
+  -spice port=44400,disable-ticketing=on
 ```
 
-- **Anslut med**: `remote-viewer spice://127.0.0.1:5901`
+- **Anslut med**: `remote-viewer spice://127.0.0.1:44400`
 - **disable-ticketing=on**: betyder att ingen autentisering krävs för SPICE-anslutningen (endast för test, inte säkert i produktion).
 - **Installera en SPICE-klient**:
   - Linux: `sudo apt install virt-viewer`
@@ -506,7 +506,7 @@ qemu-img snapshot -c snap1 ubuntu.qcow2
     -chardev socket,id=chrtpm,path=/tmp/mytpm/swtpm-sock \
     -tpmdev emulator,id=tpm0,chardev=chrtpm \
     -device tpm-tis,tpmdev=tpm0 \
-    -spice port=5902,disable-ticketing=on
+    -spice port=44400,disable-ticketing=on
   ```
 
 - **Snapshots**: kräver att du hanterar både `win11.qcow2`, `OVMF_VARS.fd` och TPM-state-mappen om du vill återställa till exakt samma tillstånd.
