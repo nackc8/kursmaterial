@@ -208,7 +208,7 @@ qemu-system-x86_64 \
 - Exempel: skicka följande JSON till QMP-socketen för att visa VM:ens status:
 
 ```bash
-echo '{"execute": "query-status"}' | socat - UNIX-CONNECT:/tmp/qmp-sock
+echo '{"execute": "qmp_capabilities"}{"execute": "query-block"}' | socat - UNIX-CONNECT:/tmp/qmp-sock
 ```
 
 QMP används oftast av verktyg och bibliotek, inte direkt av människor.
