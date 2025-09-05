@@ -238,7 +238,7 @@ qemu-system-x86_64 \
 [Virtuell maskin]-   X   -[Nätverk]
 ```
 
-## Port forward till värden
+## Port forward från värden till gästen
 
 Skapa en VM med användarnätverk och vidarebefordra portar:
 
@@ -271,13 +271,13 @@ Internet
 **Bakgrund för nybörjare:**
 
 - **TUN** och **TAP** är virtuella nätverkskort som skapas i mjukvara. TUN jobbar med IP-paket (ungefär som en router gör), medan TAP jobbar med hela Ethernet-ramar (som en nätverkskabel eller switch gör).
-- **Bridge** fungerar som en mjukvaruswitch i Linux. Den kopplar ihop flera nätverkskort så att de hamnar i samma nät. Man kan se det som att flera kort sammanfogas till ett gemensamt logiskt kort.
+- **Bridge** fungerar som en mjukvaruswitch i Linux. Den kopplar ihop flera nätverkskort så att de hamnar i samma nät. Man kan se det som att flera kort sammanfogas till ett gemensamt logiskt kort. En skillnad mot en typisk switch är att den kan ges ett IP-nummer, vilket typiskt är IP-numret som värddatorn använder för att ansluta via bryggan.
 
 Genom att kombinera en TAP-enhet och en bridge kan en virtuell maskin kopplas in i samma nät som värden, få en egen IP-adress (via DHCP eller statiskt) och prata med andra datorer precis som om den var inkopplad i ett riktigt nätverk.
 
 ### Exempel: skapa TAP och bridge
 
-I det här exemplet gör vi ändringar i nätverket som bara gäller i RAM. Det innebär att en omstart återställer datorn till sitt vanliga läge. De tre första raderna installerar en extern DHCP-klient och stänger av tjänsten NetworkManager, som annars hanterar nätverksinställningarna. Detta behövs för att br0 ska kunna få en IP-adress via DHCP och för att NetworkManager inte ska skriva över konfigurationen under testet.
+I det här exemplet gör vi ändringar i nätverket som bara gäller i RAM. Det innebär att en omstart återställer datorn till sitt vanliga läge. De fyra första raderna installerar en extern DHCP-klient (men väljer att inte ha dess service aktiv) och stänger av tjänsten NetworkManager, som annars hanterar nätverksinställningarna. Detta behövs för att br0 ska kunna få en IP-adress via DHCP och för att NetworkManager inte ska skriva över konfigurationen under testet.
 
 Byt `eth0` nedan mot ditt faktiska nätverkskort. Ett enkelt sätt att hitta rätt är att köra `ip address` och se vilket kort som har din dators nuvarande IP-adress.
 
@@ -285,6 +285,7 @@ Byt `eth0` nedan mot ditt faktiska nätverkskort. Ett enkelt sätt att hitta rä
 
 sudo apt update
 sudo apt install dhcpcd5
+sudo systemctl disable --now dhcpcd.service
 sudo systemctl stop NetworkManager
 sudo ip tuntap add dev tap0 mode tap user "$USER"
 sudo ip link set tap0 up
@@ -390,7 +391,8 @@ qemu-system-x86_64 \
   -vnc :0 \
   -spice port=44400,disable-ticketing=on \
   -netdev tap,id=mynet0,ifname=tap0,script=no,downscript=no \
-  -device virtio-net-pci,netdev=mynet0,mac=52:54:00:12:34:56 &
+  -device virtio-net-pci,netdev=mynet0,mac=52:54:00:12:34:56 \
+  -daemonize
 
 qemu-system-x86_64 \
   -enable-kvm \
@@ -400,7 +402,8 @@ qemu-system-x86_64 \
   -vnc :1 \
   -spice port=44401,disable-ticketing=on \
   -netdev tap,id=mynet0,ifname=tap1,script=no,downscript=no \
-  -device virtio-net-pci,netdev=mynet0,mac=52:54:00:12:34:57 &
+  -device virtio-net-pci,netdev=mynet0,mac=52:54:00:12:34:57 \
+  -daemonize
 ```
 
 ### Nätverksöversikt
@@ -424,10 +427,10 @@ qemu-system-x86_64 \
 
 Tilldela varje virtuell maskin en statisk IP-adress inifrån respektive system:
 
-- ubuntu1: `sudo ip addr add 192.168.10.10/24 dev ustwo_bridge`
-- ubuntu2: `sudo ip addr add 192.168.10.20/24 dev ustwo_bridge`
+- ubuntu1: `sudo ip addr add 192.168.10.10/24 dev ens3`
+- ubuntu2: `sudo ip addr add 192.168.10.20/24 dev ens3`
 
-Hoppa över att ange gateway, eftersom nätverket är helt internt. Testa sedan anslutningen med `ping` mellan maskinerna.
+Nätverksgränssnittets namn kan variera och behöver inte vara `ens3`. Hoppa över att ange gateway, eftersom nätverket är helt internt. Testa sedan anslutningen med `ping` mellan maskinerna.
 
 ### DHCP med `dnsmasq`
 
@@ -484,15 +487,20 @@ qemu-img snapshot -c snap1 ubuntu.qcow2
 
 ## UEFI och NVRAM
 
-- **UEFI**: använd `OVMF` (Open Virtual Machine Firmware) istället för BIOS.
+- **UEFI**: använd `OVMF` (Open Virtual Machine Firmware) istället för BIOS. Installera paketet `ovmf` om du inte redan har det.
 
-  ```bash
-  qemu-system-x86_64 \
-    -enable-kvm \
-    -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd \
-    -drive if=pflash,format=raw,file=OVMF_VARS.fd \
-    -drive file=ubuntu.qcow2,format=qcow2
-  ```
+```bash
+qemu-system-x86_64 \
+  -enable-kvm \
+  -m 3000 \
+  -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd \
+  -drive if=pflash,format=raw,file=Rocky10_UEFI_OVMF_VARS.fd \
+  -drive file="Rocky10_UEFI.qcow2",format=qcow2 \
+  -cdrom ~/Downloads/Rocky-10.0-x86_64-minimal.iso \
+  -boot d \
+  -netdev user,id=mynet0 \
+  -device e1000,netdev=mynet0
+```
 
 - **NVRAM-fil (OVMF\_VARS_4M.fd)**: lagrar UEFI-inställningar.
 
@@ -501,22 +509,29 @@ qemu-img snapshot -c snap1 ubuntu.qcow2
 
 ## TPM (Trusted Platform Module)
 
-- TPM kan emuleras i QEMU via `swtpm`.
+- TPM kan emuleras i QEMU via `swtpm` (`sudo apt install swtpm`)
 - Exempel:
 
   ```bash
-  swtpm socket --tpm2 --tpmstate dir=/tmp/mytpm --ctrl type=unixio,path=/tmp/mytpm/swtpm-sock &
+  mkdir ubuntutpm
+  swtpm socket --tpm2 --tpmstate dir=./ubuntutpm --ctrl type=unixio,path=./ubuntutpm/swtpm-sock &
 
   qemu-system-x86_64 \
     -enable-kvm \
     -m 2048 \
-    -drive file=ubuntu.qcow2,format=qcow2 \
-    -chardev socket,id=chrtpm,path=/tmp/mytpm/swtpm-sock \
+    -drive file=ubuntu1.qcow2,format=qcow2 \
+    -chardev socket,id=chrtpm,path=./ubuntutpm/swtpm-sock \
     -tpmdev emulator,id=tpm0,chardev=chrtpm \
     -device tpm-tis,tpmdev=tpm0
   ```
 
-- **Notera**: TPM-state lagras i en separat katalog (här `/tmp/mytpm`). Om du tar snapshots måste du även spara denna katalog för att få en komplett återställning.
+Undersök sedan inne i VMen att TPM finns, vilket det gör om någon `/dev/tpm*` existerar:
+
+```bash
+ls /dev/tpm*
+```
+
+- **Notera**: TPM-state lagras i en separat katalog (här `/.ubuntutpm/mytpm`). Om du tar snapshots måste du även spara denna katalog för att få en komplett återställning.
 
 ## UEFI + TPM för Windows 11
 
