@@ -498,12 +498,11 @@ qemu-system-x86_64 \
   -drive file="Rocky10_UEFI.qcow2",format=qcow2 \
   -cdrom ~/Downloads/Rocky-10.0-x86_64-minimal.iso \
   -boot d \
-  -netdev user,id=mynet0 \
-  -device e1000,netdev=mynet0
 ```
 
-- **NVRAM-fil (OVMF\_VARS_4M.fd)**: lagrar UEFI-inställningar.
+- **NVRAM-fil**: lagrar UEFI-inställningar.
 
+  - Kopiera mallfilen `/usr/share/OVMF/OVMF_VARS_4M.fd` till `Rocky10_UEFI_OVMF_VARS.fd`. Kopian kommer att agera lagringsutrymme för UEFI-inställningar som boot-ordning med mera. Det är viktigt att skriva till en kopia och inte till mallfilen.
   - När du tar snapshots måste du även spara/kopiera denna fil om du vill behålla UEFI-inställningarna.
   - Snapshots via `qemu-img` påverkar inte automatiskt NVRAM-filen.
 
@@ -539,21 +538,22 @@ ls /dev/tpm*
 - Exempel (Windows 11 Enterprise Evaluation):
 
   ```bash
-  swtpm socket --tpm2 --tpmstate dir=/tmp/mytpm --ctrl type=unixio,path=/tmp/mytpm/swtpm-sock &
+  mkdir win11tpm
+  swtpm socket --tpm2 --tpmstate dir=./win11tpm --ctrl type=unixio,path=./win11tpm/swtpm-sock &
 
   qemu-system-x86_64 \
     -enable-kvm \
-    -m 4096 \
+    -m 6000 \
     -cpu host \
-    -smp 4 \
-    -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd \
-    -drive if=pflash,format=raw,file=OVMF_VARS_4M.fd \
-    -drive file=win11.qcow2,format=qcow2 \
-    -cdrom Win11_Enterprise_Eval.iso \
-    -chardev socket,id=chrtpm,path=/tmp/mytpm/swtpm-sock \
+    -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.ms.fd \
+    -drive if=pflash,format=raw,file=Win11_OVMF_VARS_4M.ms.fd \
+    -drive file=Win11.qcow2,format=qcow2 \
+    -cdrom Windows11_Ent_Eval.iso \
+    -chardev socket,id=chrtpm,path=./win11tpm/swtpm-sock \
     -tpmdev emulator,id=tpm0,chardev=chrtpm \
-    -device tpm-tis,tpmdev=tpm0 \
+    -device tpm-tis,tpmdev=tpm0
     -spice port=44400,disable-ticketing=on
   ```
 
-- **Snapshots**: kräver att du hanterar både `win11.qcow2`, `OVMF_VARS.fd` och TPM-state-mappen om du vill återställa till exakt samma tillstånd.
+- **Secure boot**: kräver att du använder de OVMF-diskbilder som slutar med `.ms.fd`. Det krävs då dessa är förberedda med Microsofts signaturfiler, vilka i princip alla moderkort "litar på" (de ligger inlagda som signaturer att lita på) från början.
+- **Snapshots**: kräver att du hanterar både `Win11.qcow2`, `Win11_OVMF_VARS_4M.ms.fd` och TPM-state-mappen `./win11tpm` om du vill återställa till exakt samma tillstånd.
