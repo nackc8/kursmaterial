@@ -11,14 +11,16 @@ Libvirt är ett programvaruramverk som används för att hantera olika virtualis
 ### Teknisk översikt över Libvirt
 
 - Begreppet "domän" används som en generell abstraktion för virtuella instanser, oavsett vilken teknik som ligger bakom. Det gör det möjligt att använda samma modell oavsett hypervisor.
-- Libvirt tillhandahåller en bakgrundstjänst, vanligtvis kallad `libvirtd` (eller `virtqemud` i nyare system), som sköter kommunikation med hypervisorn. Tjänsten ansvarar bland annat för att starta VM:ar automatiskt om de är markerade för det.
+- Libvirt tillhandahåller en bakgrundstjänst, vanligtvis kallad `libvirtd` (eller `virtqemud` i nyare system), som sköter kommunikation med hypervisorn. Tjänsten ansvarar bland annat för att starta VM\:ar automatiskt om de är markerade för det.
 - Kommandoverktyg som används med libvirt är bland annat `virsh`, `virt-install`, `virt-clone` och `virt-log`.
-- Det finns även grafiska verktyg som `virt-manager` och `virt-viewer` som gör det lättare att hantera virtuella maskiner visuellt.
+- Det finns även grafiska verktyg som `virt-manager` och `virt-viewer`.
 - Varje virtuell maskin beskrivs i en XML-fil, vilket gör det enkelt att automatisera, spara och återanvända konfigurationer.
+
+⚠️ **Notera:** Libvirt är inte en hypervisor i sig utan ett abstraktionslager. Funktionalitet beror på vilken backend som används (t.ex. KVM eller Xen).
 
 ### System- och användarläge i Libvirt
 
-Libvirt kan köras i två olika lägen: systemläge och användarläge. Dessa avgör var dina virtuella maskiner lagras, vilka rättigheter som krävs och hur VM:arna startas.
+Libvirt kan köras i två olika lägen: systemläge och användarläge.
 
 #### Systemläge (`qemu:///system`)
 
@@ -26,7 +28,7 @@ Libvirt kan köras i två olika lägen: systemläge och användarläge. Dessa av
 
 - Full tillgång till systemresurser.
 - Möjlighet att använda avancerade nätverkslägen (t.ex. bridges).
-- VM:ar kan autostartas och köras oberoende av inloggning.
+- VM\:ar kan autostartas och köras oberoende av inloggning.
 - Centraliserad hantering för alla användare.
 
 **Nackdelar:**
@@ -36,41 +38,30 @@ Libvirt kan köras i två olika lägen: systemläge och användarläge. Dessa av
 
 > Systemläget är standardval i produktion och för maskiner som behöver vara tillgängliga kontinuerligt.
 
-- VM:ar hanteras som systemresurser.
-- Kräver root-behörighet (eller att du tillhör gruppen `libvirt`).
 - Konfigurationer lagras i `/etc/libvirt/`.
-- VM:ar kan startas automatiskt vid systemstart.
-- Används ofta i produktion, servermiljöer och molninfrastruktur.
+- VM\:ar kan startas automatiskt vid systemstart.
 
 #### Användarläge (`qemu:///session`)
 
 **Fördelar:**
 
 - Kräver inte root- eller sudo-behörighet.
-- Isolerad till användarens egen miljö, vilket minskar risker vid test.
+- Isolerad till användarens egen miljö.
 - Fungerar utan systemtjänster (t.ex. i sandboxade miljöer).
 
 **Nackdelar:**
 
-- VM:ar kan inte startas automatiskt vid systemstart.
-- Begränsad åtkomst till vissa systemresurser (exempelvis bridgat nätverk).
-- Varje användare har sin egen uppsättning VM:ar.
+- VM\:ar kan inte startas automatiskt vid systemstart.
+- Begränsad åtkomst till resurser (t.ex. inga bridgade nät utan extra arbete).
+- Varje användare har sin egen uppsättning VM\:ar.
 
-> Användarläget fungerar oftast bäst för utveckling, tester eller lokala labb där du vill undvika rootbehörighet.
+> Användarläget fungerar bäst för utveckling, tester eller lokala labb. Inom kursen kommer vi endast att använda systemläget.
 
-- VM:ar körs under den inloggade användarens session.
-- Kräver inga root-rättigheter.
 - Konfigurationer lagras i `~/.config/libvirt/`.
-- VM:ar startas och stoppas bara när användaren är inloggad.
-- Används ofta för test och utveckling.
-
-I `virt-manager` kan du välja mellan dessa när du ansluter till libvirt. Systemläge är standard i de flesta fall.
 
 ## Installation och uppsättning
 
 ### Kontrollera CPU-stöd för virtualisering
-
-Om du inte redan har installerat QEMU/KVM:
 
 ```bash
 egrep -c '(vmx|svm)' /proc/cpuinfo
@@ -88,12 +79,18 @@ sudo usermod -aG kvm $USER
 
 ### Installera Libvirt
 
-Följande förutsätter att QEMU/KVM redan är installerat och att du tillhör gruppen `kvm`. Vi installerar de paket från libvirt som vi behöver, lägger in ditt konto i gruppen libvirt och ställer in Bash att exportera variabeln`LIBVIRT_DEFAULT_URI` med ett innehåll som betyder att vi använder systemläge som standard.
+Kommandoraderna nedan gör följande:
+
+- `sudo apt install ...` installerar libvirt och tillhörande verktyg.
+- `usermod -aG libvirt $USER` lägger till användaren i gruppen `libvirt` så att du kan köra libvirt utan root.
+- `systemctl enable --now libvirtd` startar och aktiverar libvirt-tjänsten.
+- `echo 'export LIBVIRT_DEFAULT_URI=...' >> ~/.bashrc` gör att systemläge (`qemu:///system`) används som standard. Om du föredrar ett annat skal än Bash är det bra om du gör motsvarande inställning i dess uppstartsfiler.
 
 ```bash
-sudo apt install -- virt-manager virtinst libvirt-daemon-system libvirt-clients bridge-utils virt-viewer
+sudo apt install virt-manager virtinst libvirt-daemon-system libvirt-clients bridge-utils virt-viewer
 sudo usermod -aG libvirt $USER
 sudo systemctl enable --now libvirtd
+
 echo 'export LIBVIRT_DEFAULT_URI="qemu:///system"' >> ~/.bashrc
 ```
 
@@ -115,132 +112,175 @@ virsh list --all
 
 ## De viktigaste verktygen
 
-De tre viktigaste verktygen i Libvirt är `virsh`, `virt-install` och `virt-manager`.
+- **virsh**: CLI för att styra domäner, nätverk, lagring, snapshots.
+- **virt-install**: skapa nya VM\:ar från kommandoraden.
+- **virt-manager**: GUI för enklare hantering.
 
-### Vad är virsh?
-
-Virsh är ett terminalprogram för att styra libvirt. Det ger tillgång till att skapa, starta, stänga av och konfigurera VM:ar.
-
-- `virsh list`, `virsh start`, `virsh shutdown`.
-- `virsh edit` för att ändra XML direkt.
-- Stöd för snapshots, nätverk, lagring m.m.
-
-### Vad är `virt-install`?
-
-`virt-install` används för att skapa nya VM:ar från kommandoraden.
-
-- Kan skapa och ansluta diskar, ISO-filer.
-- Kan specificera RAM, CPU, nätverk, grafik.
-- Går att använda i script.
-
-### Vad är virt-manager?
-
-Virt-manager är ett GUI för att hantera libvirt. Det ger en grafisk överblick och kan användas för:
-
-- Att skapa VM:ar via guider.
-- Visa resurser och status.
-- Ansluta till konsol (VNC eller SPICE).
+⚠️ **Begränsning:** Vissa funktioner (t.ex. passt-nätverk) är ännu inte helt integrerade i virt-install och/eller virt-manager och måste anges manuellt i XML.
 
 ## Diskhantering
 
 - Diskar skapas som `.qcow2` eller `.raw`.
-- Kan skapas med `qemu-img` (se materialet om QEMU/KVM) eller via `virt-install` (beskrivs nedan).
-- Diskar kopplas till VM via XML eller `virt-install`-flaggor.
+- Kan skapas med `qemu-img` eller via `virt-install`.
+- Diskar kopplas till VM via virt-manager, XML eller `virt-install`-flaggor.
+
+**Exempel på att skapa en qcow2-disk på 30 GB:**
+
+```bash
+qemu-img create -f qcow2 /var/lib/libvirt/images/min-disk.qcow2 30G
+```
 
 ## Skapa en domän
 
-Här visas hur man skapar en ny virtuell maskin (domän) med Libvirt, med 5000 MB RAM, SPICE-grafik och standardnätverket.
+Tre alternativ:
 
-### Med virt-manager
+- **virt-manager**: GUI, bra för nybörjare.
+  **Instruktion:** Starta virt-manager → Skapa VM via guiden. Du kan välja ISO, diskstorlek och nätverk.
+  **Fördelar:** Enkel att använda, bra överblick.
+  **Nackdelar:** Mindre flexibel, begränsat för avancerade funktioner.
 
-`virt-manager` har konceptet "storage pools", vilket är platser där lagringsmedia som hårddiskar och iso-filer lagras.
+- **virt-install**: CLI, bra för automation.
+  **Exempel:**
 
-Standardplatsen är `/var/lib/libvirt/images` och det enklaste sättet att använda virt-manager är att kopiera dit de iso-filer som behövs med `sudo cp miniso.iso /var/lib/libvirt/images/`.
+  ```bash
+  virt-install \
+    --name test-vm \
+    --memory 2048 --vcpus 2 \
+    --disk size=30,format=qcow2 \
+    --cdrom /path/to/installer.iso \
+    --network network=default,model=virtio \
+    --graphics spice
+  ```
 
-Ett sätt att förenkla hanteringen i en labbmiljö är att ge din användare rättigheterer till poolen (gör inte det i produktion):
+  **Fördelar:** Scriptbart, snabbt, bra i servermiljö.
+  **Nackdelar:** Kräver att du kan flaggorna, inte lika intuitivt som GUI.
 
-```bash
-sudo setfacl -m $USER:rwx /var/lib/libvirt/images/
-sudo setfacl -d -m $USER:rwx /var/lib/libvirt/images/
-```
+- **XML + virsh**: full kontroll, men mer komplext.
+  **Instruktion:** Skapa en XML-fil med domänbeskrivningen och definiera den:
 
-1. Starta `virt-manager`.
-2. Klicka på "Skapa en ny virtuell maskin".
-3. Välj installationskälla (t.ex. ISO-fil).
-4. Välj RAM: 5000 MB och minst 2 CPU:er.
-5. Skapa en disk (t.ex. 70 GB qcow2).
-6. Välj nätverk: standard (`default`).
-7. Under "Slutför", klicka på "Anpassa innan installation" och välj SPICE som grafik.
-8. Starta installationen.
+  ```bash
+  virsh define vm.xml
+  virsh start vm
+  ```
 
-### Med virt-install
+  **Minimal fungerande XML-exempel:**
 
-```bash
-virt-install \
-  --name ubuntu-server \
-  --memory 2500 \
-  --vcpus 2 \
-  --disk size=70,path=/var/lib/libvirt/images/ubuntu-server.qcow2,format=qcow2 \
-  --cdrom /path/to/ubuntu.iso \
-  --network network=default,model=virtio \
-  --graphics spice \
-  --os-variant ubuntu22.04
-```
+  ```xml
+  <domain type='kvm'>
+    <name>minimal-vm</name>
+    <memory unit='MiB'>1024</memory>
+    <vcpu>1</vcpu>
+    <os>
+      <type arch='x86_64'>hvm</type>
+      <boot dev='hd'/>
+    </os>
+    <devices>
+      <disk type='file' device='disk'>
+        <driver name='qemu' type='qcow2'/>
+        <source file='/var/lib/libvirt/images/minimal.qcow2'/>
+        <target dev='vda' bus='virtio'/>
+      </disk>
+      <interface type='network'>
+        <source network='default'/>
+      </interface>
+      <graphics type='spice' autoport='yes'/>
+    </devices>
+  </domain>
+  ```
 
-VM:en startas direkt efter skapande.
+  Dokumentation över XML-syntaxen finns på: [https://libvirt.org/formatdomain.html](https://libvirt.org/formatdomain.html)
 
-### Med virsh och XML
+  **Tips för VSCode (validering & autocompletion):**
 
-> **Observera:** Diskfilen måste ha skapats innan du använder XML:en. Använd till exempel `qemu-img create -f qcow2 /var/lib/libvirt/images/ubuntu.qcow2 70G`. Du behöver även starta från en iso, i varje fall första gången, för att kunna installera ett operativsystem.
+1. Installera tillägget **XML (Red Hat)** i VSCode.
+2. Använd libvirt\:s **RELAX NG (RNG)**-scheman för validering (libvirt använder RNG, inte XSD):
 
-Skapa en XML-fil, t.ex. `ubuntu-vm.xml`:
+   - Exempel för en domän-XML:
 
 ```xml
+<?xml version="1.0"?>
+<?xml-model href="https://libvirt.org/schemas/domain.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <domain type='kvm'>
-  <name>ubuntu-vm</name>
-  <memory unit='MiB'>5000</memory>
-  <vcpu placement='static'>2</vcpu>
-  <os>
-    <type arch='x86_64'>hvm</type>
-    <boot dev='hd'/>
-  </os>
-  <devices>
-    <disk type='file' device='disk'>
-      <driver name='qemu' type='qcow2'/>
-      <source file='/var/lib/libvirt/images/ubuntu.qcow2'/>
-      <target dev='vda' bus='virtio'/>
-    </disk>
-    <interface type='network'>
-      <source network='default'/>
-      <model type='virtio'/>
-    </interface>
-    <graphics type='spice' autoport='yes'/>
-  </devices>
+  ...
 </domain>
 ```
 
-Skapa och starta VM:
+Detta aktiverar validering & förslag direkt i editorn.
 
-```bash
-virsh define ubuntu-vm.xml
-virsh start ubuntu-vm
+3. Alternativ via VSCode-inställning (Settings → sök: *xml fileAssociations* → **Open Settings (JSON)**):
+
+```json
+"xml.fileAssociations": [
+  {
+    "pattern": "**/vm*.xml",
+    "systemId": "https://libvirt.org/schemas/domain.rng"
+  }
+]
 ```
+
+4. **Var hittar jag scheman?** Online finns de på libvirt\:s *schemas*-sida, till exempel:
+
+- [https://libvirt.org/schemas/domain.rng](https://libvirt.org/schemas/domain.rng)
+- [https://libvirt.org/schemas/network.rng](https://libvirt.org/schemas/network.rng)
+- [https://libvirt.org/schemas/storagepool.rng](https://libvirt.org/schemas/storagepool.rng)
+- Exempel för nätverk (`network.rng`):
+
+  ```xml
+  <?xml-model href="https://libvirt.org/schemas/network.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+  <network>
+    ...
+  </network>
+  ```
+
+  - Exempel för storagepool (`storagepool.rng`):
+
+  ```xml
+  <?xml-model href="https://libvirt.org/schemas/storagepool.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+  <pool type='dir'>
+    ...
+  </pool>
+  ```
+
+**Fördelar:** Full flexibilitet, alla funktioner stöds.
+**Nackdelar:** Mer komplext, manuellt arbete krävs.
+
+⚠️ **Notera:** Virt-manager sparar VM-diskar i `/var/lib/libvirt/images/` i systemläge. I sessionläge används istället `~/.local/share/libvirt/images/`.
 
 ## Libvirts nätverksmodell
 
 ### Standardläge: NAT via virbr0
 
-- Libvirt skapar ett virtuellt nätverk `virbr0` som standard.
-- Det fungerar som en NAT-router med DHCP.
-- Gäst-VM får en IP-adress via DHCP och kan nå internet.
+- Standardnätet `default` använder en intern bridge (`virbr0`).
+- Fungerar som NAT-router med DHCP.
+- Gäst-VM får IP via DHCP och når internet.
 - Värden agerar som gateway.
-- Motsvarar QEMUs `-net user`, men Libvirt ger mer kontroll över nätverksinställningar. Du kan till exempel enkelt styra DHCP-inställningar, öppna portar för åtkomst från värddatorn, och konfigurera NAT mer detaljerat. Libvirt skapar även en tydlig, beständig nätverksinfrastruktur som kan hanteras separat från varje individuell VM.
+- Motsvarar QEMUs `-net user`, men med bättre kontroll, till exempel kan du via `virsh net-edit` ändra DHCP-intervall eller lägga till statiska leases – något som inte går med QEMUs inbyggda user-mode NAT.
 
-**Så här väljer du detta läge:**
+```plaintext
+Internet
+   |
+ [ värd ]
+   |
+ [ virbr0 ] (NAT + DHCP)
+   |
+ [ VM ]
+```
 
-- **virt-manager:** Välj nätverk "default" i nätverksinställningar.
-- **virt-install:** Lägg till flaggan `--network network=default,model=virtio`.
-- **XML / virsh:**
+⚠️ **Viktigt:** virbr0 är en intern virtuell brygga – den delar inte värdens fysiska nät direkt.
+
+**Exempel på virt-install:**
+
+```bash
+virt-install \
+  --name vm-nat \
+  --memory 2048 --vcpus 2 \
+  --disk size=20,format=qcow2 \
+  --cdrom /path/to/installer.iso \
+  --network network=default,model=virtio \
+  --graphics spice
+```
+
+**Exempel på virsh + XML (domänens interface):**
 
 ```xml
 <interface type='network'>
@@ -249,23 +289,45 @@ virsh start ubuntu-vm
 </interface>
 ```
 
-### Isolerat nätverk (som Docker `none`)
+**Exempel för virt-manager:**
 
-- Möjligt att skapa ett isolerat nätverk där VM inte har någon nätverksanslutning.
+1. Öppna VM → **Details** → **NIC**. 2) **Network source:** `default` (NAT) → **Device model:** `virtio` → **Apply**.
 
-**Så här skapar du ett nytt isolerat nätverk:**
+---
 
-1. Skapa ett nätverks-XML, t.ex. `isolated-net.xml`:
+### Isolerat nätverk
+
+- VM får kommunicera med varandra via en intern bridge men inte ut mot internet.
+- Används där extern åtkomst inte behövs.
+- I exemplet används `virbr1` som namn på den nya bryggan. Libvirt skapar automatiskt en virtuell brygga när du definierar ett nytt nätverk, men den måste heta något annat än den som redan finns (t.ex. `virbr0`). Därför använder man här `virbr1`. Om du vill skapa en brygga manuellt kan du göra det i värdens nätverkskonfiguration, men oftast sköts detta av libvirt själv.
+
+```plaintext
+[ VM1 ]
+   |
+ [ virbr1 ] (ingen NAT)
+   |
+[ VM2 ]
+```
+
+**Varför behövs en ny brygga?**
+Varje libvirt-nätverk behöver en egen brygga för att separera trafik. `virbr0` används av default-nätet (NAT). För att bygga ett isolerat nät utan kollisioner används därför en ny brygga, t.ex. `virbr1`.
+
+**Exempel på att skapa nätet – virsh + XML (nätverksdef):**
+
+`isolated-net.xml`:
 
 ```xml
 <network>
   <name>isolerat-natverk</name>
   <forward mode='none'/>
   <bridge name='virbr1' stp='on' delay='0'/>
+  <ip address='192.168.50.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.50.100' end='192.168.50.254'/>
+    </dhcp>
+  </ip>
 </network>
 ```
-
-2. Skapa och starta nätverket:
 
 ```bash
 virsh net-define isolated-net.xml
@@ -273,11 +335,19 @@ virsh net-autostart isolerat-natverk
 virsh net-start isolerat-natverk
 ```
 
-**Så här väljer du detta läge:**
+**Exempel på virt-install:**
 
-- **virt-manager:** Välj ett definierat isolerat nätverk eller skapa ett utan NAT/DHCP.
-- **virt-install:** Använd `--network network=isolerat-nätverk` (om skapat).
-- **XML / virsh:**
+```bash
+virt-install \
+  --name vm-isolated \
+  --memory 2048 --vcpus 2 \
+  --disk size=20,format=qcow2 \
+  --cdrom /path/to/installer.iso \
+  --network network=isolerat-natverk,model=virtio \
+  --graphics spice
+```
+
+**Exempel på virsh + XML (domänens interface):**
 
 ```xml
 <interface type='network'>
@@ -286,73 +356,50 @@ virsh net-start isolerat-natverk
 </interface>
 ```
 
-### Portforward (user-mode NAT med öppnad port)
+**Exempel för virt-manager:**
 
-- Libvirt stöder också att öppna portar genom `virsh` eller via XML.
-- Exempel: vidarebefordra port 2222 på värden till 22 i gästen (SSH).
-- Motsvarar `-net user,hostfwd=...` i QEMU.
+1. **Edit → Connection Details → Virtual Networks** → **+** skapa isolerat nät (Forwarding: None). 2) På VM: **NIC → Network source:** `isolerat-natverk`.
 
-**Så här väljer du detta läge:**
+---
 
-- **virt-manager:** Port forward kräver manuell redigering i nätverksdefinitionen via `virsh net-edit default`. Virt-manager har inte inbyggt GUI-stöd för att lägga till portvidarebefordring.
+### Portforward till gäst i NAT-nät
 
-  > **Notera:** Om flera VM:ar använder nätverket `default` kommer portvidarebefordringen att gälla för alla dessa. Skapa ett separat nätverk (se Instruktionerna i "Isolerat nätverk" ovan) om du vill att portarna bara ska vidarebefordras till en viss VM.
-- **virt-install:**
+- Libvirt kan NAT\:a via `virbr0`, men **per-VM-portforward** görs inte i domänens XML; reglerna gäller nätet.
+- Rekommendation: ge gästen en **statisk DHCP-lease** och använd **nftables**/iptables på värden.
+
+```plaintext
+Internet
+   |
+ [ värd ] tcp/2222 ---> tcp/22 (DNAT)
+   |
+ [ virbr0 ] (NAT)
+   |
+ [ VM 192.168.122.50 ]
+```
+
+**Steg 1 – statisk DHCP-lease (virsh net-update):**
 
 ```bash
---network network=default,model=virtio,port=hostfwd=tcp::2222-:22
-                 --network passt,portForward=8080:80 \
-
+virsh net-update default add ip-dhcp-host \
+  "<host mac='52:54:00:aa:bb:cc' name='vm-nat' ip='192.168.122.50'/>" \
+  --live --config
 ```
 
-- **XML / virsh:**
+**Steg 2 – nftables DNAT på värden:**
 
-```xml
-<interface type='network'>
-  <source network='default'/>
-  <model type='virtio'/>
-  <protocol type='tcp'>
-    <host port='2222'/>
-    <guest port='22'/>
-  </protocol>
-</interface>
-```
+*nftables* är det moderna brandväggssystemet i Linux (efterföljare till iptables). Nedan kommandon gör följande steg för steg:
 
-### Bridgat nätverk
-
-- Använder en redan existerande Linux-brygga (t.ex. `br0`) på värdsystemet. Du behöver inte skapa ett separat nätverk i Libvirt.
-
-- Se "Tap och bridge" i QEMU-materialet för instruktioner kring att skapa en brygga.
-
-- Kräver systemläge och root/grupp-rättigheter.
-
-- Gäst-VM kan få IP från samma DHCP som värddatorn.
-
-**Så här väljer du detta läge:**
-
-- **virt-manager:** Välj nätverkstyp "Bridged" och välj din fysiska nätverksadapter.
-- **virt-install:**
-
-```bash
---network bridge=br0,model=virtio
-```
-
-- **XML / virsh:**
-
-```xml
-<interface type='bridge'>
-  <source bridge='br0'/>
-  <model type='virtio'/>
-</interface>
-```
+- `sudo nft add table ip nat` – skapar en ny tabell för NAT
+- `sudo nft add chain ip nat PREROUTING { type nat hook prerouting priority 0; }` – skapar en kedja som behandlar inkommande trafik innan routingbeslut.
+- `sudo nft add chain ip nat POSTROUTING { type nat hook postrouting priority 100; }` – skapar en kedja som behandlar utgående trafik efter routingbeslut.
+- `sudo nft add rule ip nat PREROUTING tcp dport 2222 dnat to 192.168.122.50:22` – skickar trafik till värdens port 2222 vidare till gästens port 22.
+- `sudo nft add rule ip nat POSTROUTING oifname "virbr0" masquerade` – gör att svar från gästen ser ut att komma från värden (masquerade).
 
 ## Snapshots
 
-> **OBS:** Libvirt stöder inte snapshots för UEFI-baserade VM:ar. Om du använder UEFI (OVMF) och vill använda snapshots måste du istället hantera dessa direkt via QEMU-gränssnittet. Se dokumentet om QEMU/KVM för detaljer.
+> **OBS:** Libvirt stöder inte snapshots för UEFI-baserade VM\:ar. Om du använder UEFI (OVMF) och vill använda snapshots måste du istället hantera dessa direkt via QEMU-gränssnittet.
 
 ### Med `virsh`
-
-> Snapshot-funktionerna i `virsh` stöder både online (när VM är igång) och offline (när VM är avstängd) snapshots. Standardbeteendet är att skapa en online-snapshot om VM är aktiv.
 
 - **Skapa snapshot:**
 
@@ -380,10 +427,19 @@ virsh net-start isolerat-natverk
 
 ### Med `virt-manager`
 
-> Virt-manager skapar som standard en online-snapshot om VM är igång. Du kan stänga av VM innan snapshot tas om du vill få en offline-snapshot.
-
 1. Högerklicka på en VM i listan och välj **Snapshots**.
 2. Klicka på **Ta snapshot**.
 3. Namnge snapshoten.
 4. För att återgå, markera snapshoten och välj **Återställ**.
 5. För att ta bort, markera snapshoten och klicka **Ta bort**.
+
+### Trädstruktur för snapshots
+
+```plaintext
+snap1
+ ├── snap2
+ │    └── snap3
+ └── snap4
+```
+
+Varje snapshot kan ses som en gren. När du återgår till en äldre snapshot och skapar en ny, bildas en ny gren i trädet.
