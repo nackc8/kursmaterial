@@ -158,13 +158,21 @@ Internet
 Exempel: skapa TAP och bridge och starta en VM:
 
 ```bash
+
+sudo apt update
+sudo apt install dhcpcd5
+sudo systemctl disable --now dhcpcd.service
+sudo systemctl stop NetworkManager
+
 sudo ip tuntap add dev tap0 mode tap user "$USER"
 sudo ip link set tap0 up
 sudo ip link add br0 type bridge
 sudo ip link set eth0 master br0
 sudo ip link set tap0 master br0
 sudo ip link set br0 up
-sudo dhclient br0
+sudo ip addr flush dev eth0 # Kasta IP-numret eth0 har
+
+sudo dhcpcd br0 # Hämta en IP till br0 via DHCP
 
 qemu-system-x86_64 \
   -enable-kvm \
@@ -211,6 +219,8 @@ qemu-system-x86_64 \
   -m 2000 \
   -smp 2 \
   -drive file=ubuntu1.qcow2,format=qcow2 \
+  -vnc :0 \
+  -spice port=44400,disable-ticketing=on \
   -netdev tap,id=mynet0,ifname=tap0,script=no,downscript=no \
   -device virtio-net-pci,netdev=mynet0,mac=52:54:00:12:34:56 \
   -daemonize
@@ -272,7 +282,7 @@ qemu-system-x86_64 \
   -enable-kvm \
   -m 3000 \
   -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd \
-  -drive if=pflash,format=raw,file=Rocky10_UEFI_OVMF_VARS.fd \
+  -drive if=pflash,format=raw,file=Rocky10_UEFI_OVMF_VARS_4M.fd \
   -drive file="Rocky10_UEFI.qcow2",format=qcow2 \
   -cdrom ~/Downloads/Rocky-10.0-x86_64-minimal.iso \
   -boot d
@@ -285,7 +295,7 @@ qemu-system-x86_64 \
 ```plaintext
 [ VM ]
    |-- pflash (OVMF_CODE_4M.fd, readonly)
-   |-- pflash (OVMF_VARS.fd, skrivbar NVRAM)
+   |-- pflash (OVMF_VARS_4M.fd, skrivbar NVRAM)
 ```
 
 ## TPM
