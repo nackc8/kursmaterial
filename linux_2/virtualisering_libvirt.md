@@ -11,14 +11,14 @@ Libvirt är ett programvaruramverk som används för att hantera olika virtualis
 ### Teknisk översikt över Libvirt
 
 - Begreppet "domän" används som en generell abstraktion för virtuella instanser, oavsett vilken teknik som ligger bakom. Det gör det möjligt att använda samma modell oavsett hypervisor.
-- Libvirt tillhandahåller en bakgrundstjänst, vanligtvis kallad `libvirtd` (eller `virtqemud` i nyare system), som sköter kommunikation med hypervisorn. Tjänsten ansvarar bland annat för att starta VM\:ar automatiskt om de är markerade för det.
+- Libvirt tillhandahåller en bakgrundstjänst, vanligtvis kallad `libvirtd` (eller `virtqemud` i nyare system), som sköter kommunikation med hypervisorn. Tjänsten ansvarar bland annat för att starta VM:ar automatiskt om de är markerade för det.
 - Kommandoverktyg som används med libvirt är bland annat `virsh`, `virt-install`, `virt-clone` och `virt-log`.
 - Det finns även grafiska verktyg som `virt-manager` och `virt-viewer` som gör det lättare att hantera virtuella maskiner visuellt.
 - Varje virtuell maskin beskrivs i en XML-fil, vilket gör det enkelt att automatisera, spara och återanvända konfigurationer.
 
 ### System- och användarläge i Libvirt
 
-Libvirt kan köras i två olika lägen: systemläge och användarläge. Dessa avgör var dina virtuella maskiner lagras, vilka rättigheter som krävs och hur VM\:arna startas.
+Libvirt kan köras i två olika lägen: systemläge och användarläge. Dessa avgör var dina virtuella maskiner lagras, vilka rättigheter som krävs och hur VM:arna startas.
 
 #### Systemläge (`qemu:///system`)
 
@@ -26,7 +26,7 @@ Libvirt kan köras i två olika lägen: systemläge och användarläge. Dessa av
 
 - Full tillgång till systemresurser.
 - Möjlighet att använda avancerade nätverkslägen (t.ex. bridges).
-- VM\:ar kan autostartas och köras oberoende av inloggning.
+- VM:ar kan autostartas och köras oberoende av inloggning.
 - Centraliserad hantering för alla användare.
 
 **Nackdelar:**
@@ -36,10 +36,10 @@ Libvirt kan köras i två olika lägen: systemläge och användarläge. Dessa av
 
 > Systemläget är standardval i produktion och för maskiner som behöver vara tillgängliga kontinuerligt.
 
-- VM\:ar hanteras som systemresurser.
+- VM:ar hanteras som systemresurser.
 - Kräver root-behörighet (eller att du tillhör gruppen `libvirt`).
 - Konfigurationer lagras i `/etc/libvirt/`.
-- VM\:ar kan startas automatiskt vid systemstart.
+- VM:ar kan startas automatiskt vid systemstart.
 - Används ofta i produktion, servermiljöer och molninfrastruktur.
 
 #### Användarläge (`qemu:///session`)
@@ -52,16 +52,16 @@ Libvirt kan köras i två olika lägen: systemläge och användarläge. Dessa av
 
 **Nackdelar:**
 
-- VM\:ar kan inte startas automatiskt vid systemstart.
+- VM:ar kan inte startas automatiskt vid systemstart.
 - Begränsad åtkomst till vissa systemresurser (exempelvis bridgat nätverk).
-- Varje användare har sin egen uppsättning VM\:ar.
+- Varje användare har sin egen uppsättning VM:ar.
 
 > Användarläget fungerar oftast bäst för utveckling, tester eller lokala labb där du vill undvika rootbehörighet.
 
-- VM\:ar körs under den inloggade användarens session.
+- VM:ar körs under den inloggade användarens session.
 - Kräver inga root-rättigheter.
 - Konfigurationer lagras i `~/.config/libvirt/`.
-- VM\:ar startas och stoppas bara när användaren är inloggad.
+- VM:ar startas och stoppas bara när användaren är inloggad.
 - Används ofta för test och utveckling.
 
 I `virt-manager` kan du välja mellan dessa när du ansluter till libvirt. Systemläge är standard i de flesta fall.
@@ -88,19 +88,23 @@ sudo usermod -aG kvm $USER
 
 ### Installera Libvirt
 
-Följande förutsätter att QEMU/KVM redan är installerat och att du tillhör gruppen `kvm`.
+Följande förutsätter att QEMU/KVM redan är installerat och att du tillhör gruppen `kvm`. Vi installerar de paket från libvirt som vi behöver, lägger in ditt konto i gruppen libvirt och ställer in Bash att exportera variabeln`LIBVIRT_DEFAULT_URI` med ett innehåll som betyder att vi använder systemläge som standard.
 
 ```bash
-sudo apt install libvirt-daemon-system libvirt-clients bridge-utils
+sudo apt install -- virt-manager virtinst libvirt-daemon-system libvirt-clients bridge-utils virt-viewer
 sudo usermod -aG libvirt $USER
+sudo systemctl enable --now libvirtd
+echo 'export LIBVIRT_DEFAULT_URI="qemu:///system"' >> ~/.bashrc
 ```
 
 > Starta om systemet för att ändringen ska gälla.
 
-Starta och aktivera tjänsten:
+Aktivera standardnätverket:
 
 ```bash
-sudo systemctl enable --now libvirtd
+virsh net-define /usr/share/libvirt/networks/default.xml
+virsh net-autostart default
+virsh net-start default
 ```
 
 Bekräfta att libvirt fungerar:
@@ -115,15 +119,15 @@ De tre viktigaste verktygen i Libvirt är `virsh`, `virt-install` och `virt-mana
 
 ### Vad är virsh?
 
-Virsh är ett terminalprogram för att styra libvirt. Det ger tillgång till att skapa, starta, stänga av och konfigurera VM\:ar.
+Virsh är ett terminalprogram för att styra libvirt. Det ger tillgång till att skapa, starta, stänga av och konfigurera VM:ar.
 
 - `virsh list`, `virsh start`, `virsh shutdown`.
 - `virsh edit` för att ändra XML direkt.
 - Stöd för snapshots, nätverk, lagring m.m.
 
-### Vad är virt-install?
+### Vad är `virt-install`?
 
-Virt-install används för att skapa nya VM\:ar från kommandoraden.
+`virt-install` används för att skapa nya VM:ar från kommandoraden.
 
 - Kan skapa och ansluta diskar, ISO-filer.
 - Kan specificera RAM, CPU, nätverk, grafik.
@@ -133,7 +137,7 @@ Virt-install används för att skapa nya VM\:ar från kommandoraden.
 
 Virt-manager är ett GUI för att hantera libvirt. Det ger en grafisk överblick och kan användas för:
 
-- Att skapa VM\:ar via guider.
+- Att skapa VM:ar via guider.
 - Visa resurser och status.
 - Ansluta till konsol (VNC eller SPICE).
 
@@ -141,8 +145,7 @@ Virt-manager är ett GUI för att hantera libvirt. Det ger en grafisk överblick
 
 - Diskar skapas som `.qcow2` eller `.raw`.
 - Kan skapas med `qemu-img` (se materialet om QEMU/KVM) eller via `virt-install` (beskrivs nedan).
-
-  Diskar kopplas till VM via XML eller `virt-install`-flaggor.
+- Diskar kopplas till VM via XML eller `virt-install`-flaggor.
 
 ## Skapa en domän
 
@@ -150,10 +153,21 @@ Här visas hur man skapar en ny virtuell maskin (domän) med Libvirt, med 5000 M
 
 ### Med virt-manager
 
+`virt-manager` har konceptet "storage pools", vilket är platser där lagringsmedia som hårddiskar och iso-filer lagras.
+
+Standardplatsen är `/var/lib/libvirt/images` och det enklaste sättet att använda virt-manager är att kopiera dit de iso-filer som behövs med `sudo cp miniso.iso /var/lib/libvirt/images/`.
+
+Ett sätt att förenkla hanteringen i en labbmiljö är att ge din användare rättigheterer till poolen (gör inte det i produktion):
+
+```bash
+sudo setfacl -m $USER:rwx /var/lib/libvirt/images/
+sudo setfacl -d -m $USER:rwx /var/lib/libvirt/images/
+```
+
 1. Starta `virt-manager`.
 2. Klicka på "Skapa en ny virtuell maskin".
 3. Välj installationskälla (t.ex. ISO-fil).
-4. Välj RAM: 5000 MB och minst 2 CPU\:er.
+4. Välj RAM: 5000 MB och minst 2 CPU:er.
 5. Skapa en disk (t.ex. 70 GB qcow2).
 6. Välj nätverk: standard (`default`).
 7. Under "Slutför", klicka på "Anpassa innan installation" och välj SPICE som grafik.
@@ -163,22 +177,21 @@ Här visas hur man skapar en ny virtuell maskin (domän) med Libvirt, med 5000 M
 
 ```bash
 virt-install \
-  --name ubuntu-vm \
-  --memory 5000 \
+  --name ubuntu-server \
+  --memory 2500 \
   --vcpus 2 \
-  --disk size=70,path=/var/lib/libvirt/images/ubuntu.qcow2,format=qcow2 \
+  --disk size=70,path=/var/lib/libvirt/images/ubuntu-server.qcow2,format=qcow2 \
   --cdrom /path/to/ubuntu.iso \
   --network network=default,model=virtio \
   --graphics spice \
-  --os-type linux \
   --os-variant ubuntu22.04
 ```
 
-VM\:en startas direkt efter skapande.
+VM:en startas direkt efter skapande.
 
 ### Med virsh och XML
 
-> **Observera:** Diskfilen måste ha skapats innan du använder XML\:en. Använd till exempel `qemu-img create -f qcow2 /var/lib/libvirt/images/ubuntu.qcow2 70G`.
+> **Observera:** Diskfilen måste ha skapats innan du använder XML:en. Använd till exempel `qemu-img create -f qcow2 /var/lib/libvirt/images/ubuntu.qcow2 70G`. Du behöver även starta från en iso, i varje fall första gången, för att kunna installera ett operativsystem.
 
 Skapa en XML-fil, t.ex. `ubuntu-vm.xml`:
 
@@ -256,8 +269,8 @@ virsh start ubuntu-vm
 
 ```bash
 virsh net-define isolated-net.xml
-virsh net-start isolerat-natverk
 virsh net-autostart isolerat-natverk
+virsh net-start isolerat-natverk
 ```
 
 **Så här väljer du detta läge:**
@@ -283,11 +296,13 @@ virsh net-autostart isolerat-natverk
 
 - **virt-manager:** Port forward kräver manuell redigering i nätverksdefinitionen via `virsh net-edit default`. Virt-manager har inte inbyggt GUI-stöd för att lägga till portvidarebefordring.
 
-  > **Notera:** Om flera VM\:ar använder nätverket `default` kommer portvidarebefordringen att gälla för alla dessa. Skapa ett separat nätverk (se Instruktionerna i "Isolerat nätverk" ovan) om du vill att portarna bara ska vidarebefordras till en viss VM.
+  > **Notera:** Om flera VM:ar använder nätverket `default` kommer portvidarebefordringen att gälla för alla dessa. Skapa ett separat nätverk (se Instruktionerna i "Isolerat nätverk" ovan) om du vill att portarna bara ska vidarebefordras till en viss VM.
 - **virt-install:**
 
 ```bash
 --network network=default,model=virtio,port=hostfwd=tcp::2222-:22
+                 --network passt,portForward=8080:80 \
+
 ```
 
 - **XML / virsh:**
@@ -333,7 +348,7 @@ virsh net-autostart isolerat-natverk
 
 ## Snapshots
 
-> **OBS:** Libvirt stöder inte snapshots för UEFI-baserade VM\:ar. Om du använder UEFI (OVMF) och vill använda snapshots måste du istället hantera dessa direkt via QEMU-gränssnittet. Se dokumentet om QEMU/KVM för detaljer.
+> **OBS:** Libvirt stöder inte snapshots för UEFI-baserade VM:ar. Om du använder UEFI (OVMF) och vill använda snapshots måste du istället hantera dessa direkt via QEMU-gränssnittet. Se dokumentet om QEMU/KVM för detaljer.
 
 ### Med `virsh`
 

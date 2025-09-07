@@ -436,18 +436,26 @@ Nätverksgränssnittets namn kan variera och behöver inte vara `ens3`. Hoppa ö
 
 Alternativt kan du konfigurera en enkel DHCP-server på värddatorn med `dnsmasq`.
 
-1. Tilldela värden IP-adressen `10.10.0.1` i det isolerade nätverket:
+1. Installera dnsmasq men deaktivera dess tjänst då vi inte behöver den.
 
-```bash
-sudo ip addr add 10.10.0.1/24 dev ustwo_bridge
-```
+  ```bash
+  sudo apt update
+  sudo apt install dnsmasq
+  sudo systemctl disable --now dnsmasq.service
+  ```
 
-2. Starta sedan DHCP-servern:
+2. Tilldela värden IP-adressen `10.10.0.1` i det isolerade nätverket:
 
-```bash
-sudo dnsmasq --interface=ustwo_bridge --bind-interfaces \
-  --dhcp-range=10.10.0.2,10.10.0.254,255.255.255.0,12h
-```
+  ```bash
+  sudo ip addr add 10.10.0.1/24 dev ustwo_bridge
+  ```
+
+3. Starta sedan DHCP-servern:
+
+  ```bash
+  sudo dnsmasq --interface=ustwo_bridge --bind-interfaces \
+    --dhcp-range=10.10.0.2,10.10.0.254,255.255.255.0,12h
+  ```
 
 Virtuella maskiner som ansluts till `ustwo_bridge` får då automatiskt en IP-adress tilldelad via DHCP.
 
