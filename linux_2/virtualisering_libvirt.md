@@ -232,7 +232,7 @@ Detta aktiverar validering & förslag direkt i editorn.
   </network>
   ```
 
-  - Exempel för storagepool (`storagepool.rng`):
+- Exempel för storagepool (`storagepool.rng`):
 
   ```xml
   <?xml-model href="https://libvirt.org/schemas/storagepool.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
@@ -293,13 +293,11 @@ virt-install \
 
 1. Öppna VM → **Details** → **NIC**. 2) **Network source:** `default` (NAT) → **Device model:** `virtio` → **Apply**.
 
----
-
 ### Isolerat nätverk
 
 - VM får kommunicera med varandra via en intern bridge men inte ut mot internet.
 - Används där extern åtkomst inte behövs.
-- I exemplet används `virbr1` som namn på den nya bryggan. Libvirt skapar automatiskt en virtuell brygga när du definierar ett nytt nätverk, men den måste heta något annat än den som redan finns (t.ex. `virbr0`). Därför använder man här `virbr1`. Om du vill skapa en brygga manuellt kan du göra det i värdens nätverkskonfiguration, men oftast sköts detta av libvirt själv.
+- När du skapar ett nytt isolerat nätverk i libvirt skapas automatiskt en virtuell brygga. Den måste ha ett unikt namn, t.ex. `virbr1` (eftersom `virbr0` redan används av standardnätet `default`).
 
 ```plaintext
 [ VM1 ]
@@ -310,9 +308,11 @@ virt-install \
 ```
 
 **Varför behövs en ny brygga?**
-Varje libvirt-nätverk behöver en egen brygga för att separera trafik. `virbr0` används av default-nätet (NAT). För att bygga ett isolerat nät utan kollisioner används därför en ny brygga, t.ex. `virbr1`.
+Varje libvirt-nätverk får en egen brygga för att separera trafiken. `virbr0` används av default-nätet (NAT). För att undvika kollisioner skapas därför en ny brygga för det isolerade nätverket, t.ex. `virbr1`.
 
-**Exempel på att skapa nätet – virsh + XML (nätverksdef):**
+> **Obs:** Även om bryggan (`virbr1`) har en IP-adress (t.ex. `192.168.50.1`) för DHCP/DNS i det **interna** segmentet, är nätet isolerat eftersom `forward mode='none'`. Det innebär ingen NAT eller routing ut — adressen fungerar **inte** som gateway till internet.
+
+**Exempel – skapa nätet (virsh + XML):**
 
 `isolated-net.xml`:
 
@@ -321,7 +321,7 @@ Varje libvirt-nätverk behöver en egen brygga för att separera trafik. `virbr0
   <name>isolerat-natverk</name>
   <forward mode='none'/>
   <bridge name='virbr1' stp='on' delay='0'/>
-  <ip address='192.168.50.1' netmask='255.255.255.0'>
+  <ip address='192.168.50.1' netmask='255.255.255.0'> <!-- används av libvirt för DHCP, men fungerar inte som gateway utåt eftersom nätet är isolerat -->
     <dhcp>
       <range start='192.168.50.100' end='192.168.50.254'/>
     </dhcp>
@@ -335,7 +335,7 @@ virsh net-autostart isolerat-natverk
 virsh net-start isolerat-natverk
 ```
 
-**Exempel på virt-install:**
+**Exempel – virt-install:**
 
 ```bash
 virt-install \
@@ -347,7 +347,7 @@ virt-install \
   --graphics spice
 ```
 
-**Exempel på virsh + XML (domänens interface):**
+**Exempel – virsh + XML (domänens interface):**
 
 ```xml
 <interface type='network'>
@@ -356,16 +356,18 @@ virt-install \
 </interface>
 ```
 
-**Exempel för virt-manager:**
+**Exempel – virt-manager:**
 
-1. **Edit → Connection Details → Virtual Networks** → **+** skapa isolerat nät (Forwarding: None). 2) På VM: **NIC → Network source:** `isolerat-natverk`.
-
----
+1. **Edit → Connection Details → Virtual Networks** → **+** skapa nytt isolerat nät (Forwarding: None).
+2. På VM: **NIC → Network source:** `isolerat-natverk`.
 
 ### Portforward till gäst i NAT-nät
 
 - Libvirt kan NAT\:a via `virbr0`, men **per-VM-portforward** görs inte i domänens XML; reglerna gäller nätet.
 - Rekommendation: ge gästen en **statisk DHCP-lease** och använd **nftables**/iptables på värden.
+
+> **Notera:** Portforward-regler sätts på nätverket (`default`) och gäller därför alla VM\:ar som delar det nätet.
+> Följ **Steg 1** och **Steg 2** nedan för **varje VM** på nätet som ska ha en port forward.
 
 ```plaintext
 Internet
@@ -390,10 +392,33 @@ virsh net-update default add ip-dhcp-host \
 *nftables* är det moderna brandväggssystemet i Linux (efterföljare till iptables). Nedan kommandon gör följande steg för steg:
 
 - `sudo nft add table ip nat` – skapar en ny tabell för NAT
-- `sudo nft add chain ip nat PREROUTING { type nat hook prerouting priority 0; }` – skapar en kedja som behandlar inkommande trafik innan routingbeslut.
-- `sudo nft add chain ip nat POSTROUTING { type nat hook postrouting priority 100; }` – skapar en kedja som behandlar utgående trafik efter routingbeslut.
+- `sudo nft add chain ip nat PREROUTING { type nat hook prerouting priority 0; }` – skapar en kedja som behandlar inkommande trafik innan routingbeslut. Prioritet **0** innebär att regeln körs tidigt i kedjan.
+- `sudo nft add chain ip nat POSTROUTING { type nat hook postrouting priority 100; }` – skapar en kedja som behandlar utgående trafik efter routingbeslut. Prioritet **100** styr bara ordningen inom POSTROUTING (högre = senare).
 - `sudo nft add rule ip nat PREROUTING tcp dport 2222 dnat to 192.168.122.50:22` – skickar trafik till värdens port 2222 vidare till gästens port 22.
 - `sudo nft add rule ip nat POSTROUTING oifname "virbr0" masquerade` – gör att svar från gästen ser ut att komma från värden (masquerade).
+
+```bash
+sudo nft add table ip nat
+sudo nft add chain ip nat PREROUTING { type nat hook prerouting priority 0; }
+sudo nft add chain ip nat POSTROUTING { type nat hook postrouting priority 100; }
+sudo nft add rule ip nat PREROUTING tcp dport 2222 dnat to 192.168.122.50:22
+sudo nft add rule ip nat POSTROUTING oifname "virbr0" masquerade
+```
+
+**Flöde – PREROUTING och POSTROUTING:**
+
+```plaintext
+[ Internet-klient ] <-------------------.
+       |                                |
+   (PREROUTING)                         |
+       |                                |
+       v                                |
+   [ DNAT 2222 -> 22 ]                  |
+       |                                |
+    [ VM ]                              |
+       |                                |
+   (POSTROUTING)-> [ Masquerade via virbr0 ]
+```
 
 ## Snapshots
 
