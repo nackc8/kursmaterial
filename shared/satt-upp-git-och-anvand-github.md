@@ -109,11 +109,11 @@ I projektet utgår du alltid från huvud-branchen `main`. Du skapar en ny branch
    - Ta bort din branch på GitHub (GitHub har en knapp för detta).
    - Byt tillbaka till `main`, hämta senaste versionen och radera din branch lokalt:
 
-```bash
-   git checkout main
-   git pull
-   git branch -d minbranch
-```
+   ```bash
+      git checkout main
+      git pull
+      git branch -d minbranch
+   ```
 
 9. **Repetera**
 
