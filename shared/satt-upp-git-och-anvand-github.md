@@ -41,7 +41,7 @@ git config --global push.default current
 [SSH-nycklar][2] möjliggör en säker anslutning till GitHub och gör det enklare att hantera kod utan att behöva ange lösenord varje gång. Följ länkarna nedan för att skapa ett GitHub-konto och konfigurera SSH så att du kan ansluta med Git.
 
 1. [Skapa ett konto på GitHub][3]
-2. [Generera en ny SSH-nyckel och lägg till den i ssh-agent][4]
+2. [Generera en ny SSH-nyckel och lägg till den i ssh-agent][4]. Följ dokumentet från början fram till rubriken "Adding your SSH key to the ssh-agent". Gör inte det som står i den rubriken eller längre ned på sidan.
 3. [Lägg till en ny SSH-nyckel till ditt GitHub-konto][5]
 4. [Testa din SSH-anslutning][6]
 
