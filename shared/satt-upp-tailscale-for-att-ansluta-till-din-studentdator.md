@@ -37,15 +37,51 @@ Det sista kommandot `systemctl mask ...` slår av energisparlägena eftersom de 
 
 Anslut mot IP-adresser inom ditt Tailscale-nätverk vilka börjar på `100.x.x.x` (de förändras inte). Kör `tailscale status` i en terminal eller besök Tailscales webbplats för att se IP-nummer och värdnamn i ditt nätverk.
 
-#### Program för att ansluta
-
-De här programmen vet egentligen inget om att kommunikationen sker via ett Tailscale-nätverk. Det är helt enkelt vanliga nätverksprogram.
-
 #### Terminal
 
-- Windows: SSH-klientkommandot `ssh` om det redan finns installerat eller [Putty][5].
-- Linux: SSH-klientkommandot `ssh` från OpenSSH Client är oftast redan installerat.
-- MacOS: SSH-klientkommandot `ssh` är även här förinstallerat.
+Här beskrivs hur du kan ansluta till en dator via **SSH** över Tailscale-nätverket.
+
+- **Windows:** SSH-klientkommandot `ssh` om det redan finns installerat eller [Putty][5].
+- **Linux:** SSH-klientkommandot `ssh` från OpenSSH Client är oftast redan installerat.
+- **macOS:** SSH-klientkommandot `ssh` är även här förinstallerat.
+
+##### Exempel: ansluta med `ssh`
+
+1. **Öppna en terminal:**
+
+   - I Windows, starta **PowerShell**.
+   - I Linux och macOS, öppna en vanlig terminal.
+
+2. **Hitta Tailscale-adressen för din dator:**
+
+   - Om du har `tailscale`-kommandot installerat, kör:
+
+     ```bash
+     tailscale status
+     ```
+
+   - Annars kan du se IP-adressen i Tailscales webbgränssnitt.
+
+   Adressen börjar alltid med `100.` (till exempel `100.2.3.4`).
+
+3. **Kör `ssh` för att ansluta:**
+   Anta att Tailscale-adressen är `100.2.3.4` och att kontot på datorn heter `administrator`. Då skriver du:
+
+   ```bash
+   ssh administrator@100.2.3.4
+   ```
+
+4. **Logga in:**
+   Du blir ombedd att skriva lösenordet för kontot (till exempel `Linux4Ever`, eller det du själv valt).
+
+5. **Arbeta på datorn:**
+   Nu kan du köra kommandon och göra övningsuppgifter direkt via SSH.
+
+6. **Koppla ner när du är klar:**
+
+   ```bash
+   exit
+   ```
 
 #### Visual Studio Code
 
@@ -54,19 +90,21 @@ Börja med att följa instruktionerna i dokumentet "Sätt upp Visual Studio Code
 ##### Lägg till en dator att ansluta mot
 
 1. Välj "Remote Explorer" i panelen längs till vänster som i övrigt innehåller "Explorer" och "Search".
-    - Om du inte hittar det behöver du installera tillägget: [Remote - SSH][6].
+
+   - Om du inte hittar det behöver du installera tillägget: [Remote - SSH][6].
+
 2. Välj "+" (New Remote) som visas när du för muspekaren över ordet "SSH" under "Remotes".
-3. Fyll i "Enter SSH Connection Command" fältet med `ssh kontonamn@100.x.x.x` där kontonamnet och IP-adressen ersätts med lämpliga värden för datorn du ska ansluta emot.
-4. Tryck bara enter vid fältet "Select SSH configuration file to update" för att välja standardvalet.
+3. Fyll i "Enter SSH Connection Command"-fältet med `ssh kontonamn@100.x.x.x`, där kontonamnet och IP-adressen ersätts med lämpliga värden för datorn du ska ansluta emot.
+4. Tryck bara **Enter** vid fältet "Select SSH configuration file to update" för att välja standardvalet.
 5. Ignorera "Host added!" dialogrutan som visas en stund nere till höger.
 
 ##### Anslut mot en tillagd dator
 
 1. Välj "Remote Explorer" i panelen längs till vänster (som i övrigt innehåller "Explorer" och "Search").
-2. Välj "→" (Connect in Current Window...) som visas när du för muspekaren över det tillagda datornamnet eller IP-numret under "Remotes".
-3. Välj "Continue" om du får en fråga om fingeravtryck ("fingerprint).
-4. Skriv in lösenordet för kontot du ansluter mot när fältet "Enter password for kontonamn@100.x.x.x" visas.
-5. Om anslutningen lyckades så ska en blå ikon med text liknande "SSH: 100.x.x.x" visas längst ned till vänster.
+2. Välj "→" (Connect in Current Window\...) som visas när du för muspekaren över det tillagda datornamnet eller IP-numret under "Remotes".
+3. Välj "Continue" om du får en fråga om fingeravtryck ("fingerprint").
+4. Skriv in lösenordet för kontot du ansluter mot när fältet "Enter password for [kontonamn@100.x.x.x](mailto:kontonamn@100.x.x.x)" visas.
+5. Om anslutningen lyckades ska en blå ikon med text liknande "SSH: 100.x.x.x" visas längst ned till vänster.
 
 [1]: https://tailscale.com/pricing
 [2]: https://tailscale.com/why-tailscale
