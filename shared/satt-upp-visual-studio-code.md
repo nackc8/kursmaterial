@@ -50,7 +50,7 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
         code --install-extension almenon.arepl
         code --install-extension charliermarsh.ruff
         code --install-extension esbenp.prettier-vscode
-        code --install-extension foxundermoon.shell-format
+        code --install-extension foxundermoon.shell-format@7.2.5
         code --install-extension humao.rest-client
         code --install-extension ms-azuretools.vscode-docker
         code --install-extension ms-python.python
