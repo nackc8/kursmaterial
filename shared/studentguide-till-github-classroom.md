@@ -103,17 +103,21 @@ Det är enkelt att köra testerna på din egen dator. Om du står i repots rot m
 
 Om testerna passerar visas en grön bock på repots huvudsida. Om något är fel visas ett rött kryss.
 
-Det krävs tyvärr några steg för att se detaljer kring vad som gått fel på GitHub.
+Det krävs tyvärr några steg för att se detaljer kring vad som gått fel på GitHub:
 
-För att se mer detaljer om körningen av tester:
+1. Välj fliken **Actions**.
+2. Välj **Autograding tests** till vänster.
+3. Du ser nu alla körningar, med den senaste överst. Ikonen till vänster visar status.
+4. Klicka på den körning du vill se (oftast den senaste).
+5. Välj **Base tests** till vänster under **Jobs**.
+6. Du får nu en sammanfattning av alla tester.
 
-1. Gå till "Actions"-fliken.
-2. Välj "Autograding tests" på vänster sida.
-3. Testkörningarna visas nu, med den senaste överst. Status för körningarna syns genom en ikon till vänster om varje rad.
-4. Välj den körning du är intresserad av (oftast den senaste).
-5. Välj "run-autograding-tests".
-6. Körningens steg visas, där "Autograding Reporter" är i fokus. Röda kryss indikerar steg som misslyckats.
-7. Klicka på det steg du vill ha mer information om och läs texten.
+   - **Grön bock** = testet klarade sig.
+   - **Rött kryss** = testet misslyckades.
+   - **Vit cirkel** = testet körs först när alla misslyckade tester har passerat.
+7. Klicka på **Raw output** för att se varför ett test misslyckades. Leta efter rader som börjar med **E**, följt av lite mellanrum och sedan själva feltexten.
+
+Alla tester som misslyckas måste åtgärdas.
 
 ### Hjälp och stöd
 
