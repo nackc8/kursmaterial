@@ -80,7 +80,7 @@
 - **Java** använder **statisk typning**, där variabelns typ måste anges vid deklarationen:
 
     ```java
-    int x = 10;        // Primitiv
+    int x = 10;         // Primitiv
     String s = "hello"; // Objekt
     ```
 
@@ -96,8 +96,8 @@ Java har två kategorier av datatyper:
 Eftersom Java kräver strikt typning och ibland behöver använda objekt där primitiva typer inte är tillåtna (t.ex. i samlingar som `ArrayList`), introducerades **wrapperklasser** som en brygga mellan primitiva typer och objekt.
 
 ```java
-int x = 10;            // Primitiv
-Integer y = Integer.valueOf(x); // Wrapperklass (objekt)
+int x = 10;                        // Primitiv
+Integer y = Integer.valueOf(x);    // Wrapperklass (objekt)
 System.out.println(y.bitCount(x)); // Motsvarar Python-metoden bit_length()
 ```
 
@@ -106,8 +106,8 @@ System.out.println(y.bitCount(x)); // Motsvarar Python-metoden bit_length()
 Python saknar behovet av wrapperklasser eftersom alla datatyper redan är objekt.
 
 ```python
-x = 10       # Int är ett objekt
-x.bit_length()       # Metod för heltal
+x = 10           # Int är ett objekt
+x.bit_length()   # Metod för heltal
 ```
 
 Här är `x` redan ett objekt och kan därför använda metoder direkt, till skillnad från Java där primitiva typer saknar metoder.
@@ -125,7 +125,7 @@ För att förenkla övergången mellan primitiva typer och wrapperklasser har Ja
 - **Unboxing**: Konvertering av en wrapperklass tillbaka till en primitiv typ:
 
     ```java
-    int y = x;  // Integer blir int
+    int y = x;       // Integer blir int
     ```
 
 ### Detaljerade exempel
@@ -176,7 +176,7 @@ double z = 3.14;     // 64-bit
 
 - Python använder alltid 64-bit för flyttal (motsvarar Java's double).
 - Java skiljer mellan `float` (32-bit) och `double` (64-bit) för att optimera prestanda och precision.
-- I Java måste ett `float`-värde ha ett 'f' eller 'F' suffix. De är exakt samma sak, men gemenen 'f' används oftast av konvention. Gemena bokstaven 'f' är vanligast och används av konvention, medan 'F' kan användas för tydlighet om det behövs.
+- I Java måste ett `float`-värde ha ett `f` eller `F` suffix. De är exakt samma sak, men gemenen 'f' används oftast av konvention. Gemena bokstaven `f` är vanligast och används av konvention, medan `F` kan användas för tydlighet om det behövs.
 
 #### Tecken och strängar
 
@@ -1294,9 +1294,9 @@ public class Example {
 #### Python
 
 - Python saknar strikt kontroll av åtkomstmodifierare men följer konventioner:
-  - `**public**`: Alla attribut och metoder är offentliga som standard och kan nås var som helst.
-  - `**_protected**`: Ett understreck markerar att attributet är skyddat och bör behandlas som privat inom klassen och dess underklasser.
-  - `**__private**`: Dubbla understreck aktiverar namnmangling för att göra attributet svårare att nå utanför klassen.
+  - **public**: Alla attribut och metoder är offentliga som standard och kan nås var som helst.
+  - **_protected**: Ett understreck markerar att attributet är skyddat och bör behandlas som privat inom klassen och dess underklasser.
+  - **__private**: Dubbla understreck aktiverar namnmangling för att göra attributet svårare att nå utanför klassen.
 
 ```python
 class Example:
@@ -1311,9 +1311,9 @@ class Example:
 #### Java
 
 - Java använder striktare åtkomstmodifierare:
-  - `**public**`: Synlig överallt.
-  - `**protected**`: Synlig inom samma paket och i underklasser, även om de ligger i andra paket.
-  - `**private**`: Endast synlig inom samma klass.
+  - **public**: Synlig överallt.
+  - **protected**: Synlig inom samma paket och i underklasser, även om de ligger i andra paket.
+  - **private**: Endast synlig inom samma klass.
   - **(Standard, inget nyckelord)**: Synlig endast inom samma paket (kallas package protected).
 
 ```java
