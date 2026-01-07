@@ -500,6 +500,6 @@ Endast ett av de fyra alternativen är mest rätt och räknas som rätt svar. To
 | 19        | `protected`                    |           | X         |           |           |
 | 20        | Paket-synlighet                |           |           |           | X         |
 
-[1]: https://docs.oracle.com/en/java/javase/23/docs/api/overview-summary.html
+[1]: https://docs.oracle.com/en/java/javase/25/docs/api/overview-summary.html
 [2]: https://www.jetbrains.com/help/idea/debugging-your-first-java-application.html
 [3]: https://code.visualstudio.com/Docs/editor/debugging
