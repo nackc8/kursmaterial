@@ -12,7 +12,7 @@ imports" i Settings / "Version Control" / Commit.
 Låt övriga "Commit Checks" förbli tomma då de riskerar att ändra för
 mycket och få det att se ut som att den som senast gjort commit gjort alla ändringar i filen
 
-![[img/intellij-commit-reformat-optimize.png]]
+![Inställningsbilden för att göra reformat och importoptimering vid commit](img/intellij-commit-reformat-optimize.png)
 
 #### Längd på commit-meddelanden
 
@@ -37,7 +37,7 @@ I den övre delen av Settings / "Version Control" / Commit:
 
 4. Aktivera "Spelling" med felnivå "Typo"
 
-![[img/intellij-commit-reformat-optimize.png]]
+![](img/intellij-commit-length.png)
 
 #### Conventional commits
 
@@ -54,7 +54,7 @@ Vid commit så får man nu hjälp att skriva ett korrekt commit-meddelande. I
 Windows / Linux kan man trycka Ctrl + Space för att få upp förslag. Från en
 tom meddelanderuta kan det se ut såhär:
 
-![[img/intellij-conventional-commit-1.png]]
+![](img/intellij-conventional-commit-1.png)
 
 Not: För macOS är Ctrl + Space upptaget av operativsystemet. Googla på
 problemet så finns det förslag på lösningar.
@@ -68,19 +68,19 @@ lite bökigt med exakt stavning och att fylla i alla man samarbetat med.
 Om man i meddelandets body skriver `co` så kommer två alternativ för
 komplettering upp. Välj den översta som inte slutar med kolon:
 
-![[img/intellij-conventional-commit-2.png]]
+![](img/intellij-conventional-commit-2.png)
 
 Välj sedan "Show more":
 
-![[img/intellij-conventional-commit-3.png]]
+![](img/intellij-conventional-commit-3.png)
 
 Lägg in de som behövs i listan. Aktivera sedan de som deltog och välj OK:
 
-![[img/intellij-conventional-commit-4.png]]
+![](img/intellij-conventional-commit-4.png)
 
 Då fylls de i fint i commit-meddelandet:
 
-![[img/intellij-conventional-commit-5.png]]
+![](img/intellij-conventional-commit-5.png)
 
 Försök att använda samma co-authorrad inom hela gruppen. Det blir bökigare
 om man använder olika.
@@ -98,7 +98,7 @@ Det är rekommenderat att göra "Reformat code" samt "Optimize imports" varje g�
 
 Dessa inställningar aktiveras i Settings / Tools / "Actions on Save":
 
-![[img/intellij-saveactions.png]]
+![](img/intellij-saveactions.png)
 
 #### CSV Editor
 
@@ -111,7 +111,7 @@ Editor](https://plugins.jetbrains.com/plugin/10037-csv-editor) det möjligt.
 Installera denna fria plugin genom att söka efter dess namn i Settings /
 Plugins.
 
-![[img/intellij-csveditor.png]]
+![](img/intellij-csveditor.png)
 
 ### Rekommenderat
 
@@ -120,7 +120,7 @@ Plugins.
 Sätt "Path to SceneBuilder" i Settings / "Languages & Frameworks" / JavaFX för
 att enkelt kunna starta SceneBuilder.
 
-![[img/intellij-javafx.png]]
+![](img/intellij-javafx.png)
 
 #### GitHub
 
@@ -128,7 +128,7 @@ Lägg till ditt konto med "Add account..." i Settings / "Version Control" /
 GitHub för en bra integration mot GitHub. Den gör så att man kan se pull
 requests och kommentera dessa utan att lämna utvecklingsmiljön.
 
-![[img/intellij-github.png]]
+![](img/intellij-github.png)
 
 #### Anpassa utseendet efter din smak
 
@@ -137,7 +137,7 @@ igenom Settings / "Appearance & Behavior" och testa olika inställningar för
 färger, typsnitt och layout. Glöm inte att det även finns en massa Themes
 som Plugins att ta hem.
 
-![[img/intellij-appearance.png]]
+![](img/intellij-appearance.png)
 
 ### Värt att fundera på
 
@@ -152,7 +152,7 @@ IntelliJ så finns pluginen
 Installera denna fria plugin genom att söka efter dess namn i Settings /
 Plugins.
 
-![[img/intellij-ideavim.png]]
+![](img/intellij-ideavim.png)
 
 #### VSCode?
 
@@ -163,7 +163,7 @@ Keymap](https://plugins.jetbrains.com/plugin/12062-vscode-keymap).
 Installera denna fria plugin genom att söka efter dess namn i Settings /
 Plugins.
 
-![[img/intellij-vscode.png]]
+![](img/intellij-vscode.png)
 
 ## Utforska
 
