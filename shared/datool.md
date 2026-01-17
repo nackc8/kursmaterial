@@ -182,17 +182,17 @@ src/main/java/com/example/pomofx/
                                       A12    AppLauncher.java                      8e4c9a1b
 
 src/main/java/com/example/pomofx/timer/
-  A4               A31               C2     PomodoroEngine.java                    4b1d7f3c
+  A4               A31               C2      PomodoroEngine.java                   4b1d7f3c
                                                                                    0c9e21aa
                                                                                    f2a8d0e1
 
 src/main/java/com/example/pomofx/ui/
-A19,C1  A1,C1      C1       C1     A3,C1   TimerController.java                    91a7c3d2
+A19,C1  A1,C1      C1       C1     A3,C1     TimerController.java                  91a7c3d2
                                                                                    8e4c9a1b
                                                                                    6f2b10c9
                                                                                    2aa6d4f0
                                                                                    5d7c19e4
- A13                                  A2    SettingsController.java                4b1d7f3c
+ A13                                  A2     SettingsController.java               4b1d7f3c
                                                                                    2aa6d4f0
                                                                                    5d7c19e4
 
