@@ -175,7 +175,7 @@ ID  Name                 PR.Alone   PR.Collab   PR.Appr   C.Alone   C.Collab   L
 File details:
   A=Alone (no co-authors), C=Collab (with co-authors), number=line count
    1        2        3        4        5     File                                    Commit
----------------------------------------------------------/-/-------------------------------
+-------------------------------------------------------------------------------------------
 
 src/main/java/com/example/pomofx/
                                        A8    MainApp.java                          8e4c9a1b
