@@ -362,7 +362,7 @@ python main.py
 
 Ibland kan du behöva se till att båda filerna ligger i samma katalog, eller använda `import` med mer avancerade sökvägar, men för den här övningen räcker det oftast att de ligger i samma katalog.
 
-[1]: https://docs.python.org/3.11/library/functions.html
-[2]: https://docs.python.org/3.11/library/stdtypes.html
-[3]: https://docs.python.org/3.11/library/index.html
+[1]: https://docs.python.org/3.13/library/functions.html
+[2]: https://docs.python.org/3.13/library/stdtypes.html
+[3]: https://docs.python.org/3.13/library/index.html
 [4]: https://code.visualstudio.com/Docs/editor/debugging
