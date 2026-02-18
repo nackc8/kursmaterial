@@ -213,12 +213,12 @@ Utforska detta genom att:
 3. Lägg till ett nytt värde i `original_list`.
 4. Skriv ut båda listorna och notera vad som händer.
 
-**Fråga**: Varför ändras båda listorna?
+    **Fråga**: Varför ändras båda listorna?
 
 5. Gör nu en **äkta kopia** av listan med `copy_list = original_list.copy()`.
 6. Lägg till ett nytt värde i `original_list` igen och skriv ut båda listorna.
 
-**Fråga**: Vad är skillnaden den här gången?
+    **Fråga**: Vad är skillnaden den här gången?
 
 #### Exempel
 
