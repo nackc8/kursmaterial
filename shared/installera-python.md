@@ -5,12 +5,18 @@ Instruktionerna förutsätter och rekommenderar att ditt operativsystem är inst
 ## MacOS
 
 1. Besök [python.org][1]
-    - Ladda hem den senaste installationsfilen som du hittar i `Downloads`. För kursens räkning krävs version 3.11.x som lägst.
+    - Ladda hem den senaste installationsfilen som du hittar i `Downloads`. För kursens räkning krävs minst version 3.11.x.
 2. Starta installationen.
 
 ## Ubuntu/Debian Linux
 
-1. De flesta Linux-distributioner har Python förinstallerat.
+1. De flesta Linux-distributioner har Python förinstallerat. Men det skadar inte att säkerställa att även venv och pip finns:
+
+    ```bash
+    sudo apt update
+    sudo apt install python3 python3-venv python3-pip
+    ```
+
 2. Kontrollera installationen
    - Säkerställ att Python är installerat och kan startas med kommandot `python3` genom att köra följande kommando och få en versionssträng som svar via `python3 --version`
    - Säkerställ att modulen `pip` finns tillgänglig genom att skriva ut dess version via `python -m pip --version`.
@@ -18,18 +24,18 @@ Instruktionerna förutsätter och rekommenderar att ditt operativsystem är inst
 ## Windows
 
 1. Besök [python.org][1]
-    - Ladda hem den senaste installationsfilen som du hittar i `Downloads`. För kursens räkning krävs version 3.11.x som lägst.
+    - Ladda hem den senaste installationsfilen som du hittar i `Downloads`. För kursens räkning krävs version minst version 3.11.x.
 2. Starta installationen
     - Välj
         - `Use admin privileges when installing py.exe`
-        - `Add python.exe to PATH`
+        - `Add python.exe to PATH` **VIKTIGT!**
     - Välj `Install Now`
     - Godkänn förfrågan om att få göra förändringar på datorn.
     - Steget `Setup was successful` visas
         - Välj `Disable path length limit`
         - Godkänn förfrågan om att få göra förändringar på datorn.
     - Välj `Close`
-3. Vissa versioner av Windows behöver en konfigurationsändring så att de inte försöker installera Python när man skriver vissa kommandon eftersom du vill använda det du har installerat.
+3. Vissa versioner av Windows behöver en konfigurationsändring så att de inte försöker installera Python när man skriver vissa kommandon, eftersom du vill använda det du har installerat.
     - Starta `Settings`
     - Välj `Apps` / `Advanced app settings` / `App execution aliases`
     - Ändra till `Off` för nedanstående om de finns
