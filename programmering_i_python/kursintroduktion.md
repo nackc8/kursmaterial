@@ -2,7 +2,7 @@
 
 ## Grundläggande Datatyper
 
-För att kontrollera typen av en variabel, använd funktionen `type()`. Du kan även titta på objektets identitet med funktionen `id()`.
+För att kontrollera typen på en variabel, använd funktionen `type()`. Du kan även titta på objektets identitet med funktionen `id()`.
 
 ```python
 x = 42
@@ -21,7 +21,7 @@ print(id(z))    # Check the unique id of z
 ### Numeriska typer
 
 - **int**: Heltal (t.ex. `42`, `-5`). Python `int` har obegränsad precision, begränsad endast av tillgängligt minne.
-- **float**: Decimaltal (t.ex. `3.14`, `-0.1`). Python `float` följer IEEE 754-standarden för dubbelprecision flyttalsrepresentation och lagras med en teckenbit, en exponent och en mantissa. Värdet beräknas enligt formeln:
+- **float**: Decimaltal (t.ex. `3.14`, `-0.1`). Python `float` följer IEEE 754-standarden för flyttalsrepresentation med dubbelprecision och lagras med en teckenbit, en exponent och en mantissa. Värdet beräknas enligt formeln:
 
   ```math
   (-1)^s \times m \times 2^e
