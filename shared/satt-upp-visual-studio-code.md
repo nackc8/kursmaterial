@@ -74,7 +74,14 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
         {"[dockercompose]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[javascript]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[javascriptreact]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[json]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[jsonc]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[jsonl]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[markdown]":{"editor.wordWrap":"bounded","editor.wordWrapColumn":80,"editor.tabSize":4,"editor.defaultFormatter":"yzhang.markdown-all-in-one"},"[powershell]":{"editor.defaultFormatter":"ms-vscode.powershell"},"[python]":{"editor.codeActionsOnSave":{"source.organizeImports.ruff":"always"},"editor.defaultFormatter":"charliermarsh.ruff"},"[shellscript]":{"editor.defaultFormatter":"foxundermoon.shell-format","editor.insertSpaces":false},"[typescript]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[typescriptreact]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"[yaml]":{"editor.defaultFormatter":"esbenp.prettier-vscode"},"editor.acceptSuggestionOnEnter":"off","editor.bracketPairColorization.independentColorPoolPerBracketType":true,"editor.cursorStyle":"block","editor.defaultFormatter":"foxundermoon.shell-format","editor.formatOnSave":true,"editor.inlineSuggest.enabled":false,"editor.minimap.enabled":false,"explorer.confirmDelete":false,"explorer.confirmDragAndDrop":false,"explorer.excludeGitIgnore":false,"files.autoSave":"onFocusChange","files.insertFinalNewline":true,"files.trimTrailingWhitespace":true,"git.autofetch":true,"git.confirmSync":false,"git.enableSmartCommit":true,"git.openRepositoryInParentFolders":"never","github.copilot.enable":{"*":false},"json.format.enable":false}
         ```
 
-    6. Nu är din utvecklingsmiljö redo att användas! Det är ditt eget ansvar att bekanta dig med hur den fungerar. Om du råkat stänga `Welcome`-fliken kan du öppna den igen med `Help` / `Welcome`.
+    6. Välj `View` / `Command Palette...` och välj `Preferences: Open Keyboard  Shortcuts (JSON)` för att se och ändra de tangentbordsgenvägar som utvecklingsmiljön använder
+    7. Om du vet att du har gjort egna inställningar som du vill behålla behöver du pussla ihop dem. Annars så bör det vara tomt. Genom att sätta in följande fungerar `Ctrl+R` för att söka i historiken i terminalen.
+
+        ```json
+        [{"args":{"text":"\u0012"},"command":"workbench.action.terminal.sendSequence","key":"ctrl+r","when":"terminalFocus"}]
+        ```
+
+    8. Nu är din utvecklingsmiljö redo att användas! Det är ditt eget ansvar att bekanta dig med hur den fungerar. Om du råkat stänga `Welcome`-fliken kan du öppna den igen med `Help` / `Welcome`.
 
 ### Valfri fördjupning
 
