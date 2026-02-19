@@ -48,19 +48,22 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
 
         ```bash
         code --install-extension almenon.arepl
+        code --install-extension bierner.markdown-mermaid
         code --install-extension charliermarsh.ruff
         code --install-extension esbenp.prettier-vscode
-        code --install-extension foxundermoon.shell-format@7.2.5
-        code --install-extension humao.rest-client
-        code --install-extension ms-azuretools.vscode-docker
-        code --install-extension ms-python.python
-        code --install-extension ms-vscode.powershell
-        code --install-extension ms-vscode-remote.remote-ssh
-        code --install-extension ms-vsliveshare.vsliveshare
-        code --install-extension ritwickdey.LiveServer
-        code --install-extension bierner.markdown-mermaid
+        code --install-extension ms-python.vscode-pylance
+        code --install-extension ms-python.vscode-python-envs
+        code --install-extension ms-toolsai.jupyter-renderers
+        code --install-extension ms-toolsai.vscode-jupyter-powertoys
+        code --install-extension thomashickman.python-docs-opener
         code --install-extension timonwong.shellcheck
+        code --install-extension foxundermoon.shell-format
+        code --install-extension ms-python.debugpy
+        code --install-extension ms-vscode.powershell
         code --install-extension yzhang.markdown-all-in-one
+        code --install-extension ms-toolsai.vscode-jupyter-slideshow
+        code --install-extension ms-toolsai.jupyter-keymap
+        code --install-extension ms-toolsai.vscode-jupyter-cell-tags
         ```
 
     4. Välj `Extensions`-knappen till vänster vars ikon är en grupp fyrkanter och veckla ut `INSTALLED`. Där kan du se de tillägg som du installerade i förra steget. Det bör vara fler tillägg än antalet rader ovan då några följer med från början och vissa tillägg kräver andra tillägg för att fungera.
