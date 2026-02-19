@@ -58,7 +58,7 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
         code --install-extension ms-vscode-remote.remote-ssh
         code --install-extension ms-vsliveshare.vsliveshare
         code --install-extension ritwickdey.LiveServer
-        code --install-extension shd101wyy.markdown-preview-enhanced
+        code --install-extension bierner.markdown-mermaid
         code --install-extension timonwong.shellcheck
         code --install-extension yzhang.markdown-all-in-one
         ```
