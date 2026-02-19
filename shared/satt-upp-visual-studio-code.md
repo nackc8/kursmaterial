@@ -57,8 +57,8 @@ Följ både de specifika instruktionerna för ditt operativsystem och de allmän
         code --install-extension ms-toolsai.vscode-jupyter-powertoys
         code --install-extension thomashickman.python-docs-opener
         code --install-extension timonwong.shellcheck
-        code --install-extension foxundermoon.shell-format
-        code --install-extension ms-python.debugpy
+        code --install-extension foxundermoon.shell-format@7.2.5
+        code --install-extension ms-python.debugpy@2025.16.0
         code --install-extension ms-vscode.powershell
         code --install-extension yzhang.markdown-all-in-one
         code --install-extension ms-toolsai.vscode-jupyter-slideshow
